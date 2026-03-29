@@ -5,7 +5,7 @@
 <meta name="theme-color" content="#1877F2">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>XHS Pro</title>
+<title>XHS Grabber Pro</title>
 <meta name="version" content="v17-202603290001-paste-keys">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
@@ -887,6 +887,53 @@ input[type="range"]#desc-timer-bar::-moz-range-thumb {
 /* Format pills */
 [data-theme="light"] .fmt { background: #eef0f8; border-color: #c8ccdf; color: #445599; }
 
+/* ── CLIPPER MODE TOGGLE ── */
+.clip-mode-row{display:flex;gap:10px;margin-bottom:14px;}
+.clip-mode-btn{flex:1;padding:12px 10px;border-radius:12px;border:2px solid var(--border2);background:var(--bg2);color:var(--muted);font-family:'Syne',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:all .18s;text-align:center;}
+.clip-mode-btn.active{border-color:var(--blue);background:rgba(24,119,242,.1);color:var(--blue);}
+.clip-mode-btn.active-green{border-color:var(--green);background:rgba(66,183,42,.1);color:var(--green);}
+.clip-ai-settings{background:var(--bg2);border:1px solid var(--border2);border-radius:14px;padding:16px;margin-bottom:14px;}
+.clip-field-row{display:flex;gap:12px;margin-bottom:12px;}
+.clip-field-row:last-child{margin-bottom:0;}
+.clip-field{flex:1;}
+.clip-lbl{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:6px;display:flex;align-items:center;gap:5px;}
+.clip-inp{width:100%;background:var(--inp-bg);border:1.5px solid var(--border2);border-radius:9px;padding:10px 13px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--inp-text);outline:none;transition:border-color .2s;}
+.clip-inp:focus{border-color:var(--blue);}
+.clip-inp::placeholder{color:var(--inp-placeholder);}
+.clip-inp-num{width:100px;}
+
+/* ── MANUAL CLIP CONTROLS ── */
+.manual-range-wrap{background:var(--bg2);border:1px solid var(--border2);border-radius:14px;padding:18px;margin-bottom:14px;}
+.mrw-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:7px;}
+.range-controls{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;}
+.rc-field{display:flex;flex-direction:column;gap:5px;}
+.rc-lbl{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;}
+.rc-inp{background:var(--inp-bg);border:1.5px solid var(--border2);border-radius:8px;padding:9px 12px;font-size:14px;color:var(--inp-text);outline:none;width:110px;font-family:'DM Sans',sans-serif;transition:border-color .2s;}
+.rc-inp:focus{border-color:var(--blue);}
+.rc-preview-btn{padding:9px 18px;background:rgba(24,119,242,.1);border:1.5px solid rgba(24,119,242,.4);color:var(--blue);border-radius:8px;font-family:'Syne',sans-serif;font-size:13px;font-weight:800;cursor:pointer;white-space:nowrap;}
+.rc-preview-btn:hover{background:rgba(24,119,242,.2);}
+.range-slider-wrap{margin-top:14px;}
+.range-dual-labels{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:4px;}
+.range-track{position:relative;height:6px;background:var(--bg3);border-radius:3px;margin:0 0 10px;}
+.range-filled{position:absolute;height:100%;background:linear-gradient(90deg,var(--blue),var(--green));border-radius:3px;pointer-events:none;}
+.range-thumb{position:absolute;top:50%;transform:translate(-50%,-50%);width:18px;height:18px;border-radius:50%;background:var(--blue);border:3px solid #fff;box-shadow:0 1px 8px rgba(24,119,242,.5);cursor:grab;}
+.range-thumb-e{background:var(--green);box-shadow:0 1px 8px rgba(66,183,42,.5);}
+.range-thumb:active{cursor:grabbing;}
+.manual-dur-badge{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;background:rgba(24,119,242,.1);border:1px solid rgba(24,119,242,.3);border-radius:20px;font-size:13px;font-weight:700;color:var(--blue);margin-top:10px;}
+
+/* ── SEGMENT ADJUST PANEL ── */
+.seg-adj-btn{margin-top:10px;padding:7px 14px;background:rgba(168,85,247,.1);border:1.5px solid rgba(168,85,247,.4);color:#a855f7;border-radius:7px;font-size:12px;font-weight:700;font-family:'Syne',sans-serif;cursor:pointer;display:inline-flex;align-items:center;gap:5px;}
+.seg-adj-btn:hover{background:rgba(168,85,247,.2);}
+.seg-adj-panel{display:none;margin-top:12px;padding:13px;background:var(--bg3);border-radius:10px;border:1px solid var(--border2);}
+.seg-adj-panel.open{display:block;}
+.adj-row{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-bottom:8px;}
+.adj-lbl{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;display:block;margin-bottom:4px;}
+.adj-inp{background:var(--inp-bg);border:1.5px solid var(--border2);border-radius:7px;padding:8px 11px;font-size:13px;color:var(--inp-text);outline:none;width:100px;font-family:'DM Sans',sans-serif;transition:border-color .2s;}
+.adj-inp:focus{border-color:#a855f7;border-color:rgba(168,85,247,.8);}
+.adj-apply-btn{padding:8px 16px;background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border:none;border-radius:7px;font-family:'Syne',sans-serif;font-size:12px;font-weight:800;cursor:pointer;}
+.adj-dur-note{font-size:12px;color:var(--muted);margin-top:6px;}
+.adj-preview-btn{padding:8px 14px;background:rgba(24,119,242,.1);border:1.5px solid rgba(24,119,242,.4);color:var(--blue);border-radius:7px;font-family:'Syne',sans-serif;font-size:12px;font-weight:800;cursor:pointer;}
+
 /* Segments */
 [data-theme="light"] .seg { background: #f8f9fb; border-color: #d0d3df; }
 [data-theme="light"] .seg.sel { background: rgba(24,119,242,.05); }
@@ -1529,7 +1576,7 @@ FB Boost<br>Pro
 <div class="page hidden" id="page-clipper">
   <div class="steps">
     <div class="step active" id="st-0"><div class="snum">1</div><div class="stxt">Upload</div></div>
-    <div class="step" id="st-1"><div class="snum">2</div><div class="stxt">AI Scan</div></div>
+    <div class="step" id="st-1"><div class="snum">2</div><div class="stxt" id="st-1-txt">AI Scan</div></div>
     <div class="step" id="st-2"><div class="snum">3</div><div class="stxt">Review</div></div>
     <div class="step" id="st-3"><div class="snum">4</div><div class="stxt">Export</div></div>
     <div class="step" id="st-4"><div class="snum">5</div><div class="stxt">Done</div></div>
@@ -1537,10 +1584,38 @@ FB Boost<br>Pro
 
   <!-- Phase 0 -->
   <div id="cp-0">
+    <!-- Mode Toggle -->
+    <div class="clip-mode-row">
+      <button class="clip-mode-btn active" id="mode-ai-btn" onclick="setClipMode('ai')">🧠 AI Detection</button>
+      <button class="clip-mode-btn" id="mode-manual-btn" onclick="setClipMode('manual')">✂️ Manual Clip</button>
+    </div>
+
+    <!-- AI Settings Panel -->
+    <div class="clip-ai-settings" id="clip-ai-panel">
+      <div class="clip-field-row">
+        <div class="clip-field" style="max-width:160px;">
+          <div class="clip-lbl">⏱️ Clip Length (seconds)</div>
+          <input type="number" id="clip-length-inp" class="clip-inp clip-inp-num" value="60" min="5" max="600" placeholder="60" oninput="clipLengthSec=Math.max(5,+this.value||60)">
+        </div>
+        <div class="clip-field">
+          <div class="clip-lbl">🎯 Focus Description <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--dim);">(optional)</span></div>
+          <input type="text" id="clip-focus-inp" class="clip-inp" placeholder="e.g. product reveal, funny reaction, key tutorial step…" oninput="clipFocus=this.value">
+        </div>
+      </div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.6;">AI will find <strong style="color:var(--text);">3 best moments</strong> of your specified length. Focus description helps it target specific content.</div>
+    </div>
+
+    <!-- Manual Instructions Panel -->
+    <div class="clip-ai-settings" id="clip-manual-info-panel" style="display:none;">
+      <div style="font-size:13px;color:var(--body-text);line-height:1.7;">
+        ✂️ <strong style="color:var(--text);">Manual mode</strong> — Upload your video, then set exact start &amp; end times using the range picker. No AI required.
+      </div>
+    </div>
+
     <div id="c-drop" class="drop" onclick="document.getElementById('cfile').click()" ondrop="doDrop(event,'c')" ondragover="dOver(event,'c-drop')" ondragleave="dLeave('c-drop')">
       <span class="dico">🎬</span>
       <div class="dtitle">Upload Video</div>
-      <div class="dsub">AI finds best moments — full HD quality output, no downscaling</div>
+      <div class="dsub" id="c-drop-sub">AI finds best moments — full HD quality output, no downscaling</div>
       <div class="fmts"><span class="fmt">MP4</span><span class="fmt">MOV</span><span class="fmt">AVI</span><span class="fmt">WEBM</span></div>
     </div>
     <input type="file" id="cfile" accept="video/*" class="hidden" onchange="loadCF(event)">
@@ -1550,6 +1625,7 @@ FB Boost<br>Pro
     </div>
     <div id="c-info" class="hidden" style="margin-top:9px;font-size:13px;color:var(--muted);text-align:center;line-height:1.8;"></div>
     <button id="cbtn" class="btn btn-blue hidden" onclick="runScan()">🧠 Find Best Moments with AI</button>
+    <button id="cbtn-manual" class="btn btn-green hidden" onclick="goManualPhase()">✂️ Set Clip Range Manually</button>
     <div id="c-err0" class="errbox hidden"></div>
   </div>
 
@@ -1581,7 +1657,7 @@ FB Boost<br>Pro
       <div style="padding:0 14px 12px;font-size:13px;color:var(--body-text);line-height:1.6;" id="cl-sum"></div>
     </div>
     <div class="card">
-      <div class="ch"><span class="clbl"><span class="dot dy"></span>Best Moments — Select One</span></div>
+      <div class="ch"><span class="clbl"><span class="dot dy"></span>Best Moments — Select &amp; Adjust</span></div>
       <div class="segl" id="cl-segs"></div>
     </div>
     <div class="card">
@@ -1601,6 +1677,60 @@ FB Boost<br>Pro
     <canvas id="pc" style="display:none;"></canvas>
     <button id="procbtn" class="btn btn-green" onclick="runProc()">✂️ Create Full Quality Clip</button>
     <div id="c-err2" class="errbox hidden"></div>
+  </div>
+
+  <!-- Phase 2M: Manual Range Picker -->
+  <div id="cp-2m" class="hidden">
+    <div class="manual-range-wrap">
+      <div class="mrw-title">✂️ Set Clip Range</div>
+      <div id="man-vid-wrap" class="prev" style="margin-bottom:16px;">
+        <video id="man-vid" controls style="max-height:240px;" playsinline></video>
+      </div>
+      <div class="range-controls">
+        <div class="rc-field">
+          <span class="rc-lbl">▶ Start Time</span>
+          <input type="text" id="man-start" class="rc-inp" value="0:00" placeholder="0:00" oninput="manualRangeUpdate()">
+        </div>
+        <div class="rc-field">
+          <span class="rc-lbl">⏹ End Time</span>
+          <input type="text" id="man-end" class="rc-inp" value="0:30" placeholder="0:30" oninput="manualRangeUpdate()">
+        </div>
+        <button class="rc-preview-btn" onclick="manualPreview()">▶ Preview</button>
+      </div>
+      <!-- Visual range slider -->
+      <div class="range-slider-wrap" id="man-slider-wrap">
+        <div class="range-dual-labels">
+          <span id="man-sl-s">0:00</span><span id="man-sl-e" style="color:var(--green);">—</span>
+        </div>
+        <div class="range-track" id="man-track">
+          <div class="range-filled" id="man-filled" style="left:0%;width:30%;"></div>
+        </div>
+        <input type="range" id="man-range-s" min="0" step="0.1" value="0" style="position:absolute;opacity:0;width:100%;pointer-events:none;"> 
+        <input type="range" id="man-range-e" min="0" step="0.1" value="30" style="position:absolute;opacity:0;width:100%;pointer-events:none;">
+        <div id="man-track-interactive" style="position:relative;height:24px;cursor:pointer;" onmousedown="manTrackDown(event)" ontouchstart="manTrackDown(event)">
+          <div class="range-filled" id="man-bar" style="position:absolute;top:9px;height:6px;background:linear-gradient(90deg,var(--blue),var(--green));border-radius:3px;left:0%;width:30%;pointer-events:none;"></div>
+          <div class="range-thumb" id="man-thumb-s" style="position:absolute;top:12px;left:0%;" onmousedown="manThumbDown(event,'s')" ontouchstart="manThumbDown(event,'s')"></div>
+          <div class="range-thumb range-thumb-e" id="man-thumb-e" style="position:absolute;top:12px;left:30%;" onmousedown="manThumbDown(event,'e')" ontouchstart="manThumbDown(event,'e')"></div>
+          <div style="position:absolute;bottom:-6px;left:0;right:0;height:24px;background:var(--bg3);border-radius:3px;z-index:-1;"></div>
+        </div>
+      </div>
+      <div class="manual-dur-badge" id="man-dur-badge">⏱ Duration: —</div>
+    </div>
+
+    <div class="card">
+      <div class="ch"><span class="clbl"><span class="dot dp"></span>Output Format</span></div>
+      <div style="padding:12px 14px;">
+        <div class="fpick">
+          <div class="fo sel" onclick="pickFmt(this,'reels')"><div class="fo-i">📱</div><div class="fo-n">Reels</div><div class="fo-d">9:16</div></div>
+          <div class="fo" onclick="pickFmt(this,'square')"><div class="fo-i">⬛</div><div class="fo-n">Square</div><div class="fo-d">1:1</div></div>
+          <div class="fo" onclick="pickFmt(this,'wide')"><div class="fo-i">🖥️</div><div class="fo-n">Wide</div><div class="fo-d">16:9</div></div>
+        </div>
+        <div class="notice"><span>📐</span><span id="qualinfo-m">Select format to see output resolution</span></div>
+      </div>
+    </div>
+    <button id="procbtn-m" class="btn btn-green" onclick="runProcManual()">✂️ Export Manual Clip</button>
+    <button class="btn btn-blue" style="margin-top:8px;background:var(--bg3);color:var(--muted);border:1px solid var(--border2);box-shadow:none;" onclick="resetC()">← Start Over</button>
+    <div id="c-err2m" class="errbox hidden"></div>
   </div>
 
   <!-- Phase 3 -->
@@ -2365,6 +2495,8 @@ let allTags = [], bFile = null;
 let _voScript = "", _voIsVid = false;
 let cFile = null, cScan = null, selSeg = 0, selFmt = "reels";
 let vDur = 0, vW = 0, vH = 0, outUrl = null, outBlob = null;
+let clipMode = 'ai', clipLengthSec = 60, clipFocus = '';
+let manStartSec = 0, manEndSec = 30, manDragging = null;
 
 /* ─ PWA ─ */
 if("serviceWorker" in navigator && location.protocol !== "file:") navigator.serviceWorker.register("./sw.js").catch(function(){});
@@ -5801,8 +5933,60 @@ function pasteKeysImport() {
 /* ════════════════════════════════════
    CLIPPER
 ════════════════════════════════════ */
-function setStep(n){ for(var i=0;i<5;i++){var el=document.getElementById("st-"+i);el.classList.remove("active","done");if(i<n)el.classList.add("done");else if(i===n)el.classList.add("active");} }
-function showPhase(n){ for(var i=0;i<5;i++) document.getElementById("cp-"+i).classList.add("hidden"); document.getElementById("cp-"+n).classList.remove("hidden"); setStep(n); }
+function setStep(n){
+  for(var i=0;i<5;i++){
+    var el=document.getElementById("st-"+i);
+    el.classList.remove("active","done");
+    if(i<n)el.classList.add("done");
+    else if(i===n)el.classList.add("active");
+  }
+}
+function showPhase(n){
+  for(var i=0;i<5;i++) document.getElementById("cp-"+i).classList.add("hidden");
+  var m=document.getElementById("cp-2m"); if(m) m.classList.add("hidden");
+  if(n==="2m"){
+    document.getElementById("cp-2m").classList.remove("hidden");
+    /* In manual mode step 1 (AI scan) is skipped — mark done, set step 2 active */
+    setStep(2);
+    document.getElementById("st-1").classList.remove("active"); document.getElementById("st-1").classList.add("done");
+  } else {
+    document.getElementById("cp-"+n).classList.remove("hidden"); setStep(n);
+  }
+}
+
+/* ── CLIP MODE TOGGLE ── */
+function setClipMode(mode){
+  clipMode = mode;
+  document.getElementById("mode-ai-btn").classList.toggle("active", mode==="ai");
+  document.getElementById("mode-ai-btn").classList.toggle("active-green", false);
+  document.getElementById("mode-manual-btn").classList.toggle("active", false);
+  document.getElementById("mode-manual-btn").classList.toggle("active-green", mode==="manual");
+  document.getElementById("clip-ai-panel").style.display = mode==="ai" ? "" : "none";
+  document.getElementById("clip-manual-info-panel").style.display = mode==="manual" ? "" : "none";
+  var cbtn = document.getElementById("cbtn");
+  var cbtnM = document.getElementById("cbtn-manual");
+  var cinfo = document.getElementById("c-info");
+  if(cinfo && !cinfo.classList.contains("hidden")){
+    cbtn.classList.toggle("hidden", mode==="manual");
+    cbtnM.classList.toggle("hidden", mode==="ai");
+  }
+  document.getElementById("c-drop-sub").textContent = mode==="ai"
+    ? "AI finds best moments — full HD quality output, no downscaling"
+    : "Upload video, then set start & end times manually";
+  var st1lbl = document.getElementById("st-1-txt");
+  if(st1lbl) st1lbl.textContent = mode==="ai" ? "AI Scan" : "Range";
+}
+
+function goManualPhase(){
+  if(!cFile){ toast("Please upload a video first"); return; }
+  manStartSec=0; manEndSec=Math.min(30,vDur);
+  var mv=document.getElementById("man-vid");
+  mv.src=URL.createObjectURL(cFile);
+  mv.onloadedmetadata=function(){ manualRangeSync(); manualUpdateUI(); };
+  /* update format dims */
+  updateManProcBtn();
+  showPhase("2m");
+}
 function ps(id,state){
   var el=document.getElementById(id); if(!el)return;
   el.classList.remove("active","done");
@@ -5821,10 +6005,16 @@ function loadCF2(f){
     vDur=this.duration; vW=this.videoWidth; vH=this.videoHeight;
     document.getElementById("c-info").innerHTML="📹 "+f.name+"<br>"+vW+"×"+vH+" · "+ft(vDur)+" · "+(f.size/1048576).toFixed(1)+"MB";
     document.getElementById("c-info").classList.remove("hidden");
-    document.getElementById("cbtn").classList.remove("hidden");
+    if(clipMode==="ai"){ document.getElementById("cbtn").classList.remove("hidden"); }
+    else { document.getElementById("cbtn-manual").classList.remove("hidden"); }
   };
 }
-function clearC(){ cFile=null; cScan=null; vW=0; vH=0; document.getElementById("c-drop").classList.remove("hidden"); ["c-prev","c-info","cbtn"].forEach(function(id){document.getElementById(id).classList.add("hidden");}); document.getElementById("cfile").value=""; hideErr("c-err0"); }
+function clearC(){
+  cFile=null; cScan=null; vW=0; vH=0;
+  document.getElementById("c-drop").classList.remove("hidden");
+  ["c-prev","c-info","cbtn","cbtn-manual"].forEach(function(id){document.getElementById(id).classList.add("hidden");});
+  document.getElementById("cfile").value=""; hideErr("c-err0");
+}
 function resetC(){ clearC(); showPhase(0); }
 
 async function runScan(){
@@ -5836,10 +6026,16 @@ async function runScan(){
     var imgB64=await grabFrame(vid, Math.min(vDur*0.2, 5));
     ps("ps-0","done"); ps("ps-1","active");
     var maxT=Math.floor(vDur);
-    var s1=Math.max(2,Math.floor(vDur*0.05)), e1=Math.min(s1+30,maxT);
-    var s2=Math.floor(vDur*0.35), e2=Math.min(s2+25,maxT);
-    var s3=Math.floor(vDur*0.65), e3=Math.min(s3+20,maxT);
-    var prompt="Analyze this video frame from \""+cFile.name+"\" ("+ft(vDur)+" long, "+vW+"x"+vH+").\nReturn ONLY valid compact JSON, no extra text:\n{\"video_summary\":\"brief description\",\"main_subject\":\"subject\",\"content_type\":\"category\",\"energy_level\":\"Low/Medium/High\",\"segments\":[{\"rank\":\"TOP PICK\",\"start_sec\":"+s1+",\"end_sec\":"+e1+",\"duration_sec\":30,\"reason\":\"why\",\"hook_strength\":92,\"engagement_score\":89,\"subject_visibility\":94},{\"rank\":\"GREAT\",\"start_sec\":"+s2+",\"end_sec\":"+e2+",\"duration_sec\":25,\"reason\":\"why\",\"hook_strength\":83,\"engagement_score\":85,\"subject_visibility\":87},{\"rank\":\"GOOD\",\"start_sec\":"+s3+",\"end_sec\":"+e3+",\"duration_sec\":20,\"reason\":\"why\",\"hook_strength\":75,\"engagement_score\":78,\"subject_visibility\":81}],\"reframe_tip\":\"advice\",\"caption_suggestion\":\"viral caption with 2 emojis\"}";
+    var cl=Math.max(5, Math.min(clipLengthSec||60, maxT));
+    var cl2=Math.max(5, Math.min(Math.round(cl*0.85), maxT));
+    var cl3=Math.max(5, Math.min(Math.round(cl*0.70), maxT));
+    var s1=Math.max(2,Math.floor(vDur*0.05)), e1=Math.min(s1+cl,maxT);
+    var s2=Math.floor(vDur*0.35), e2=Math.min(s2+cl2,maxT);
+    var s3=Math.floor(vDur*0.65), e3=Math.min(s3+cl3,maxT);
+    var focusPart = clipFocus && clipFocus.trim()
+      ? "\nFocus specifically on moments that show: \""+clipFocus.trim()+"\"."
+      : "";
+    var prompt="Analyze this video frame from \""+cFile.name+"\" ("+ft(vDur)+" long, "+vW+"x"+vH+")."+focusPart+"\nFind the 3 best highlight moments. Each clip should be approximately "+cl+" seconds.\nReturn ONLY valid compact JSON, no extra text:\n{\"video_summary\":\"brief description\",\"main_subject\":\"subject\",\"content_type\":\"category\",\"energy_level\":\"Low/Medium/High\",\"segments\":[{\"rank\":\"TOP PICK\",\"start_sec\":"+s1+",\"end_sec\":"+e1+",\"duration_sec\":"+cl+",\"reason\":\"why this is the best moment\",\"hook_strength\":92,\"engagement_score\":89,\"subject_visibility\":94},{\"rank\":\"GREAT\",\"start_sec\":"+s2+",\"end_sec\":"+e2+",\"duration_sec\":"+cl2+",\"reason\":\"why\",\"hook_strength\":83,\"engagement_score\":85,\"subject_visibility\":87},{\"rank\":\"GOOD\",\"start_sec\":"+s3+",\"end_sec\":"+e3+",\"duration_sec\":"+cl3+",\"reason\":\"why\",\"hook_strength\":75,\"engagement_score\":78,\"subject_visibility\":81}],\"reframe_tip\":\"advice\",\"caption_suggestion\":\"viral caption with 2 emojis\"}";
     showProgress(35); ps("ps-1","done"); ps("ps-2","active");
     var raw=await gemini(prompt, imgB64, "image/jpeg");
     showProgress(70); ps("ps-2","done"); ps("ps-3","active");
@@ -5860,13 +6056,62 @@ function renderScan(d){
   var segl=document.getElementById("cl-segs"); segl.innerHTML="";
   (d.segments||[]).forEach(function(sg,i){
     var bc=sg.rank==="TOP PICK"?"sbt":sg.rank==="GREAT"?"sbg":"sbo";
+    var dur=+(sg.end_sec-sg.start_sec).toFixed(1);
     var div=document.createElement("div");
     div.className="seg"+(i===0?" sel":""); div.id="cseg-"+i;
-    div.onclick=(function(idx){return function(){doSel(idx);};})(i);
-    div.innerHTML="<div class=\"segh\"><div style=\"display:flex;align-items:center;gap:6px;\"><span class=\"sbadge "+bc+"\">"+sg.rank+"</span><span class=\"stime\">"+ft(sg.start_sec)+" → "+ft(sg.end_sec)+"</span></div><span style=\"font-size:13px;color:var(--blue);\" id=\"ck-"+i+"\">"+(i===0?"✓":"")+"</span></div><div class=\"sreason\">"+sg.reason+"</div><div class=\"sscores\"><span class=\"scl\">Hook</span><span class=\"scv\">"+sg.hook_strength+"</span><span class=\"scl\" style=\"margin-left:8px;\">Eng</span><span class=\"scv\">"+sg.engagement_score+"</span><span class=\"scl\" style=\"margin-left:8px;\">Subj</span><span class=\"scv\">"+sg.subject_visibility+"</span></div>";
+    div.onclick=(function(idx){return function(e){if(!e.target.closest('.seg-adj-btn,.seg-adj-panel,.adj-inp,.adj-apply-btn,.adj-preview-btn')) doSel(idx);};})(i);
+    div.innerHTML=
+      "<div class=\"segh\"><div style=\"display:flex;align-items:center;gap:6px;\"><span class=\"sbadge "+bc+"\">"+sg.rank+"</span><span class=\"stime\">"+ft(sg.start_sec)+" → "+ft(sg.end_sec)+" <span style='color:var(--muted);font-size:12px;'>("+dur+"s)</span></span></div><span style=\"font-size:13px;color:var(--blue);\" id=\"ck-"+i+"\">"+(i===0?"✓":"")+"</span></div>"
+      +"<div class=\"sreason\">"+sg.reason+"</div>"
+      +"<div class=\"sscores\"><span class=\"scl\">Hook</span><span class=\"scv\">"+sg.hook_strength+"</span><span class=\"scl\" style=\"margin-left:8px;\">Eng</span><span class=\"scv\">"+sg.engagement_score+"</span><span class=\"scl\" style=\"margin-left:8px;\">Subj</span><span class=\"scv\">"+sg.subject_visibility+"</span></div>"
+      +"<button class=\"seg-adj-btn\" onclick=\"toggleAdj("+i+",this)\">✏️ Adjust Timing</button>"
+      +"<div class=\"seg-adj-panel\" id=\"adj-panel-"+i+"\">"
+        +"<div class=\"adj-row\">"
+          +"<div><label class=\"adj-lbl\">▶ Start (sec)</label><input class=\"adj-inp\" id=\"adj-s-"+i+"\" type=\"number\" value=\""+sg.start_sec.toFixed(1)+"\" min=\"0\" step=\"0.5\" oninput=\"adjDurNote("+i+")\"></div>"
+          +"<div><label class=\"adj-lbl\">⏹ End (sec)</label><input class=\"adj-inp\" id=\"adj-e-"+i+"\" type=\"number\" value=\""+sg.end_sec.toFixed(1)+"\" max=\""+vDur.toFixed(1)+"\" step=\"0.5\" oninput=\"adjDurNote("+i+")\"></div>"
+          +"<button class=\"adj-preview-btn\" onclick=\"adjPreview("+i+")\">▶ Preview</button>"
+          +"<button class=\"adj-apply-btn\" onclick=\"adjApply("+i+")\">✓ Apply</button>"
+        +"</div>"
+        +"<div class=\"adj-dur-note\" id=\"adj-note-"+i+"\">Duration: "+dur+"s</div>"
+      +"</div>";
     segl.appendChild(div);
   });
   updateProcBtn();
+}
+
+function toggleAdj(i,btn){
+  var panel=document.getElementById("adj-panel-"+i);
+  var open=panel.classList.toggle("open");
+  btn.textContent=open?"✕ Close":"✏️ Adjust Timing";
+}
+function adjDurNote(i){
+  var s=parseFloat(document.getElementById("adj-s-"+i).value)||0;
+  var e=parseFloat(document.getElementById("adj-e-"+i).value)||0;
+  var note=document.getElementById("adj-note-"+i);
+  var dur=(e-s);
+  note.textContent="Duration: "+(dur>0?dur.toFixed(1)+"s":"⚠ End must be after start");
+  note.style.color=dur>0?"var(--muted)":"var(--red)";
+}
+function adjPreview(i){
+  var s=parseFloat(document.getElementById("adj-s-"+i).value)||0;
+  var vid=document.getElementById("c-vid");
+  if(vid){ vid.currentTime=Math.max(0,s); vid.play(); setTimeout(function(){vid.pause();},3000); }
+  toast("▶ Previewing from "+ft(s)+"…");
+}
+function adjApply(i){
+  var s=parseFloat(document.getElementById("adj-s-"+i).value)||0;
+  var e=parseFloat(document.getElementById("adj-e-"+i).value)||0;
+  if(e<=s){ toast("⚠ End must be after start"); return; }
+  s=Math.max(0,s); e=Math.min(e,vDur);
+  cScan.segments[i].start_sec=s;
+  cScan.segments[i].end_sec=e;
+  cScan.segments[i].duration_sec=+(e-s).toFixed(1);
+  /* update displayed time */
+  var timeEl=document.querySelector("#cseg-"+i+" .stime");
+  if(timeEl) timeEl.innerHTML=ft(s)+" → "+ft(e)+" <span style='color:var(--muted);font-size:12px;'>("+(e-s).toFixed(1)+"s)</span>";
+  adjDurNote(i);
+  if(selSeg===i) updateProcBtn();
+  toast("✓ Timing updated: "+ft(s)+" → "+ft(e));
 }
 function doSel(i){
   selSeg=i;
@@ -5875,7 +6120,7 @@ function doSel(i){
   if(vid&&cScan&&cScan.segments&&cScan.segments[i]) vid.currentTime=cScan.segments[i].start_sec;
   updateProcBtn();
 }
-function pickFmt(el,fmt){ selFmt=fmt; document.querySelectorAll(".fo").forEach(function(o){o.classList.remove("sel");}); el.classList.add("sel"); updateProcBtn(); }
+function pickFmt(el,fmt){ selFmt=fmt; document.querySelectorAll(".fo").forEach(function(o){o.classList.remove("sel");}); el.classList.add("sel"); updateProcBtn(); updateManProcBtn(); }
 function getDims(){
   if(!vW||!vH) return {w:1280,h:720};
   if(selFmt==="wide") return {w:vW,h:vH};
@@ -5973,7 +6218,181 @@ async function runProc(){
   }
 }
 function dlClip(){ if(!outUrl)return; var a=document.createElement("a"); a.href=outUrl; a.download="fbboost-"+selFmt+"-"+Date.now()+".webm"; a.click(); }
-function backRev(){ outUrl=null; outBlob=null; document.getElementById("dl-v").classList.add("hidden"); showPhase(2); }
+function backRev(){
+  outUrl=null; outBlob=null; document.getElementById("dl-v").classList.add("hidden");
+  if(clipMode==="manual") showPhase("2m");
+  else showPhase(2);
+}
+
+/* ── MANUAL MODE FUNCTIONS ── */
+function ft2(sec){ /* seconds → m:ss.t */
+  var s=Math.max(0,sec); var m=Math.floor(s/60); var ss=(s%60).toFixed(1);
+  return m+":"+(parseFloat(ss)<10?"0":"")+ss;
+}
+function parseFt(str){ /* "m:ss" or "ss" → seconds */
+  str=String(str).trim();
+  if(str.indexOf(":")>-1){ var p=str.split(":"); return parseFloat(p[0])*60+parseFloat(p[1]||0); }
+  return parseFloat(str)||0;
+}
+function manualRangeUpdate(){
+  var s=parseFt(document.getElementById("man-start").value);
+  var e=parseFt(document.getElementById("man-end").value);
+  s=Math.max(0,Math.min(s,vDur));
+  e=Math.max(0,Math.min(e,vDur));
+  if(e<s) e=Math.min(s+1,vDur);
+  manStartSec=s; manEndSec=e;
+  manualUpdateUI();
+}
+function manualRangeSync(){
+  manStartSec=0; manEndSec=Math.min(30,vDur);
+  document.getElementById("man-start").value=ft(manStartSec);
+  document.getElementById("man-end").value=ft(manEndSec);
+  manualUpdateUI();
+}
+function manualUpdateUI(){
+  var total=vDur||1;
+  var lp=(manStartSec/total*100).toFixed(2);
+  var wp=((manEndSec-manStartSec)/total*100).toFixed(2);
+  var ep=(manEndSec/total*100).toFixed(2);
+  var bar=document.getElementById("man-bar");
+  var ths=document.getElementById("man-thumb-s");
+  var the=document.getElementById("man-thumb-e");
+  if(bar){ bar.style.left=lp+"%"; bar.style.width=wp+"%"; }
+  if(ths) ths.style.left=lp+"%";
+  if(the) the.style.left=ep+"%";
+  var slS=document.getElementById("man-sl-s"); if(slS) slS.textContent=ft(manStartSec);
+  var slE=document.getElementById("man-sl-e"); if(slE) slE.style.color="var(--green)"; if(slE) slE.textContent=ft(manEndSec);
+  var dur=(manEndSec-manStartSec);
+  var badge=document.getElementById("man-dur-badge"); if(badge) badge.textContent="⏱ Duration: "+(dur>0?dur.toFixed(1)+"s":"—");
+  updateManProcBtn();
+}
+function manualPreview(){
+  var mv=document.getElementById("man-vid");
+  if(!mv) return;
+  mv.currentTime=manStartSec;
+  mv.play();
+  var check=setInterval(function(){ if(!mv||mv.currentTime>=manEndSec){ mv.pause(); clearInterval(check); } },100);
+  toast("▶ Previewing "+ft(manStartSec)+" → "+ft(manEndSec));
+}
+
+/* ── DRAG HANDLERS FOR MANUAL RANGE THUMBS ── */
+function manThumbDown(e,which){
+  e.stopPropagation(); e.preventDefault();
+  manDragging=which;
+  document.addEventListener("mousemove",manThumbMove);
+  document.addEventListener("touchmove",manThumbMove,{passive:false});
+  document.addEventListener("mouseup",manThumbUp);
+  document.addEventListener("touchend",manThumbUp);
+}
+function manTrackDown(e){
+  e.preventDefault();
+  var track=document.getElementById("man-track-interactive");
+  if(!track) return;
+  var rect=track.getBoundingClientRect();
+  var cx=(e.touches?e.touches[0].clientX:e.clientX);
+  var pct=Math.max(0,Math.min(1,(cx-rect.left)/rect.width));
+  var sec=pct*vDur;
+  /* Snap to nearest thumb */
+  var dStart=Math.abs(sec-manStartSec), dEnd=Math.abs(sec-manEndSec);
+  if(dStart<dEnd){ manStartSec=sec; } else { manEndSec=sec; }
+  if(manEndSec<manStartSec){ var tmp=manStartSec; manStartSec=manEndSec; manEndSec=tmp; }
+  document.getElementById("man-start").value=ft(manStartSec);
+  document.getElementById("man-end").value=ft(manEndSec);
+  manualUpdateUI();
+}
+function manThumbMove(e){
+  if(!manDragging) return;
+  e.preventDefault();
+  var track=document.getElementById("man-track-interactive");
+  if(!track) return;
+  var rect=track.getBoundingClientRect();
+  var cx=(e.touches?e.touches[0].clientX:e.clientX);
+  var pct=Math.max(0,Math.min(1,(cx-rect.left)/rect.width));
+  var sec=+(pct*vDur).toFixed(1);
+  if(manDragging==="s"){ manStartSec=Math.min(sec,manEndSec-0.5); manStartSec=Math.max(0,manStartSec); document.getElementById("man-start").value=ft(manStartSec); }
+  else { manEndSec=Math.max(sec,manStartSec+0.5); manEndSec=Math.min(vDur,manEndSec); document.getElementById("man-end").value=ft(manEndSec); }
+  manualUpdateUI();
+}
+function manThumbUp(){ manDragging=null; document.removeEventListener("mousemove",manThumbMove); document.removeEventListener("touchmove",manThumbMove); document.removeEventListener("mouseup",manThumbUp); document.removeEventListener("touchend",manThumbUp); }
+
+function updateManProcBtn(){
+  if(!vW||!vH) return;
+  var dims=getDims();
+  var dur=(manEndSec-manStartSec);
+  var btn=document.getElementById("procbtn-m");
+  if(btn) btn.innerHTML="✂️ Export "+ft(manStartSec)+"–"+ft(manEndSec)+" ("+dur.toFixed(1)+"s) · "+dims.w+"×"+dims.h;
+  var qi=document.getElementById("qualinfo-m");
+  if(qi) qi.textContent="Output: "+dims.w+"×"+dims.h+" — cropped from "+vW+"×"+vH;
+}
+
+async function runProcManual(){
+  if(!cFile){ toast("No video loaded"); return; }
+  var dur=manEndSec-manStartSec;
+  if(dur<=0){ toast("⚠ Set a valid clip range first"); return; }
+  hideErr("c-err2m"); showPhase(3);
+  var sg={start_sec:manStartSec, end_sec:manEndSec, rank:"Manual"};
+  var dims=getDims(), crop=getCrop(dims);
+  var fmtL={reels:"9:16 Reels",square:"1:1 Square",wide:"16:9 Wide"}[selFmt];
+  document.getElementById("proc-sub").textContent=dims.w+"×"+dims.h+" — original quality";
+  await new Promise(function(r){setTimeout(r,200);}); ps("pt-0","active");
+  try {
+    var actx=null, audioStream=null;
+    try{ actx=new (window.AudioContext||window.webkitAudioContext)(); } catch(ae){}
+    var vid=document.getElementById("pv");
+    vid.pause(); vid.removeAttribute("src"); vid.load();
+    vid.muted=false; vid.src=URL.createObjectURL(cFile);
+    await new Promise(function(res,rej){vid.onloadedmetadata=res; vid.onerror=rej;});
+    vid.currentTime=sg.start_sec;
+    await new Promise(function(r){vid.onseeked=r;});
+    ps("pt-0","done"); ps("pt-1","active");
+    await new Promise(function(r){setTimeout(r,300);});
+    if(actx){
+      try{
+        if(actx.state==="suspended") await actx.resume();
+        var mediaSrc=actx.createMediaElementSource(vid);
+        var dst=actx.createMediaStreamDestination();
+        mediaSrc.connect(dst); mediaSrc.connect(actx.destination);
+        audioStream=dst.stream;
+      }catch(ae){actx=null;}
+    }
+    var canvas=document.getElementById("pc");
+    canvas.width=dims.w; canvas.height=dims.h;
+    var ctx=canvas.getContext("2d");
+    var mime="video/webm;codecs=vp9";
+    if(!MediaRecorder.isTypeSupported(mime)) mime="video/webm;codecs=vp8";
+    if(!MediaRecorder.isTypeSupported(mime)) mime="video/webm";
+    var bitrate=Math.max(3000000,Math.min(20000000,dims.w*dims.h*0.12*30));
+    ps("pt-1","done"); ps("pt-2","active");
+    var videoStream=canvas.captureStream(30);
+    if(audioStream&&audioStream.getAudioTracks().length>0){ audioStream.getAudioTracks().forEach(function(t){videoStream.addTrack(t);}); }
+    var rec=new MediaRecorder(videoStream,{mimeType:mime,videoBitsPerSecond:bitrate});
+    var chunks=[]; rec.ondataavailable=function(e){if(e.data.size>0)chunks.push(e.data);};
+    rec.start(50); vid.playbackRate=1; vid.play();
+    ps("pt-2","done"); ps("pt-3","active");
+    var raf;
+    var draw=function(){
+      if(vid.currentTime>=sg.end_sec||vid.ended||vid.paused){rec.stop();vid.pause();return;}
+      ctx.drawImage(vid,crop.x,crop.y,crop.w,crop.h,0,0,dims.w,dims.h);
+      raf=requestAnimationFrame(draw);
+    };
+    raf=requestAnimationFrame(draw);
+    await new Promise(function(resolve){
+      rec.onstop=function(){cancelAnimationFrame(raf);outBlob=new Blob(chunks,{type:"video/webm"});outUrl=URL.createObjectURL(outBlob);resolve();};
+      setTimeout(function(){if(rec.state!=="inactive"){rec.stop();vid.pause();}},((sg.end_sec-sg.start_sec)+4)*1000);
+    });
+    ps("pt-3","done"); ps("pt-4","active");
+    await new Promise(function(r){setTimeout(r,200);});
+    ps("pt-4","done");
+    var sz=(outBlob.size/1048576).toFixed(1);
+    document.getElementById("dl-meta").textContent="Manual · "+fmtL+" · "+dims.w+"×"+dims.h+" · "+ft(sg.end_sec-sg.start_sec)+" · "+sz+"MB";
+    var dlv=document.getElementById("dl-v"); dlv.src=outUrl; dlv.classList.remove("hidden");
+    document.getElementById("dl-cap").classList.add("hidden");
+    showPhase(4); toast("✅ "+dims.w+"×"+dims.h+" manual clip ready!");
+  } catch(e){
+    showErr("c-err2m","❌ "+e.message+"<br><br><strong>Tip:</strong> Use Chrome for best MediaRecorder support.");
+    showPhase("2m");
+  }
+}
 
 
 /* ── THEME ── */
@@ -6844,7 +7263,7 @@ function toggleSidebar() {
 <!-- ── TABS ── -->
 <div class="mg-tabs">
   <button class="mg-tab active" id="mg-tab-url" onclick="mgSwitchTab('url')">🔗 URL Meta Grab</button>
-  <button class="mg-tab" id="mg-tab-profile" onclick="mgSwitchTab('profile')">👤 Profile Scanner (NOt Working) </button>
+  <button class="mg-tab" id="mg-tab-profile" onclick="mgSwitchTab('profile')">👤 Profile Scanner</button>
 </div>
 
 <!-- ══════════════════ PANEL 1 — URL META GRAB ══════════════════ -->
