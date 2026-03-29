@@ -6,7 +6,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>XHS Grabber Pro</title>
-<meta name="version" content="v16-202603290001-bookmark-link">
+<meta name="version" content="v17-202603290001-paste-keys">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -1738,21 +1738,46 @@ FB Boost<br>Pro
   </div>
 
   <!-- BULK CSV KEY IMPORT -->
-  <div class="keybox" style="margin-bottom:12px;border-color:rgba(168,85,247,.35);background:rgba(168,85,247,.04);">
-    <div class="keybox-title" style="color:#a855f7;">📥 Bulk Import Keys via CSV</div>
+  <div class="keybox" style="margin-bottom:12px;border-color:rgba(99,102,241,.35);background:rgba(99,102,241,.04);">
+    <div class="keybox-title" style="color:#818cf8;">📥 Bulk Import Keys via CSV</div>
     <div style="font-size:13px;color:var(--muted);margin-bottom:10px;line-height:1.6;">
       Upload a CSV with columns: <code style="background:var(--bg3);padding:1px 6px;border-radius:4px;font-size:12px;">key</code> (required), and optionally <code style="background:var(--bg3);padding:1px 6px;border-radius:4px;font-size:12px;">provider</code>, <code style="background:var(--bg3);padding:1px 6px;border-radius:4px;font-size:12px;">label</code>. Provider is auto-detected if omitted.
     </div>
     <div id="bulk-csv-drop"
-      style="border:2px dashed rgba(168,85,247,.4);border-radius:10px;padding:18px;text-align:center;cursor:pointer;background:rgba(168,85,247,.04);font-size:13px;color:#a855f7;transition:all .2s;"
+      style="border:2px dashed rgba(99,102,241,.4);border-radius:10px;padding:18px;text-align:center;cursor:pointer;background:rgba(99,102,241,.04);font-size:13px;color:#818cf8;transition:all .2s;"
       onclick="document.getElementById('bulk-csv-file').click()"
       ondrop="mgBulkHandleDrop(event)"
-      ondragover="event.preventDefault();this.style.background='rgba(168,85,247,.12)'"
-      ondragleave="this.style.background='rgba(168,85,247,.04)'">
+      ondragover="event.preventDefault();this.style.background='rgba(99,102,241,.12)'"
+      ondragleave="this.style.background='rgba(99,102,241,.04)'">
       📂 Drop CSV file here or <strong>click to browse</strong>
     </div>
     <input type="file" id="bulk-csv-file" accept=".csv,.txt" style="display:none" onchange="mgBulkLoadCSV(event)">
     <div id="bulk-csv-result" style="display:none;margin-top:10px;border-radius:9px;padding:10px 13px;font-size:13px;line-height:1.7;"></div>
+  </div>
+
+  <!-- PASTE KEYS BLOCK -->
+  <div class="keybox" style="margin-bottom:12px;border-color:rgba(168,85,247,.35);background:rgba(168,85,247,.04);">
+    <div class="keybox-title" style="color:#a855f7;">📋 Paste Multiple Keys at Once</div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:10px;line-height:1.7;">
+      Paste one key per line. Optionally add a label after a space or comma.<br>
+      <span style="font-family:monospace;font-size:12px;color:#a855f7;">AIzaSy... My Account<br>gsk_abc... Work Key<br>sk-or-xyz...</span>
+    </div>
+    <textarea id="paste-keys-input"
+      style="width:100%;background:var(--inp-bg);border:1.5px solid rgba(168,85,247,.35);border-radius:10px;color:var(--inp-text);font-family:monospace;font-size:12px;padding:12px 14px;resize:vertical;min-height:110px;outline:none;line-height:1.7;"
+      placeholder="Paste keys here, one per line:&#10;AIzaSyXXX...  (auto-detected as Gemini)&#10;gsk_XXX...  Work&#10;sk-or-XXX...  Account 2"
+      oninput="pasteKeysPreview()"></textarea>
+    <div id="paste-keys-preview" style="display:none;margin-top:8px;border-radius:9px;padding:10px 13px;font-size:12px;line-height:1.8;background:rgba(168,85,247,.07);border:1px solid rgba(168,85,247,.25);font-family:monospace;white-space:pre-wrap;color:var(--muted);"></div>
+    <div style="display:flex;gap:8px;margin-top:10px;">
+      <button onclick="pasteKeysImport()" id="paste-keys-btn"
+        style="flex:1;padding:12px;background:linear-gradient(135deg,#7c3aed,#a855f7);border:none;color:#fff;border-radius:10px;cursor:pointer;font-family:'Syne',sans-serif;font-weight:800;font-size:13px;">
+        ➕ Import Keys
+      </button>
+      <button onclick="document.getElementById('paste-keys-input').value='';pasteKeysPreview();"
+        style="padding:12px 16px;background:var(--bg3);border:1.5px solid var(--border2);color:var(--muted);border-radius:10px;cursor:pointer;font-size:13px;font-family:'Syne',sans-serif;font-weight:700;">
+        ✕ Clear
+      </button>
+    </div>
+    <div id="paste-keys-result" style="display:none;margin-top:10px;border-radius:9px;padding:10px 13px;font-size:13px;line-height:1.7;"></div>
   </div>
 
   <!-- ROTATION STRATEGY -->
@@ -5696,6 +5721,82 @@ function _processBulkCSVFile(file) {
 
 
 
+
+/* ════════════════════════════════════
+   PASTE KEYS — parse textarea, auto-detect provider, preview & import
+════════════════════════════════════ */
+function _parsePastedKeys(raw) {
+  var lines = raw.split(/\r?\n/).map(function(l){ return l.trim(); }).filter(Boolean);
+  var results = [];
+  lines.forEach(function(line) {
+    /* Strip common separators: key,label  or  key label  or  key:label  or  key|label */
+    var parts = line.split(/[,|:]/).map(function(p){ return p.trim(); });
+    /* If only one part but has a space, split on first space */
+    if(parts.length === 1 && /\s/.test(parts[0])) {
+      var spIdx = parts[0].search(/\s/);
+      parts = [parts[0].slice(0,spIdx).trim(), parts[0].slice(spIdx+1).trim()];
+    }
+    var keyVal = (parts[0]||'').replace(/[^\x20-\x7E]/g,'').trim();
+    var labelVal = (parts[1]||'').trim();
+    if(!keyVal || keyVal.length < 8) return;
+    var prov = _detectProviderFromKey(keyVal) || ACTIVE_PROVIDER;
+    results.push({ val: keyVal, provider: prov, label: labelVal });
+  });
+  return results;
+}
+
+function pasteKeysPreview() {
+  var raw = (document.getElementById('paste-keys-input')||{}).value || '';
+  var prev = document.getElementById('paste-keys-preview');
+  if(!prev) return;
+  var entries = _parsePastedKeys(raw);
+  if(!entries.length) { prev.style.display='none'; return; }
+  prev.style.display = 'block';
+  var lines = entries.map(function(e,i) {
+    var pdef = PROVIDERS[e.provider];
+    var icon = pdef ? pdef.icon : '🔑';
+    var name = pdef ? pdef.name : e.provider;
+    var isDup = !!KEYS.find(function(k){ return k.val === e.val; });
+    var preview = e.val.slice(0,6) + '••••••' + e.val.slice(-4);
+    var lbl = e.label ? ' ['+e.label+']' : '';
+    var status = isDup ? '  ⟳ duplicate' : '';
+    return (i+1)+'. '+icon+' '+name+lbl+' — '+preview+status;
+  });
+  prev.textContent = lines.join('\n');
+}
+
+function pasteKeysImport() {
+  var raw = (document.getElementById('paste-keys-input')||{}).value || '';
+  var entries = _parsePastedKeys(raw);
+  var resEl = document.getElementById('paste-keys-result');
+  if(!entries.length) { toast('⚠ No valid keys found — paste keys one per line'); return; }
+  var added = 0, skipped = 0, log = [];
+  entries.forEach(function(entry) {
+    if(KEYS.length >= 30) { skipped++; log.push('⚠ Max 30 keys reached — stopped'); return; }
+    if(KEYS.find(function(k){ return k.val === entry.val; })) {
+      skipped++; log.push('⟳ Already saved: '+entry.val.slice(0,6)+'…'); return;
+    }
+    var pdef = PROVIDERS[entry.provider];
+    var keyObj = { val:entry.val, provider:entry.provider, status:'new', model:pdef?pdef.defaultModel:'gemini-2.0-flash' };
+    if(entry.label) keyObj.label = entry.label;
+    KEYS.push(keyObj); added++;
+    var icon = pdef?pdef.icon:'🔑', name = pdef?pdef.name:entry.provider;
+    var lbl = entry.label ? ' ['+entry.label+']' : '';
+    log.push('✅ '+icon+' '+name+lbl+': '+entry.val.slice(0,6)+'••••'+entry.val.slice(-4));
+  });
+  if(added){ saveKeys(); updateKeyUI(); updatePill(); renderProviderGrid(); }
+  resEl.style.display = 'block';
+  resEl.style.background = added ? 'rgba(66,183,42,.08)' : 'rgba(239,68,68,.08)';
+  resEl.style.border = '1px solid '+(added?'rgba(66,183,42,.3)':'rgba(239,68,68,.3)');
+  resEl.style.color = added?'var(--green)':'var(--red,#ef4444)';
+  resEl.innerHTML = '<strong>'+added+' key(s) added, '+skipped+' skipped</strong><br>'
+    +'<span style="font-size:12px;font-family:monospace;white-space:pre-wrap;color:var(--muted)">'+log.join('\n')+'</span>';
+  if(added) {
+    document.getElementById('paste-keys-input').value = '';
+    document.getElementById('paste-keys-preview').style.display = 'none';
+  }
+  toast(added ? ('✅ '+added+' key(s) imported!') : '⚠ No new keys imported');
+}
 
 /* ════════════════════════════════════
    CLIPPER
