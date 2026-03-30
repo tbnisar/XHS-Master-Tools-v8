@@ -1194,6 +1194,7 @@ FB Boost<br>Pro
     <button class="nb active" id="nav-booster" onclick="goPage('booster')"><div class="nb-i">🖼️</div><div class="nb-l">Booster</div></button>
     <button class="nb" id="nav-translator" onclick="goPage('translator')"><div class="nb-i">🌐</div><div class="nb-l">Translator</div></button><button class="nb" id="nav-clipper" onclick="goPage('clipper')"><div class="nb-i">✂️</div><div class="nb-l">Clipper</div></button>
     <button class="nb" id="nav-metagrab" onclick="goPage('metagrab')"><div class="nb-i">📱</div><div class="nb-l">XHS Grab</div></button>
+    <button class="nb" id="nav-xhsextractor" onclick="goPage('xhsextractor')"><div class="nb-i">🔗</div><div class="nb-l">XHS Extractor</div></button>
     <button class="nb" id="nav-settings" onclick="goPage('settings')"><div class="nb-i">⚙️</div><div class="nb-l">Settings</div></button>
     
   </div>
@@ -7355,8 +7356,6 @@ function toggleSidebar() {
 <!-- ── TABS ── -->
 <div class="mg-tabs">
   <button class="mg-tab active" id="mg-tab-url" onclick="mgSwitchTab('url')">🔗 URL Meta Grab</button>
-  <button class="mg-tab" id="mg-tab-profile" onclick="mgSwitchTab('profile')">👤 Profile Scanner</button>
-  <button class="mg-tab" id="mg-tab-search" onclick="mgSwitchTab('search')">🔍 Keyword Search</button>
 </div>
 
 <!-- ══════════════════ PANEL 1 — URL META GRAB ══════════════════ -->
@@ -7433,265 +7432,447 @@ function toggleSidebar() {
   </div>
 </div><!-- /panel url -->
 
-<!-- ══════════════════ PANEL 2 — PROFILE SCANNER ══════════════════ -->
-<div class="mg-panel" id="mg-panel-profile">
+</div><!-- /page-metagrab -->
 
-  <div class="mg-tip">
-    <strong>💡 How it works:</strong> Paste a RedNote / XHS profile URL (e.g. <code>https://www.xiaohongshu.com/user/profile/…</code> or a short <code>xhslink.com</code> profile link). The scanner fetches all visible post links from the public profile page, then processes each post to extract type (video/image), title, description, hashtags and media links — and translates everything to your chosen language.
+<!-- ══════════════════════════════════════════════════════
+     XHS LINK EXTRACTOR PAGE
+══════════════════════════════════════════════════════ -->
+<div class="page hidden" id="page-xhsextractor">
+<style>
+#page-xhsextractor{color:var(--text);}
+#page-xhsextractor .xe-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:16px;}
+#page-xhsextractor .xe-lbl{font-family:'Syne',sans-serif;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+#page-xhsextractor .xe-lbl::before{content:'';display:block;width:3px;height:12px;background:#ef4444;border-radius:2px;}
+#page-xhsextractor .xe-tabs{display:flex;gap:6px;margin-bottom:18px;}
+#page-xhsextractor .xe-tab{flex:1;padding:11px 10px;border-radius:10px;border:1.5px solid var(--border2);background:var(--bg2);color:var(--muted);font-family:'Syne',sans-serif;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;cursor:pointer;transition:all .18s;text-align:center;}
+#page-xhsextractor .xe-tab:hover{border-color:#ef4444;color:#ef4444;}
+#page-xhsextractor .xe-tab.active{background:linear-gradient(135deg,#ef4444,#b91c1c);border-color:#ef4444;color:#fff;}
+#page-xhsextractor .xe-panel{display:none;}
+#page-xhsextractor .xe-panel.active{display:block;}
+#page-xhsextractor textarea.xe-inp,#page-xhsextractor input.xe-inp-txt{width:100%;background:var(--inp-bg);border:1.5px solid var(--border2);border-radius:10px;color:var(--inp-text);font-family:monospace;font-size:12px;padding:11px 14px;resize:vertical;outline:none;transition:border-color .2s;line-height:1.6;}
+#page-xhsextractor textarea.xe-inp:focus,#page-xhsextractor input.xe-inp-txt:focus{border-color:#ef4444;}
+#page-xhsextractor textarea.xe-inp::placeholder,#page-xhsextractor input.xe-inp-txt::placeholder{color:var(--inp-placeholder);font-family:'DM Sans',sans-serif;font-size:12px;}
+#page-xhsextractor textarea#xe-html-input{min-height:130px;}
+#page-xhsextractor .xe-btn-row{display:flex;gap:8px;margin-bottom:16px;align-items:center;flex-wrap:wrap;}
+#page-xhsextractor .xe-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:9px;font-family:'Syne',sans-serif;font-size:12px;font-weight:800;cursor:pointer;border:none;transition:opacity .15s,transform .1s;text-transform:uppercase;letter-spacing:.4px;}
+#page-xhsextractor .xe-btn:active{transform:scale(.97);}
+#page-xhsextractor .xe-btn:disabled{opacity:.35;cursor:not-allowed;}
+#page-xhsextractor .xe-btn-red{background:linear-gradient(135deg,#ef4444,#b91c1c);color:#fff;}
+#page-xhsextractor .xe-btn-orange{background:linear-gradient(135deg,#f59e0b,#d97706);color:#000;}
+#page-xhsextractor .xe-btn-green{background:linear-gradient(135deg,#42b72a,#169900);color:#fff;}
+#page-xhsextractor .xe-btn-blue{background:linear-gradient(135deg,#1877f2,#1254c0);color:#fff;}
+#page-xhsextractor .xe-btn-purple{background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;}
+#page-xhsextractor .xe-btn-sec{background:var(--bg3);border:1.5px solid var(--border2);color:var(--muted);}
+#page-xhsextractor .xe-btn-sec:hover{border-color:#ef4444;color:#ef4444;}
+#page-xhsextractor .xe-mode-badge{font-size:10px;padding:4px 10px;border-radius:4px;font-weight:800;letter-spacing:.08em;font-family:'Syne',sans-serif;}
+#page-xhsextractor .xe-mode-fresh{background:rgba(239,68,68,.15);color:#ef4444;border:1px solid rgba(239,68,68,.3);}
+#page-xhsextractor .xe-mode-append{background:rgba(245,158,11,.15);color:#f59e0b;border:1px solid rgba(245,158,11,.3);}
+#page-xhsextractor .xe-stats-bar{display:flex;gap:20px;background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:12px 20px;margin-bottom:16px;flex-wrap:wrap;display:none;}
+#page-xhsextractor .xe-stat{display:flex;align-items:center;gap:8px;}
+#page-xhsextractor .xe-stat-n{color:#f59e0b;font-weight:800;font-size:20px;font-family:'Syne',sans-serif;}
+#page-xhsextractor .xe-stat-l{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.5px;}
+#page-xhsextractor .xe-tbl-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--border);}
+#page-xhsextractor table.xe-tbl{width:100%;border-collapse:collapse;font-size:12px;min-width:700px;}
+#page-xhsextractor table.xe-tbl th{text-align:left;padding:9px 12px;background:var(--bg3);color:var(--muted);font-family:monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;border-bottom:1px solid var(--border);}
+#page-xhsextractor table.xe-tbl td{padding:9px 12px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5;color:var(--body-text);}
+#page-xhsextractor table.xe-tbl tr:last-child td{border-bottom:none;}
+#page-xhsextractor table.xe-tbl tr:hover td{background:rgba(239,68,68,.04);}
+#page-xhsextractor .xe-td-num{color:var(--muted);font-family:monospace;font-size:10px;width:34px;}
+#page-xhsextractor .xe-td-title{max-width:160px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--body-text-lg);}
+#page-xhsextractor .xe-td-explore{color:#f59e0b;max-width:220px;word-break:break-all;font-size:11px;}
+#page-xhsextractor .xe-td-token{color:var(--blue);max-width:180px;word-break:break-all;font-size:10px;}
+#page-xhsextractor .xe-td-final{color:var(--green);max-width:280px;word-break:break-all;font-size:11px;}
+#page-xhsextractor .xe-copy-btn{display:inline-block;background:transparent;color:var(--muted);border:1px solid var(--border2);border-radius:3px;padding:2px 7px;font-size:9px;letter-spacing:.05em;cursor:pointer;margin-left:4px;transition:all .15s;vertical-align:middle;font-family:'Syne',sans-serif;font-weight:700;}
+#page-xhsextractor .xe-copy-btn:hover{border-color:var(--green);color:var(--green);}
+#page-xhsextractor .xe-copy-btn.copied{border-color:var(--green);color:var(--green);background:rgba(66,183,42,.1);}
+#page-xhsextractor .xe-empty{text-align:center;padding:40px 20px;color:var(--muted);}
+#page-xhsextractor .xe-empty-ico{font-size:30px;margin-bottom:8px;opacity:.4;}
+#page-xhsextractor .xe-msg{border-radius:8px;padding:10px 14px;font-size:12px;margin-bottom:12px;display:none;font-family:'DM Sans',sans-serif;}
+#page-xhsextractor .xe-msg-err{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#ef4444;}
+#page-xhsextractor .xe-msg-ok{background:rgba(66,183,42,.1);border:1px solid rgba(66,183,42,.3);color:var(--green);}
+#page-xhsextractor .xe-msg-info{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);color:#f59e0b;}
+#page-xhsextractor .xe-hint{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.75;}
+#page-xhsextractor .xe-hint code{background:var(--bg3);padding:1px 5px;border-radius:3px;font-family:monospace;}
+#page-xhsextractor .xe-script-box{background:var(--inp-bg);border:1.5px solid var(--border2);border-radius:10px;padding:16px;font-size:11px;line-height:1.8;color:#6fbf6f;white-space:pre;overflow-x:auto;max-height:380px;overflow-y:auto;font-family:monospace;}
+#page-xhsextractor .xe-step{display:flex;gap:14px;padding:13px 0;border-bottom:1px solid var(--border);}
+#page-xhsextractor .xe-step:last-child{border-bottom:none;}
+#page-xhsextractor .xe-step-num{width:26px;height:26px;min-width:26px;border-radius:50%;background:#ef4444;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;}
+#page-xhsextractor .xe-step-body{font-size:12px;line-height:1.8;color:var(--body-text);}
+#page-xhsextractor .xe-step-body strong{color:#f59e0b;}
+#page-xhsextractor .xe-step-body code{background:var(--bg3);padding:1px 6px;border-radius:3px;font-size:11px;font-family:monospace;}
+#page-xhsextractor .xe-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+@media(max-width:900px){#page-xhsextractor .xe-grid-2{grid-template-columns:1fr;}}
+</style>
+
+<!-- Header -->
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px;">
+  <div>
+    <div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;">🔗 <span style="color:#ef4444;">XHS</span> Link Extractor</div>
+    <div style="font-size:13px;color:var(--muted);margin-top:3px;">Auto-scroll collect all post links from XHS profiles, then send to URL Meta Grab</div>
   </div>
+</div>
 
-  <!-- ── XHS Cookie Auth ── -->
-  <div class="mg-card" style="border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.04);">
-    <div style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;" onclick="this.parentElement.querySelector('.cookie-body').classList.toggle('hidden')">
-      <div class="mg-lbl" style="margin-bottom:0;">🍪 XHS Session Cookies <span style="font-size:10px;background:rgba(245,158,11,.2);color:var(--gold);border-radius:4px;padding:2px 7px;font-weight:800;margin-left:6px;">REQUIRED FOR PRIVATE PROFILES</span></div>
-      <span style="font-size:13px;color:var(--muted);">▾ expand</span>
-    </div>
-    <div class="cookie-body" style="margin-top:12px;">
-      <div style="font-size:13px;color:var(--muted);line-height:1.75;margin-bottom:10px;">
-        XHS requires login to load profile posts. Since you're already logged in on another tab, grab your cookies:<br>
-        <strong style="color:var(--gold);">① </strong>Open <code style="background:var(--bg3);padding:1px 5px;border-radius:4px;">xiaohongshu.com</code> in another tab &amp; log in<br>
-        <strong style="color:var(--gold);">② </strong>Press <code style="background:var(--bg3);padding:1px 5px;border-radius:4px;">F12</code> → <strong>Network</strong> tab → click any request → find <strong>Cookie:</strong> in request headers<br>
-        <strong style="color:var(--gold);">③ </strong>Copy the full cookie string and paste below
+<!-- Tabs: Console Script FIRST, Extractor SECOND -->
+<div class="xe-tabs">
+  <button class="xe-tab active" id="xe-tab-console" onclick="xeSwitchTab('console',this)">🖥 Console Script</button>
+  <button class="xe-tab" id="xe-tab-extractor" onclick="xeSwitchTab('extractor',this)">⚡ Extractor</button>
+</div>
+
+<!-- ── PANEL 1: CONSOLE SCRIPT ── -->
+<div class="xe-panel active" id="xe-panel-console">
+
+  <div class="xe-card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+      <div class="xe-lbl" style="margin:0;">Auto-Scroll Collector — Run in Browser DevTools Console</div>
+      <div style="display:flex;gap:8px;">
+        <button class="xe-btn xe-btn-blue" onclick="xeCopyScript(this)">⧉ Copy Script</button>
+        <button class="xe-btn xe-btn-sec" style="border-color:#ef4444;color:#ef4444;" onclick="xeCopyStopCmd(this)">⏹ Copy Stop Command</button>
       </div>
-      <textarea id="xhs-cookies-input" rows="3"
-        style="width:100%;background:var(--inp-bg);border:1.5px solid rgba(245,158,11,.3);border-radius:10px;color:var(--inp-text);font-family:monospace;font-size:11px;padding:10px 12px;resize:vertical;outline:none;line-height:1.5;"
-        placeholder="a1=xxx; web_session=yyy; xsec_token=zzz; … (paste your full XHS cookie string here)"></textarea>
-      <div style="display:flex;gap:8px;margin-top:8px;align-items:center;flex-wrap:wrap;">
-        <button onclick="xhsSaveCookies()" style="padding:7px 16px;background:linear-gradient(135deg,#d97706,#b45309);border:none;color:#fff;border-radius:8px;cursor:pointer;font-family:'Syne',sans-serif;font-weight:800;font-size:12px;">💾 Save Cookies</button>
-        <button onclick="xhsClearCookies()" style="padding:7px 14px;background:var(--bg3);border:1px solid var(--border2);color:var(--muted);border-radius:8px;cursor:pointer;font-size:12px;font-family:'Syne',sans-serif;font-weight:700;">✕ Clear</button>
-        <span id="xhs-cookie-status" style="font-size:12px;color:var(--muted);font-family:monospace;"></span>
+    </div>
+
+    <div>
+      <div class="xe-step"><div class="xe-step-num">1</div><div class="xe-step-body">Open the XHS profile page in Chrome/Edge. Press <strong>F12</strong> → click <strong>Console</strong> tab.</div></div>
+      <div class="xe-step"><div class="xe-step-num">2</div><div class="xe-step-body">Click <strong>Copy Script</strong> above, paste into the console, press <strong>Enter</strong>.</div></div>
+      <div class="xe-step"><div class="xe-step-num">3</div><div class="xe-step-body">The script <strong>auto-scrolls</strong> the page collecting every post link. Takes ~1–2 min for large profiles. To stop early, type <code>_xhsStop()</code> in the console — all data is saved instantly.</div></div>
+      <div class="xe-step"><div class="xe-step-num">4</div><div class="xe-step-body">When done it logs <strong>DONE</strong> and outputs a JSON array. Copy the JSON and paste it in the <strong>Extractor</strong> tab → Import JSON.</div></div>
+      <div class="xe-step"><div class="xe-step-num">5</div><div class="xe-step-body">To inspect live data without stopping: run <code>Object.values(_xhsCollected)</code> in console anytime.</div></div>
+    </div>
+  </div>
+
+  <div class="xe-card">
+    <div class="xe-lbl">Script (copy into console)</div>
+    <div class="xe-script-box" id="xe-script-box">(function() {
+  var collected = {};
+  var noNewStreak = 0;
+  var MAX_NO_NEW = 10;
+  var lastCount = 0;
+  var stopped = false;
+
+  window._xhsStop = function() {
+    stopped = true;
+    finish();
+  };
+  window._xhsCollected = collected;
+
+  function scrape() {
+    var links = document.querySelectorAll('a.cover.mask.ld, a[class*="cover"][class*="mask"]');
+    links.forEach(function(a) {
+      var href = a.getAttribute('href') || '';
+      var path = href.split('?')[0];
+      var parts = path.split('/').filter(Boolean);
+      var postId = parts[parts.length - 1];
+      if (!postId || collected[postId]) return;
+      var q = href.indexOf('?') !== -1 ? href.split('?')[1] : '';
+      var params = new URLSearchParams(q.replace(/&/g, '&'));
+      var token = params.get('xsec_token') || '';
+      var source = params.get('xsec_source') || 'pc_user';
+      var section = a.closest('section') || a.parentElement;
+      var title = '';
+      if (section) {
+        var t = section.querySelector('.title span, .title');
+        if (t) title = t.textContent.trim().replace(/\s+/g, ' ');
+      }
+      var finalUrl = token
+        ? 'https://www.xiaohongshu.com/explore/' + postId + '?xsec_token=' + token + '&xsec_source=' + source
+        : 'https://www.xiaohongshu.com/explore/' + postId;
+      collected[postId] = { postId: postId, title: title, token: token, finalUrl: finalUrl };
+    });
+  }
+
+  function run() {
+    if (stopped) return;
+    scrape();
+    var count = Object.keys(collected).length;
+    if (count === lastCount) { noNewStreak++; } else { noNewStreak = 0; lastCount = count; }
+    console.log('[XHS] Posts: ' + count + ' | No-new streak: ' + noNewStreak + '/' + MAX_NO_NEW);
+    if (noNewStreak >= MAX_NO_NEW) { finish(); return; }
+    window.scrollBy(0, window.innerHeight * 0.8);
+    setTimeout(run, 1400);
+  }
+
+  function finish() {
+    stopped = true;
+    var items = Object.values(collected);
+    var urls = items.map(function(i){ return i.finalUrl; }).join('\n');
+    console.log('\n===== XHS DONE — ' + items.length + ' posts =====');
+    console.log('--- FINAL URLs ---');
+    console.log(urls);
+    console.log('--- JSON (paste into extractor tool) ---');
+    console.log(JSON.stringify(items));
+    navigator.clipboard && navigator.clipboard.writeText(urls).then(function(){
+      console.log('Copied ' + items.length + ' URLs to clipboard!');
+    });
+  }
+
+  console.log('[XHS] Starting... (type _xhsStop() anytime to stop and save data)');
+  run();
+})();</div>
+  </div>
+
+  <div class="xe-card">
+    <div class="xe-lbl">📥 Import JSON from Console Output</div>
+    <textarea class="xe-inp" id="xe-json-input" style="min-height:90px;" placeholder='Paste the JSON array from the console (the line after "--- JSON ---") here, then click Import...'></textarea>
+    <div style="margin-top:10px;">
+      <button class="xe-btn xe-btn-green" onclick="xeImportJSON()">Import JSON → Extractor Tab</button>
+    </div>
+    <div class="xe-hint">➜ Copy the single-line JSON from the console and paste here. All posts will be added to the Extractor tab table.</div>
+  </div>
+
+</div><!-- /xe-panel-console -->
+
+<!-- ── PANEL 2: EXTRACTOR ── -->
+<div class="xe-panel" id="xe-panel-extractor">
+
+  <div class="xe-grid-2">
+    <div class="xe-card" style="margin-bottom:0;">
+      <div class="xe-lbl">📋 Paste HTML Source</div>
+      <textarea class="xe-inp" id="xe-html-input" placeholder="Paste copied element HTML here. Use Extract (Fresh) for first paste, Append for additional scrolls..."></textarea>
+      <div class="xe-hint">➜ Copy <code>&lt;div id="userPostedFeeds"&gt;</code> from DevTools each scroll.<br>➜ Use <strong style="color:#f59e0b;">Append</strong> — duplicates removed automatically.</div>
+    </div>
+    <div class="xe-card" style="margin-bottom:0;">
+      <div class="xe-lbl">🔗 Profile URL (optional)</div>
+      <input class="xe-inp-txt" id="xe-profile-url" placeholder="https://www.xiaohongshu.com/user/profile/…" style="margin-bottom:10px;"/>
+      <div class="xe-hint">
+        <strong style="color:#ef4444;">Why only 30 links?</strong><br>
+        XHS virtualizes the feed — only visible posts are in DOM. Use <strong>Append Mode</strong> after each scroll, or use the <strong>Console Script</strong> tab to auto-collect everything.<br><br>
+        <strong style="color:var(--green);">Tip:</strong> After collecting, click <strong style="color:#a855f7;">→ URL Meta Grab</strong> to send all URLs directly to the grabber and start processing.
       </div>
     </div>
   </div>
 
-  <!-- ── PASTE PAGE SOURCE (always works, no proxy needed) ── -->
-  <div class="mg-card" style="border-color:rgba(66,183,42,.3);background:rgba(66,183,42,.04);">
-    <div style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;" onclick="this.parentElement.querySelector('.ps-paste-body').classList.toggle('hidden')">
-      <div class="mg-lbl" style="margin-bottom:0;">📋 Paste Profile Page Source <span style="font-size:10px;background:rgba(66,183,42,.2);color:var(--green);border-radius:4px;padding:2px 7px;font-weight:800;margin-left:6px;">MOST RELIABLE METHOD</span></div>
-      <span style="font-size:13px;color:var(--muted);">▾ expand</span>
-    </div>
-    <div class="ps-paste-body hidden" style="margin-top:12px;">
-      <div style="font-size:13px;color:var(--muted);line-height:1.75;margin-bottom:10px;">
-        Bypasses all proxy &amp; cookie issues — works 100% of the time:<br>
-        <strong style="color:var(--green);">① </strong>Open your XHS profile in Chrome while <strong>logged in</strong><br>
-        <strong style="color:var(--green);">② </strong>Press <code style="background:var(--bg3);padding:1px 5px;border-radius:4px;">Ctrl+U</code> (View Source) → <code style="background:var(--bg3);padding:1px 5px;border-radius:4px;">Ctrl+A</code> → <code style="background:var(--bg3);padding:1px 5px;border-radius:4px;">Ctrl+C</code><br>
-        <strong style="color:var(--gold);">— OR — </strong><code style="background:var(--bg3);padding:1px 5px;border-radius:4px;">F12</code> → <strong>Elements</strong> tab → right-click <code style="background:var(--bg3);padding:1px 5px;border-radius:4px;">&lt;html&gt;</code> → <strong>Copy → Copy outerHTML</strong><br>
-        <strong style="color:var(--green);">③ </strong>Paste below — both methods auto-detect <code style="background:var(--bg3);padding:1px 5px;border-radius:4px;">xsec_source=pc_user</code> links
-      </div>
-      <textarea id="ps-paste-html" rows="4"
-        style="width:100%;background:var(--inp-bg);border:1.5px solid rgba(66,183,42,.3);border-radius:10px;color:var(--inp-text);font-family:monospace;font-size:11px;padding:10px 12px;resize:vertical;outline:none;line-height:1.5;"
-        placeholder="Paste the full HTML page source here (Ctrl+U in Chrome, then Ctrl+A, Ctrl+C)…"></textarea>
-      <div style="display:flex;gap:8px;margin-top:8px;align-items:center;flex-wrap:wrap;">
-        <button onclick="psFromPastedHTML()" style="padding:8px 18px;background:linear-gradient(135deg,var(--green),#169900);border:none;color:#fff;border-radius:8px;cursor:pointer;font-family:'Syne',sans-serif;font-weight:800;font-size:13px;">📥 Extract Links &amp; Scan</button>
-        <button onclick="psLinksOnlyCSV()" title="Extract links with xsec params and download as CSV — no per-post fetching" style="padding:8px 15px;background:linear-gradient(135deg,#0369a1,#0e7490);border:none;color:#fff;border-radius:8px;cursor:pointer;font-family:'Syne',sans-serif;font-weight:800;font-size:13px;">⬇ Links → CSV</button>
-        <button onclick="psLinksToGrabber()" title="Push extracted links to URL Meta Grabber tab for title/tag/description fetch" style="padding:8px 15px;background:linear-gradient(135deg,var(--purple),#7c3aed);border:none;color:#fff;border-radius:8px;cursor:pointer;font-family:'Syne',sans-serif;font-weight:800;font-size:13px;">📋 → URL Grabber</button>
-        <button onclick="document.getElementById('ps-paste-html').value=''" style="padding:8px 14px;background:var(--bg3);border:1px solid var(--border2);color:var(--muted);border-radius:8px;cursor:pointer;font-size:12px;font-family:'Syne',sans-serif;font-weight:700;">✕ Clear</button>
-        <span id="ps-paste-status" style="font-size:12px;color:var(--green);font-family:monospace;"></span>
-      </div>
-    </div>
+  <div id="xe-msg-err" class="xe-msg xe-msg-err"></div>
+  <div id="xe-msg-ok" class="xe-msg xe-msg-ok"></div>
+  <div id="xe-msg-info" class="xe-msg xe-msg-info"></div>
+
+  <div class="xe-btn-row">
+    <button class="xe-btn xe-btn-red" onclick="xeExtract(false)">⚡ Extract (Fresh)</button>
+    <button class="xe-btn xe-btn-orange" onclick="xeExtract(true)">＋ Append</button>
+    <span class="xe-mode-badge xe-mode-fresh" id="xe-mode-badge">FRESH MODE</span>
+    <button class="xe-btn xe-btn-sec" onclick="xeClearAll()">✕ Clear All</button>
+    <button class="xe-btn xe-btn-purple" id="xe-send-btn" onclick="xeSendToMetaGrab()" disabled style="margin-left:auto;">📋 → URL Meta Grab &amp; Run</button>
+    <button class="xe-btn xe-btn-green" id="xe-export-btn" onclick="xeExportCSV()" disabled>⬇ CSV</button>
+    <button class="xe-btn xe-btn-blue" id="xe-copy-all-btn" onclick="xeCopyAllFinal()" disabled>⧉ Copy All URLs</button>
   </div>
 
-  <div class="mg-card">
-    <div class="mg-lbl">Profile URL <span style="font-size:10px;color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0;">— proxy fetch (may fail for private profiles; use Paste Source above for 100% reliability)</span></div>
-    <input class="mg-inp-txt" id="ps-profile-url" placeholder="https://www.xiaohongshu.com/user/profile/…  or  https://xhslink.com/…" />
-    <div style="font-size:12px;color:var(--muted);line-height:1.65;margin-top:6px;padding:8px 10px;background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.2);border-radius:8px;">
-      <strong style="color:#ef9999;">⚠ QR-code issue when opening post links?</strong> That is normal XHS behavior — XHS shows a QR code to <em>anonymous / logged-out</em> users. Fix: <strong>log into xiaohongshu.com in your browser first</strong>, then click the "post" link. If you are already logged in and still see a QR code, try copying the link and opening it in the same browser window where you are logged in.
-    </div>
-
-    <div class="mg-opts">
-      <label><input type="checkbox" id="ps-chk-translate" checked> Auto-translate →</label>
-      <select id="ps-target-lang">
-        <option value="English">🇬🇧 English</option><option value="Spanish">🇪🇸 Spanish</option>
-        <option value="French">🇫🇷 French</option><option value="German">🇩🇪 German</option>
-        <option value="Portuguese">🇧🇷 Portuguese</option><option value="Italian">🇮🇹 Italian</option>
-        <option value="Dutch">🇳🇱 Dutch</option><option value="Russian">🇷🇺 Russian</option>
-        <option value="Japanese">🇯🇵 Japanese</option><option value="Korean">🇰🇷 Korean</option>
-        <option value="Chinese (Simplified)">🇨🇳 Chinese (Simplified)</option>
-        <option value="Chinese (Traditional)">🇹🇼 Chinese (Traditional)</option>
-        <option value="Arabic">🇸🇦 Arabic</option><option value="Hindi">🇮🇳 Hindi</option>
-        <option value="Turkish">🇹🇷 Turkish</option><option value="Polish">🇵🇱 Polish</option>
-        <option value="Indonesian">🇮🇩 Indonesian</option><option value="Malay">🇲🇾 Malay</option>
-        <option value="Thai">🇹🇭 Thai</option><option value="Vietnamese">🇻🇳 Vietnamese</option>
-        <option value="Urdu">🇵🇰 Urdu</option>
-      </select>
-      <label style="gap:5px;">Delay: <input type="number" id="ps-delay" value="1200" min="500" max="8000" step="100"> ms</label>
-    </div>
-
-    <div class="mg-btns">
-      <button class="mg-btn mg-btn-red" id="ps-btn-scan" onclick="psStart()">🔍 Scan Profile</button>
-      <button class="mg-btn mg-btn-stop" id="ps-btn-stop" onclick="psStop()" disabled>■ Stop</button>
-      <button class="mg-btn mg-btn-green" id="ps-btn-export" onclick="psExportCSV()" disabled>⬇ Export CSV</button>
-    </div>
-
-    <div class="mg-prog" id="ps-prog-wrap">
-      <div class="mg-prog-labels"><span id="ps-prog-text">0 / 0</span><span id="ps-prog-pct">0%</span></div>
-      <div class="mg-prog-bar"><div class="mg-prog-fill" id="ps-prog-fill"></div></div>
-      <div class="mg-ticker" id="ps-ticker"></div>
-    </div>
+  <div class="xe-stats-bar" id="xe-stats-bar">
+    <div class="xe-stat"><span class="xe-stat-n" id="xe-stat-total">0</span><span class="xe-stat-l">total posts</span></div>
+    <div class="xe-stat"><span class="xe-stat-n" id="xe-stat-tokens">0</span><span class="xe-stat-l">with tokens</span></div>
+    <div class="xe-stat"><span class="xe-stat-n" id="xe-stat-sessions">0</span><span class="xe-stat-l">paste sessions</span></div>
   </div>
 
-  <!-- Profile stats -->
-  <div class="mg-card" id="ps-stats-card" style="display:none;">
-    <div class="mg-lbl">Summary</div>
-    <div class="mg-stats">
-      <div class="mg-stat"><div class="mg-stat-n" id="ps-s-total">0</div><div class="mg-stat-l">Posts</div></div>
-      <div class="mg-stat"><div class="mg-stat-n mg-ok" id="ps-s-ok">0</div><div class="mg-stat-l">Done</div></div>
-      <div class="mg-stat"><div class="mg-stat-n mg-err" id="ps-s-err">0</div><div class="mg-stat-l">Failed</div></div>
-      <div class="mg-stat"><div class="mg-stat-n" style="color:#ef4444;" id="ps-s-video">0</div><div class="mg-stat-l">Videos</div></div>
-      <div class="mg-stat"><div class="mg-stat-n" style="color:var(--green);" id="ps-s-image">0</div><div class="mg-stat-l">Images</div></div>
-      <div class="mg-stat"><div class="mg-stat-n" style="color:var(--gold);" id="ps-s-trans">0</div><div class="mg-stat-l">Translated</div></div>
+  <div class="xe-card" style="padding:0;overflow:hidden;">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);">
+      <div style="font-family:monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);" id="xe-tbl-title">Results</div>
+      <button class="xe-btn xe-btn-sec" style="padding:6px 12px;font-size:10px;" onclick="xeCopyAllFinal()">Copy All Final URLs</button>
     </div>
-  </div>
-
-  <!-- Profile results table -->
-  <div class="mg-card">
-    <div class="mg-lbl">Profile Posts</div>
-    <div class="mg-tbl-wrap">
-      <table class="mg-tbl">
-        <thead><tr><th>#</th><th>Type</th><th>Title</th><th>Description</th><th>Hashtags</th><th>Media / Post Link</th></tr></thead>
-        <tbody id="ps-tbody">
-          <tr><td colspan="6"><div class="mg-empty"><div class="mg-empty-ico">👤</div>Paste a RedNote profile URL above and click Scan Profile.</div></td></tr>
+    <div class="xe-tbl-wrap">
+      <table class="xe-tbl">
+        <thead><tr><th>#</th><th>Title</th><th>Explore Link</th><th>xsec_token</th><th>Final URL</th></tr></thead>
+        <tbody id="xe-tbody">
+          <tr><td colspan="5"><div class="xe-empty"><div class="xe-empty-ico">◈</div>Paste HTML and click Extract — or import JSON from Console Script tab</div></td></tr>
         </tbody>
       </table>
     </div>
   </div>
-</div><!-- /panel profile -->
 
-<!-- ══════════════════ PANEL 3 — KEYWORD SEARCH ══════════════════ -->
-<div class="mg-panel" id="mg-panel-search">
+</div><!-- /xe-panel-extractor -->
 
-  <!-- Why cookies/proxy won't work banner -->
-  <div style="background:rgba(239,68,68,.07);border:1.5px solid rgba(239,68,68,.3);border-radius:12px;padding:13px 16px;margin-bottom:14px;font-size:13px;color:var(--muted);line-height:1.75;">
-    <strong style="color:#ef4444;">⚠ Why proxy search fails:</strong> CORS proxies cannot pass your login cookies to XHS, and XHS search is JavaScript-rendered — the proxy gets an empty page shell with no data. <strong style="color:var(--text);">Same reason Profile Scanner uses Paste Source.</strong><br>
-    <strong style="color:var(--green);">✅ Fix: use Method 1 below</strong> — paste the search results page source. XHS embeds all note data (title, desc, author, likes, images, tags) in <code>window.__INITIAL_STATE__</code> in the HTML — no individual fetches needed.
-  </div>
+</div><!-- /page-xhsextractor -->
 
-  <!-- ══ METHOD 1 — PASTE SOURCE (PRIMARY) ══ -->
-  <div class="mg-card" style="border-color:rgba(66,183,42,.4);background:rgba(66,183,42,.03);">
-    <div style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;" onclick="this.parentElement.querySelector('.srch-pb').classList.toggle('hidden')">
-      <div class="mg-lbl" style="margin-bottom:0;">📋 Method 1 — Paste Search Page Source <span style="font-size:10px;background:rgba(66,183,42,.2);color:var(--green);border-radius:4px;padding:2px 7px;font-weight:800;margin-left:6px;">✅ ALWAYS WORKS</span></div>
-      <span style="font-size:12px;color:var(--muted);">▾ expand</span>
-    </div>
-    <div class="srch-pb" style="margin-top:12px;">
-      <div style="font-size:13px;color:var(--muted);line-height:1.85;margin-bottom:10px;">
-        <strong style="color:var(--green);">① </strong>Open Chrome → log into <code style="background:var(--bg3);padding:1px 5px;border-radius:4px;">xiaohongshu.com</code><br>
-        <strong style="color:var(--green);">② </strong>Navigate to this URL (edit keyword, then press Enter):
-        <br><code id="srch-url-display" style="display:inline-block;margin-top:4px;background:var(--bg3);border:1px solid var(--border2);padding:4px 10px;border-radius:6px;font-size:12px;color:var(--blue);word-break:break-all;cursor:pointer;" onclick="xhsCopyUrl(this)" title="Click to copy">https://www.xiaohongshu.com/search_result?keyword=healing</code>
-        <span style="font-size:11px;color:var(--muted);"> ← click to copy</span><br>
-        <strong style="color:var(--green);">③ </strong>On the results page: press <code style="background:var(--bg3);padding:1px 5px;border-radius:4px;">Ctrl+U</code> → <code style="background:var(--bg3);padding:1px 5px;border-radius:4px;">Ctrl+A</code> → <code style="background:var(--bg3);padding:1px 5px;border-radius:4px;">Ctrl+C</code><br>
-        <strong style="color:var(--gold);">— OR —</strong> Open <code style="background:var(--bg3);padding:1px 5px;border-radius:4px;">F12</code> → Console → type: <code style="background:var(--bg3);padding:1px 5px;border-radius:4px;font-size:11px;">copy(document.documentElement.outerHTML)</code> → Enter<br>
-        <strong style="color:var(--green);">④ </strong>Paste below and click <strong>Extract &amp; Show Results</strong>
-      </div>
-      <!-- keyword + lang row -->
-      <div style="display:flex;gap:10px;margin-bottom:8px;flex-wrap:wrap;align-items:flex-end;">
-        <div class="srch-field grow">
-          <span class="srch-lbl">🔑 Keyword (updates URL above)</span>
-          <input type="text" id="srch-paste-kw" class="srch-inp" style="padding:9px 13px;" placeholder="healing, 好物推荐, travel vlog…" oninput="xhsUpdateUrlHint(this.value)" onkeydown="if(event.key==='Enter') xhsFromPaste()">
-        </div>
-        <div class="srch-field">
-          <span class="srch-lbl">🌐 Translate</span>
-          <select id="srch-paste-lang" class="srch-sel">
-            <option value="none">— No translate —</option>
-            <option value="English" selected>🇬🇧 English</option><option value="Urdu">🇵🇰 Urdu</option>
-            <option value="Arabic">🇸🇦 Arabic</option><option value="Hindi">🇮🇳 Hindi</option>
-            <option value="Spanish">🇪🇸 Spanish</option><option value="French">🇫🇷 French</option>
-            <option value="German">🇩🇪 German</option><option value="Turkish">🇹🇷 Turkish</option>
-            <option value="Indonesian">🇮🇩 Indonesian</option><option value="Japanese">🇯🇵 Japanese</option>
-            <option value="Korean">🇰🇷 Korean</option>
-          </select>
-        </div>
-        <div class="srch-field">
-          <span class="srch-lbl">📊 Max results</span>
-          <select id="srch-paste-count" class="srch-sel">
-            <option value="10">10</option><option value="20" selected>20</option>
-            <option value="30">30</option><option value="50">50</option><option value="999">All</option>
-          </select>
-        </div>
-      </div>
-      <textarea id="srch-paste-html" rows="4"
-        style="width:100%;background:var(--inp-bg);border:1.5px solid rgba(66,183,42,.35);border-radius:10px;color:var(--inp-text);font-family:monospace;font-size:11px;padding:10px 12px;resize:vertical;outline:none;line-height:1.5;margin-bottom:8px;display:block;"
-        placeholder="Paste full HTML page source here (Ctrl+U on the XHS search results page → Ctrl+A → Ctrl+C)…"></textarea>
-      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-        <button onclick="xhsFromPaste()" style="padding:9px 22px;background:linear-gradient(135deg,var(--green),#169900);border:none;color:#fff;border-radius:8px;cursor:pointer;font-family:'Syne',sans-serif;font-weight:800;font-size:13px;">📥 Extract &amp; Show Results</button>
-        <button onclick="document.getElementById('srch-paste-html').value='';document.getElementById('srch-paste-status').textContent=''" style="padding:9px 14px;background:var(--bg3);border:1px solid var(--border2);color:var(--muted);border-radius:8px;cursor:pointer;font-size:12px;font-family:'Syne',sans-serif;font-weight:700;">✕ Clear</button>
-        <span id="srch-paste-status" style="font-size:12px;color:var(--green);font-family:monospace;"></span>
-      </div>
-    </div>
-  </div>
+<script>
+/* ══ XHS EXTRACTOR PAGE LOGIC ══ */
+var xeData = [];
+var xePasteCount = 0;
 
-  <!-- ══ METHOD 2 — AUTO SEARCH ══ -->
-  <div class="mg-card" style="border-color:rgba(24,119,242,.25);">
-    <div class="mg-lbl" style="margin-bottom:10px;">🤖 Method 2 — Auto Search <span style="font-size:10px;background:rgba(245,158,11,.15);color:var(--gold);border-radius:4px;padding:2px 7px;font-weight:800;margin-left:6px;">⚠ NEEDS COOKIES / MAY FAIL</span></div>
-    <div style="font-size:12px;color:var(--muted);margin-bottom:10px;line-height:1.6;">Add cookies in <strong>Profile Scanner → 🍪 Session Cookies</strong> first. Tries XHS search API + proxy. Often blocked without auth.</div>
-    <div class="srch-row">
-      <div class="srch-field grow">
-        <span class="srch-lbl">🔑 Keyword</span>
-        <input type="text" id="srch-keyword" class="srch-inp" placeholder="e.g. skincare, 好物推荐, travel vlog…" oninput="xhsUpdateUrlHint(this.value);(document.getElementById('srch-paste-kw')||{}).value=this.value" onkeydown="if(event.key==='Enter') xhsSearch()">
-      </div>
-      <div class="srch-field">
-        <span class="srch-lbl">📊 Count</span>
-        <select id="srch-count" class="srch-sel">
-          <option value="6">6</option><option value="12" selected>12</option>
-          <option value="20">20</option><option value="30">30</option>
-        </select>
-      </div>
-      <div class="srch-field">
-        <span class="srch-lbl">🌐 Translate</span>
-        <select id="srch-lang" class="srch-sel">
-          <option value="none">— No translate —</option>
-          <option value="English" selected>🇬🇧 English</option><option value="Urdu">🇵🇰 Urdu</option>
-          <option value="Arabic">🇸🇦 Arabic</option><option value="Hindi">🇮🇳 Hindi</option>
-          <option value="Spanish">🇪🇸 Spanish</option><option value="French">🇫🇷 French</option>
-          <option value="Turkish">🇹🇷 Turkish</option><option value="Indonesian">🇮🇩 Indonesian</option>
-          <option value="Japanese">🇯🇵 Japanese</option><option value="Korean">🇰🇷 Korean</option>
-        </select>
-      </div>
-    </div>
-    <div class="mg-btns">
-      <button class="mg-btn mg-btn-red" id="srch-btn-go" onclick="xhsSearch()">🔍 Auto Search</button>
-      <button class="mg-btn mg-btn-stop" id="srch-btn-stop" onclick="xhsSearchStop()" disabled>■ Stop</button>
-      <button class="mg-btn mg-btn-sec" id="srch-btn-details" onclick="xhsFetchAllDetails()" disabled>📥 Fetch All Details</button>
-      <button class="mg-btn mg-btn-green" id="srch-btn-export" onclick="xhsExportCSV()" disabled>⬇ Export CSV</button>
-    </div>
-    <div class="mg-prog" id="srch-prog-wrap">
-      <div class="mg-prog-labels"><span id="srch-prog-text">Ready</span><span id="srch-prog-pct"></span></div>
-      <div class="mg-prog-bar"><div class="mg-prog-fill" id="srch-prog-fill" style="width:0%"></div></div>
-      <div class="mg-ticker" id="srch-ticker"></div>
-    </div>
-  </div>
+function xeSwitchTab(name, btn) {
+  document.querySelectorAll('#page-xhsextractor .xe-tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('#page-xhsextractor .xe-panel').forEach(function(p){p.classList.remove('active');});
+  document.getElementById('xe-panel-'+name).classList.add('active');
+  btn.classList.add('active');
+}
 
-  <!-- Stats -->
-  <div class="mg-card" id="srch-stats-card" style="display:none;">
-    <div class="mg-lbl">Summary</div>
-    <div class="mg-stats">
-      <div class="mg-stat"><div class="mg-stat-n" id="srch-s-total">0</div><div class="mg-stat-l">Found</div></div>
-      <div class="mg-stat"><div class="mg-stat-n" style="color:#ef4444;" id="srch-s-video">0</div><div class="mg-stat-l">Videos</div></div>
-      <div class="mg-stat"><div class="mg-stat-n" style="color:var(--green);" id="srch-s-image">0</div><div class="mg-stat-l">Images</div></div>
-      <div class="mg-stat"><div class="mg-stat-n" style="color:var(--blue);" id="srch-s-detail">0</div><div class="mg-stat-l">With Data</div></div>
-    </div>
-  </div>
+function xeExtract(append) {
+  var html = document.getElementById('xe-html-input').value.trim();
+  if (!html) { xeShowMsg('err','Paste the HTML source first.'); return; }
+  var parser = new DOMParser();
+  var doc = parser.parseFromString(html, 'text/html');
+  var links = doc.querySelectorAll('a.cover.mask.ld, a.cover.ld, a[class*="cover"][class*="mask"]');
+  if (!links.length) { xeShowMsg('err','No post links found. Paste the full <div id="userPostedFeeds"> element HTML.'); return; }
+  var existingIds = {};
+  xeData.forEach(function(r){ existingIds[r.postId] = true; });
+  if (!append) { xeData = []; xePasteCount = 0; existingIds = {}; }
+  xePasteCount++;
+  var newCount = 0;
+  links.forEach(function(a) {
+    var href = a.getAttribute('href') || '';
+    var hrefPath = href.split('?')[0];
+    var parts = hrefPath.split('/').filter(Boolean);
+    var postId = parts[parts.length - 1];
+    if (!postId || existingIds[postId]) return;
+    existingIds[postId] = true; newCount++;
+    var qPart = href.indexOf('?') !== -1 ? href.split('?')[1] : '';
+    var params = new URLSearchParams(qPart.replace(/&amp;/g,'&'));
+    var xsecToken = params.get('xsec_token') || '';
+    var xsecSource = params.get('xsec_source') || 'pc_user';
+    var section = a.closest('section') || a.closest('.note-item') || a.parentElement;
+    var title = '';
+    if (section) { var t = section.querySelector('.title span, .title'); if(t) title = t.textContent.trim().replace(/\s+/g,' '); }
+    var exploreUrl = 'https://www.xiaohongshu.com/explore/' + postId;
+    var finalUrl = xsecToken ? exploreUrl + '?xsec_token=' + xsecToken + '&xsec_source=' + xsecSource : exploreUrl;
+    xeData.push({ postId:postId, title:title, exploreUrl:exploreUrl, xsecToken:xsecToken, xsecSource:xsecSource, finalUrl:finalUrl });
+  });
+  xeData.forEach(function(r,i){ r.num = i+1; });
+  xeUpdateStats(); xeRenderTable();
+  if (append) {
+    document.getElementById('xe-mode-badge').textContent = 'APPEND MODE';
+    document.getElementById('xe-mode-badge').className = 'xe-mode-badge xe-mode-append';
+    xeShowMsg('info','✓ Added ' + newCount + ' new posts. Total: ' + xeData.length + ' (session #' + xePasteCount + ')');
+  } else {
+    document.getElementById('xe-mode-badge').textContent = 'FRESH MODE';
+    document.getElementById('xe-mode-badge').className = 'xe-mode-badge xe-mode-fresh';
+    xeShowMsg('ok','Extracted ' + xeData.length + ' posts.');
+  }
+  document.getElementById('xe-html-input').value = '';
+}
 
-  <!-- Cards grid -->
-  <div class="mg-card">
-    <div class="mg-lbl">Search Results</div>
-    <div id="srch-grid" class="srch-grid">
-      <div class="srch-empty"><div class="srch-empty-ico">🔍</div>Use Method 1 (paste page source) for full results — guaranteed to work while logged into XHS.</div>
-    </div>
-  </div>
+function xeImportJSON() {
+  var raw = document.getElementById('xe-json-input').value.trim();
+  if (!raw) { xeShowMsg('err','Paste the JSON from the console first.'); return; }
+  var items;
+  try { items = JSON.parse(raw.replace(/```json|```/g,'').trim()); } catch(e) { xeShowMsg('err','Invalid JSON — copy the single line after "--- JSON ---" in the console.'); return; }
+  if (!Array.isArray(items)) { xeShowMsg('err','Expected a JSON array.'); return; }
+  var existingIds = {};
+  xeData.forEach(function(r){ existingIds[r.postId] = true; });
+  var newCount = 0;
+  items.forEach(function(item) {
+    if (!item.postId || existingIds[item.postId]) return;
+    existingIds[item.postId] = true; newCount++;
+    var exploreUrl = 'https://www.xiaohongshu.com/explore/' + item.postId;
+    xeData.push({ postId:item.postId, title:item.title||'', exploreUrl:exploreUrl, xsecToken:item.token||'', xsecSource:'pc_user', finalUrl:item.finalUrl||exploreUrl });
+  });
+  xeData.forEach(function(r,i){ r.num=i+1; });
+  xePasteCount++;
+  xeUpdateStats(); xeRenderTable();
+  // Switch to extractor tab
+  document.querySelectorAll('#page-xhsextractor .xe-tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('#page-xhsextractor .xe-panel').forEach(function(p){p.classList.remove('active');});
+  document.getElementById('xe-tab-extractor').classList.add('active');
+  document.getElementById('xe-panel-extractor').classList.add('active');
+  document.getElementById('xe-json-input').value = '';
+  xeShowMsg('ok','Imported ' + newCount + ' posts from JSON. Total: ' + xeData.length);
+}
 
-</div><!-- /panel search -->
+function xeSendToMetaGrab() {
+  if (!xeData.length) { xeShowMsg('err','No data yet — extract or import links first.'); return; }
+  var urls = xeData.filter(function(r){return r.finalUrl;}).map(function(r){return r.finalUrl;}).join('\n');
+  // Switch to XHS Grab page
+  goPage('metagrab');
+  // Set textarea value
+  var inp = document.getElementById('mg-url-input');
+  if (inp) {
+    inp.value = urls;
+    inp.dispatchEvent(new Event('input'));
+  }
+  // Auto start
+  setTimeout(function(){
+    if (typeof mgStart === 'function') mgStart();
+  }, 200);
+  xeShowMsg('ok','✓ Sent ' + xeData.filter(function(r){return r.finalUrl;}).length + ' URLs to URL Meta Grab — starting!');
+}
 
-<!-- Detail Modal (shared) -->
-<div id="srch-modal" style="display:none;" class="srch-modal-overlay" onclick="if(event.target===this)xhsCloseModal()">
-  <div class="srch-modal-box">
-    <button onclick="xhsCloseModal()" style="float:right;background:none;border:none;font-size:22px;color:var(--muted);cursor:pointer;margin-top:-4px;">✕</button>
-    <div id="srch-modal-content"></div>
-  </div>
-</div>
+function xeUpdateStats() {
+  document.getElementById('xe-stat-total').textContent = xeData.length;
+  document.getElementById('xe-stat-tokens').textContent = xeData.filter(function(r){return r.xsecToken;}).length;
+  document.getElementById('xe-stat-sessions').textContent = xePasteCount;
+  document.getElementById('xe-stats-bar').style.display = 'flex';
+  document.getElementById('xe-export-btn').disabled = false;
+  document.getElementById('xe-copy-all-btn').disabled = false;
+  document.getElementById('xe-send-btn').disabled = false;
+  document.getElementById('xe-tbl-title').textContent = 'Results — ' + xeData.length + ' posts';
+}
 
-</div><!-- /page-metagrab -->
+function xeRenderTable() {
+  var tbody = document.getElementById('xe-tbody');
+  tbody.innerHTML = '';
+  if (!xeData.length) {
+    tbody.innerHTML = '<tr><td colspan="5"><div class="xe-empty"><div class="xe-empty-ico">◈</div>No data</div></td></tr>';
+    return;
+  }
+  xeData.forEach(function(row) {
+    var tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td class="xe-td-num">' + row.num + '</td>' +
+      '<td class="xe-td-title" title="' + xeEscH(row.title) + '">' + (xeEscH(row.title)||'<span style="color:var(--muted)">—</span>') + '</td>' +
+      '<td class="xe-td-explore"><a href="' + xeEscH(row.exploreUrl) + '" target="_blank" style="color:#f59e0b;text-decoration:none;">' + xeEscH(row.exploreUrl) + '</a><button class="xe-copy-btn" onclick="xeCpTxt(\'' + xeEscA(row.exploreUrl) + '\',this)">copy</button></td>' +
+      '<td class="xe-td-token">' + (row.xsecToken ? xeEscH(row.xsecToken) + '<button class="xe-copy-btn" onclick="xeCpTxt(\'' + xeEscA(row.xsecToken) + '\',this)">copy</button>' : '<span style="color:var(--muted)">—</span>') + '</td>' +
+      '<td class="xe-td-final"><a href="' + xeEscH(row.finalUrl) + '" target="_blank" style="color:var(--green);text-decoration:none;">' + xeEscH(row.finalUrl) + '</a><button class="xe-copy-btn" onclick="xeCpTxt(\'' + xeEscA(row.finalUrl) + '\',this)">copy</button></td>';
+    tbody.appendChild(tr);
+  });
+}
 
-</div><!-- /content -->
+function xeCopyAllFinal() {
+  if (!xeData.length) { xeShowMsg('err','No data yet.'); return; }
+  var urls = xeData.filter(function(r){return r.finalUrl;}).map(function(r){return r.finalUrl;}).join('\n');
+  xeClipCopy(urls, function(){ xeShowMsg('ok','Copied ' + xeData.filter(function(r){return r.finalUrl;}).length + ' URLs to clipboard!'); });
+}
+
+function xeExportCSV() {
+  if (!xeData.length) return;
+  var h = ['#','Title','Post ID','Explore URL','xsec_token','xsec_source','Final URL'];
+  var rows = xeData.map(function(r){ return [r.num, xeCsvE(r.title), xeCsvE(r.postId), xeCsvE(r.exploreUrl), xeCsvE(r.xsecToken), xeCsvE(r.xsecSource), xeCsvE(r.finalUrl)]; });
+  var csv = [h].concat(rows).map(function(r){return r.join(',');}).join('\n');
+  var blob = new Blob([csv],{type:'text/csv'});
+  var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'xhs_links.csv'; a.click();
+}
+
+function xeClearAll() {
+  xeData = []; xePasteCount = 0;
+  ['xe-html-input','xe-profile-url'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
+  document.getElementById('xe-stats-bar').style.display = 'none';
+  document.getElementById('xe-export-btn').disabled = true;
+  document.getElementById('xe-copy-all-btn').disabled = true;
+  document.getElementById('xe-send-btn').disabled = true;
+  document.getElementById('xe-tbl-title').textContent = 'Results';
+  document.getElementById('xe-mode-badge').textContent = 'FRESH MODE';
+  document.getElementById('xe-mode-badge').className = 'xe-mode-badge xe-mode-fresh';
+  ['xe-msg-err','xe-msg-ok','xe-msg-info'].forEach(function(id){ document.getElementById(id).style.display='none'; });
+  document.getElementById('xe-tbody').innerHTML = '<tr><td colspan="5"><div class="xe-empty"><div class="xe-empty-ico">◈</div>Paste HTML and click Extract</div></td></tr>';
+}
+
+function xeCopyScript(btn) {
+  var txt = document.getElementById('xe-script-box').textContent;
+  xeClipCopy(txt, function(){ var o=btn.textContent; btn.textContent='✓ Copied!'; setTimeout(function(){btn.textContent=o;},1500); });
+}
+
+function xeCopyStopCmd(btn) {
+  xeClipCopy('_xhsStop()', function(){ var o=btn.textContent; btn.textContent='✓ Copied!'; setTimeout(function(){btn.textContent=o;},1500); });
+}
+
+function xeCpTxt(text, btn) {
+  xeClipCopy(text, function(){ var o=btn.textContent; btn.textContent='✓'; btn.classList.add('copied'); setTimeout(function(){btn.textContent=o;btn.classList.remove('copied');},1400); });
+}
+
+function xeClipCopy(text, cb) {
+  if (navigator.clipboard) { navigator.clipboard.writeText(text).then(cb).catch(function(){ xeClipFallback(text,cb); }); }
+  else { xeClipFallback(text,cb); }
+}
+function xeClipFallback(text,cb) {
+  var ta=document.createElement('textarea'); ta.value=text; ta.style.cssText='position:fixed;opacity:0'; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); cb();
+}
+
+function xeShowMsg(type, msg) {
+  var ids = {err:'xe-msg-err', ok:'xe-msg-ok', info:'xe-msg-info'};
+  Object.values(ids).forEach(function(id){ document.getElementById(id).style.display='none'; });
+  var el = document.getElementById(ids[type]);
+  el.textContent = msg; el.style.display = 'block';
+  setTimeout(function(){ el.style.display='none'; }, type==='err' ? 5000 : 4000);
+}
+
+function xeEscH(s){ if(!s)return''; return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function xeEscA(s){ if(!s)return''; return s.replace(/\\/g,'\\\\').replace(/'/g,"\\'"); }
+function xeCsvE(v){ if(!v)return''; return '"'+String(v).replace(/"/g,'""')+'"'; }
+</script>
+
 
 </div><!-- /shell -->
 
@@ -8896,9 +9077,11 @@ function toggleSidebar() {
 
   /* ─── TAB SWITCHER ─── */
   window.mgSwitchTab=function(tab){
-    ['url','profile','search'].forEach(function(t){
-      document.getElementById('mg-tab-'+t).classList.toggle('active',t===tab);
-      document.getElementById('mg-panel-'+t).classList.toggle('active',t===tab);
+    ['url'].forEach(function(t){
+      var tabEl=document.getElementById('mg-tab-'+t);
+      var panEl=document.getElementById('mg-panel-'+t);
+      if(tabEl) tabEl.classList.toggle('active',t===tab);
+      if(panEl) panEl.classList.toggle('active',t===tab);
     });
   };
 
