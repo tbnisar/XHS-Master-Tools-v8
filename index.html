@@ -7599,9 +7599,35 @@ function toggleSidebar() {
     console.log(urls);
     console.log('--- JSON (paste into extractor tool) ---');
     console.log(JSON.stringify(items));
-    navigator.clipboard && navigator.clipboard.writeText(urls).then(function(){
-      console.log('Copied ' + items.length + ' URLs to clipboard!');
-    });
+    /* Inject floating copy button into the XHS page — clicking it focuses the page so clipboard works */
+    var _xhsCopyBtn = document.getElementById('_xhs_copy_btn');
+    if (_xhsCopyBtn) _xhsCopyBtn.remove();
+    var btn = document.createElement('button');
+    btn.id = '_xhs_copy_btn';
+    btn.textContent = '📋 Copy ' + items.length + ' URLs';
+    btn.style.cssText = [
+      'position:fixed','bottom:24px','right:24px','z-index:2147483647',
+      'background:#1877F2','color:#fff','border:none','border-radius:12px',
+      'padding:14px 22px','font-size:15px','font-weight:700','cursor:pointer',
+      'box-shadow:0 4px 24px rgba(0,0,0,.45)','transition:background .2s,transform .1s'
+    ].join(';');
+    btn.onmouseenter = function(){ btn.style.background='#1558c0'; };
+    btn.onmouseleave = function(){ btn.style.background='#1877F2'; };
+    btn.onclick = function() {
+      navigator.clipboard.writeText(urls).then(function(){
+        btn.textContent = '✅ Copied!';
+        btn.style.background = '#42B72A';
+        console.log('[XHS] Copied ' + items.length + ' URLs to clipboard!');
+        setTimeout(function(){ btn.remove(); }, 2000);
+      }).catch(function(e){
+        console.log('[XHS] Clipboard failed: ' + e.message + ' — copy JSON above manually.');
+        btn.textContent = '❌ Failed — check console';
+        btn.style.background = '#ef4444';
+        setTimeout(function(){ btn.remove(); }, 3000);
+      });
+    };
+    document.body.appendChild(btn);
+    console.log('[XHS] ✅ Done! Click the blue button on the page to copy URLs.');
   }
 
   console.log('[XHS] Starting... (type _xhsStop() anytime to stop and save data)');
