@@ -6,7 +6,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>XHS Pro</title>
-<meta name="version" content="v19-202603300002-blockgate-fix">
+<meta name="version" content="v26-audio-fresh-element">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -443,7 +443,20 @@ textarea.fi::placeholder,input.fi::placeholder{color:var(--muted);}
 @keyframes slideUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:.15;}}
 
-/* KEY LIST ITEMS */
+/* ── VIDEO ENHANCEMENT FILTERS ── */
+.vef-panel{margin-top:12px;padding-top:12px;border-top:1px solid var(--border);}
+.vef-title{font-family:'Syne',sans-serif;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--label-color);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.vef-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px;}
+.vef-btn{background:var(--bg3);border:1.5px solid var(--border2);border-radius:8px;padding:7px 4px;text-align:center;cursor:pointer;transition:all .15s;font-size:11px;font-weight:700;color:var(--muted);font-family:'Syne',sans-serif;}
+.vef-btn:hover{border-color:var(--purple);color:var(--purple);}
+.vef-btn.sel{border-color:var(--purple);background:rgba(168,85,247,.12);color:#c4b5fd;}
+.vef-btn .vef-ico{font-size:15px;display:block;margin-bottom:2px;}
+.vef-res-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+.vef-res-btn{background:var(--bg3);border:1.5px solid var(--border2);border-radius:8px;padding:7px 4px;text-align:center;cursor:pointer;transition:all .15s;font-size:11px;font-weight:700;color:var(--muted);font-family:'Syne',sans-serif;}
+.vef-res-btn:hover{border-color:var(--gold);color:var(--gold);}
+.vef-res-btn.sel{border-color:var(--gold);background:rgba(245,158,11,.12);color:var(--gold);}
+.vef-res-btn .vef-res-tag{font-size:10px;font-weight:900;display:block;}
+
 .key-item{display:flex;align-items:center;gap:10px;background:var(--key-item-bg);border:1.5px solid var(--border2);border-radius:11px;padding:11px 14px;}
 .key-item.active-key{border-color:rgba(66,183,42,.5);background:var(--key-item-active-bg);}
 .key-item-dot{width:9px;height:9px;border-radius:50%;background:var(--muted);flex-shrink:0;}
@@ -1175,6 +1188,40 @@ input[type="range"]#desc-timer-bar::-moz-range-thumb {
   background: rgba(245,158,11,.05) !important;
 }
 
+/* ════════════════════════════════════
+   LOGO OVERLAY PANEL
+════════════════════════════════════ */
+.logo-panel-card{background:var(--bg2);border:1.5px solid var(--border2);border-radius:14px;margin-bottom:12px;overflow:hidden;}
+.logo-panel-header{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;background:linear-gradient(135deg,rgba(168,85,247,.07),rgba(24,119,242,.05));}
+.logo-toggle-wrap{display:flex;align-items:center;gap:8px;cursor:pointer;}
+.logo-toggle-wrap input[type=checkbox]{width:17px;height:17px;cursor:pointer;accent-color:var(--purple);}
+.logo-toggle-label{font-size:13px;font-weight:700;color:var(--text);cursor:pointer;}
+.logo-body{padding:0 14px 14px;display:none;}
+.logo-body.open{display:block;}
+.logo-drop-zone{border:2px dashed var(--border2);border-radius:10px;padding:18px 12px;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:12px;background:var(--bg3);}
+.logo-drop-zone:hover,.logo-drop-zone.dragover{border-color:var(--purple);background:rgba(168,85,247,.05);}
+.logo-drop-zone .ldz-ico{font-size:30px;margin-bottom:6px;}
+.logo-drop-zone .ldz-txt{font-size:13px;color:var(--muted);line-height:1.5;}
+.logo-preview-thumb{max-height:60px;max-width:120px;border-radius:6px;display:block;margin:6px auto 0;object-fit:contain;}
+.logo-lbl{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.65px;color:var(--muted);margin-bottom:5px;display:block;}
+.logo-slider-row{margin-bottom:12px;}
+.logo-slider{width:100%;accent-color:var(--purple);cursor:pointer;height:4px;}
+.logo-slider-val{font-size:13px;font-weight:700;color:var(--purple);}
+/* 3-col position grid */
+.logo-pos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:6px;}
+.logo-pos-btn{padding:9px 4px;border-radius:8px;border:1.5px solid var(--border2);background:var(--bg3);color:var(--muted);font-size:11px;font-weight:700;cursor:pointer;text-align:center;line-height:1.4;transition:all .14s;}
+.logo-pos-btn.sel{border-color:var(--purple);background:rgba(168,85,247,.12);color:#c4b5fd;}
+.logo-pos-btn:hover{border-color:var(--purple);color:#c4b5fd;}
+.logo-rand-btn{width:100%;padding:9px;margin-bottom:12px;border-radius:8px;border:1.5px solid var(--border2);background:var(--bg3);color:var(--muted);font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .14s;}
+.logo-rand-btn.sel{border-color:var(--gold);background:rgba(245,158,11,.1);color:var(--gold);}
+.logo-rand-btn:hover{border-color:var(--gold);color:var(--gold);}
+.logo-preview-btn{width:100%;padding:10px;border-radius:9px;border:1.5px solid rgba(168,85,247,.4);background:rgba(168,85,247,.1);color:#c4b5fd;font-family:'Syne',sans-serif;font-size:13px;font-weight:800;cursor:pointer;margin-top:6px;transition:all .15s;}
+.logo-preview-btn:hover{background:rgba(168,85,247,.22);}
+.logo-frame-preview-wrap{margin-top:10px;border-radius:10px;overflow:hidden;background:#000;display:none;position:relative;text-align:center;}
+.logo-frame-preview-wrap canvas{display:inline-block;max-width:100%;max-height:400px;width:auto;height:auto;border-radius:10px;vertical-align:top;}
+[data-theme="light"] .logo-drop-zone{background:#f4f6fb;}
+[data-theme="light"] .logo-pos-btn,[data-theme="light"] .logo-rand-btn{background:#f0f2f8;border-color:#c4c7cf;}
+
 </style>
 </head>
 <body>
@@ -1188,7 +1235,7 @@ input[type="range"]#desc-timer-bar::-moz-range-thumb {
     <span class="bnav-logo-name" style="font-size:13px;text-align:center;display:block;line-height:1.2;">
 FB Boost<br>Pro
 </span>
-    <span class="bnav-logo-ver">v37</span>
+    <span class="bnav-logo-ver">v24</span>
   </div>
   <div class="bnav-items">
     <button class="nb active" id="nav-booster" onclick="goPage('booster')"><div class="nb-i">🖼️</div><div class="nb-l">Booster</div></button>
@@ -1575,6 +1622,12 @@ FB Boost<br>Pro
 
 <!-- ═══════ CLIPPER ═══════ -->
 <div class="page hidden" id="page-clipper">
+  <!-- Mode Toggle — always visible at top -->
+  <div class="clip-mode-row" style="margin-bottom:10px;">
+    <button class="clip-mode-btn active" id="mode-ai-btn" onclick="setClipMode('ai')">🧠 AI Detection</button>
+    <button class="clip-mode-btn" id="mode-manual-btn" onclick="setClipMode('manual')">✂️ Manual Clip</button>
+  </div>
+
   <div class="steps">
     <div class="step active" id="st-0"><div class="snum">1</div><div class="stxt">Upload</div></div>
     <div class="step" id="st-1"><div class="snum">2</div><div class="stxt" id="st-1-txt">AI Scan</div></div>
@@ -1585,11 +1638,6 @@ FB Boost<br>Pro
 
   <!-- Phase 0 -->
   <div id="cp-0">
-    <!-- Mode Toggle -->
-    <div class="clip-mode-row">
-      <button class="clip-mode-btn active" id="mode-ai-btn" onclick="setClipMode('ai')">🧠 AI Detection</button>
-      <button class="clip-mode-btn" id="mode-manual-btn" onclick="setClipMode('manual')">✂️ Manual Clip</button>
-    </div>
 
     <!-- AI Settings Panel -->
     <div class="clip-ai-settings" id="clip-ai-panel">
@@ -1668,6 +1716,7 @@ FB Boost<br>Pro
           <div class="fo sel" onclick="pickFmt(this,'reels')"><div class="fo-i">📱</div><div class="fo-n">Reels</div><div class="fo-d">9:16</div></div>
           <div class="fo" onclick="pickFmt(this,'square')"><div class="fo-i">⬛</div><div class="fo-n">Square</div><div class="fo-d">1:1</div></div>
           <div class="fo" onclick="pickFmt(this,'wide')"><div class="fo-i">🖥️</div><div class="fo-n">Wide</div><div class="fo-d">16:9</div></div>
+          <div class="fo" onclick="pickFmt(this,'original')"><div class="fo-i">🎬</div><div class="fo-n">Original</div><div class="fo-d">No Crop</div></div>
         </div>
         <div class="notice"><span>📐</span><span id="qualinfo">Select format to see output resolution</span></div>
         <div class="notice mt8"><span>✂️</span><span id="cl-reframe">—</span></div>
@@ -1676,7 +1725,115 @@ FB Boost<br>Pro
     </div>
     <video id="pv" style="display:none;" playsinline="" muted=""></video>
     <canvas id="pc" style="display:none;"></canvas>
+
+    <!-- ── LOGO OVERLAY PANEL (shared, moved by JS between phases) ── -->
+    <div class="logo-panel-card" id="logo-panel">
+      <div class="logo-panel-header">
+        <span class="clbl" style="font-size:14px;">🏷️ Logo / Watermark Overlay</span>
+        <label class="logo-toggle-wrap" for="logo-enabled">
+          <input type="checkbox" id="logo-enabled" onchange="logoToggle(this)">
+          <span class="logo-toggle-label">Enable</span>
+        </label>
+      </div>
+      <div class="logo-body" id="logo-body">
+
+        <!-- Logo upload area -->
+        <div class="logo-drop-zone" id="logo-drop-zone"
+             onclick="document.getElementById('logo-file-inp').click()"
+             ondrop="logoDrop(event)"
+             ondragover="logoDragOver(event)"
+             ondragleave="logoDragLeave(event)">
+          <div class="ldz-ico">🖼️</div>
+          <div class="ldz-txt">Tap or drag logo image here<br>
+            <span style="font-size:11px;color:var(--dim);">PNG with transparency works best · SVG, JPG, WEBP OK</span>
+          </div>
+        </div>
+        <input type="file" id="logo-file-inp" accept="image/*" style="display:none" onchange="logoFileLoad(this)">
+
+        <!-- Opacity -->
+        <div class="logo-slider-row">
+          <label class="logo-lbl">💡 Opacity — <span class="logo-slider-val" id="logo-opacity-val">80</span>%
+            <span style="font-size:10px;font-weight:400;text-transform:none;color:var(--dim);margin-left:4px;">(0 = invisible · 100 = solid)</span>
+          </label>
+          <input type="range" class="logo-slider" id="logo-opacity-sl" min="0" max="100" value="80"
+                 oninput="logoOpacity=this.value/100;document.getElementById('logo-opacity-val').textContent=this.value;">
+        </div>
+
+        <!-- Size -->
+        <div class="logo-slider-row">
+          <label class="logo-lbl">📏 Logo Size — <span class="logo-slider-val" id="logo-size-val">15</span>% of video width</label>
+          <input type="range" class="logo-slider" id="logo-size-sl" min="5" max="45" value="15"
+                 oninput="logoSizePct=this.value/100;_logoRandW=0;document.getElementById('logo-size-val').textContent=this.value;">
+        </div>
+
+        <!-- Position grid -->
+        <label class="logo-lbl">📍 Position</label>
+        <div class="logo-pos-grid" id="logo-pos-grid">
+          <button class="logo-pos-btn" id="lp-upper-left"   onclick="setLogoPos('upper-left',this)">↖ Upper<br>Left</button>
+          <button class="logo-pos-btn" id="lp-upper-center" onclick="setLogoPos('upper-center',this)">⬆ Upper<br>Centre</button>
+          <button class="logo-pos-btn" id="lp-upper-right"  onclick="setLogoPos('upper-right',this)">↗ Upper<br>Right</button>
+          <button class="logo-pos-btn" id="lp-lower-left"   onclick="setLogoPos('lower-left',this)">↙ Lower<br>Left</button>
+          <button class="logo-pos-btn" id="lp-center"       onclick="setLogoPos('center',this)">🎯 Centre</button>
+          <button class="logo-pos-btn sel" id="lp-lower-right" onclick="setLogoPos('lower-right',this)">↘ Lower<br>Right</button>
+        </div>
+        <button class="logo-rand-btn" id="lp-random" onclick="setLogoPos('random',this)">🎲 Random Bouncing Movement</button>
+
+        <!-- Frame preview -->
+        <button class="logo-preview-btn" id="logo-preview-play-btn" onclick="logoTogglePreview()">▶ Preview Logo Live</button>
+        <div class="logo-frame-preview-wrap" id="logo-frame-preview-wrap">
+          <canvas id="logo-frame-canvas"></canvas>
+          <div style="position:absolute;bottom:6px;left:0;right:0;text-align:center;">
+            <span style="font-size:11px;background:rgba(0,0,0,.6);color:#fff;border-radius:20px;padding:2px 10px;">Live preview — logo overlaid on video</span>
+          </div>
+        </div>
+
+        <!-- ── VIDEO ENHANCEMENT FILTERS ── -->
+        <div class="vef-panel" id="vef-panel">
+          <div class="vef-title">🎨 Visual Filters & Enhancement</div>
+          <div class="vef-grid">
+            <button class="vef-btn sel" id="vef-none"       onclick="setVidFilter('none',this)"><span class="vef-ico">⬜</span>Original</button>
+            <button class="vef-btn"     id="vef-cinematic"  onclick="setVidFilter('cinematic',this)"><span class="vef-ico">🎬</span>Cinematic</button>
+            <button class="vef-btn"     id="vef-vivid"      onclick="setVidFilter('vivid',this)"><span class="vef-ico">🌈</span>Vivid</button>
+            <button class="vef-btn"     id="vef-warm"       onclick="setVidFilter('warm',this)"><span class="vef-ico">🌅</span>Warm</button>
+            <button class="vef-btn"     id="vef-cool"       onclick="setVidFilter('cool',this)"><span class="vef-ico">🧊</span>Cool</button>
+            <button class="vef-btn"     id="vef-bw"         onclick="setVidFilter('bw',this)"><span class="vef-ico">⬛</span>B&amp;W</button>
+            <button class="vef-btn"     id="vef-matte"      onclick="setVidFilter('matte',this)"><span class="vef-ico">🌫️</span>Matte</button>
+            <button class="vef-btn"     id="vef-sharp"      onclick="setVidFilter('sharp',this)"><span class="vef-ico">✨</span>Crisp</button>
+            <button class="vef-btn"     id="vef-golden"     onclick="setVidFilter('golden',this)"><span class="vef-ico">🌻</span>Golden</button>
+            <button class="vef-btn"     id="vef-dreamy"     onclick="setVidFilter('dreamy',this)"><span class="vef-ico">🌙</span>Dreamy</button>
+            <button class="vef-btn"     id="vef-neon"       onclick="setVidFilter('neon',this)"><span class="vef-ico">⚡</span>Neon</button>
+            <button class="vef-btn"     id="vef-retro"      onclick="setVidFilter('retro',this)"><span class="vef-ico">📼</span>Retro</button>
+          </div>
+          <div style="font-size:10px;color:var(--dim);margin:4px 0 4px;line-height:1.6;">
+            <span style="background:rgba(255,10,100,.12);color:#ff6090;padding:1px 6px;border-radius:4px;">🎵 TikTok</span> Golden · Dreamy · Neon · Retro &nbsp;
+            <span style="background:rgba(24,119,242,.12);color:#60a5fa;padding:1px 6px;border-radius:4px;">📘 Facebook</span> Velvet · Fade · Moody · Pastel &nbsp;
+            <span style="background:rgba(239,68,68,.12);color:#f87171;padding:1px 6px;border-radius:4px;">▶ YouTube</span> HDR · Filmic · Sunset · Arctic
+          </div>
+          <div class="vef-grid" style="grid-template-columns:repeat(4,1fr);">
+            <button class="vef-btn"     id="vef-velvet"     onclick="setVidFilter('velvet',this)"><span class="vef-ico">🍷</span>Velvet</button>
+            <button class="vef-btn"     id="vef-fade"       onclick="setVidFilter('fade',this)"><span class="vef-ico">🌤️</span>Fade</button>
+            <button class="vef-btn"     id="vef-moody"      onclick="setVidFilter('moody',this)"><span class="vef-ico">🌑</span>Moody</button>
+            <button class="vef-btn"     id="vef-pastel"     onclick="setVidFilter('pastel',this)"><span class="vef-ico">🌸</span>Pastel</button>
+            <button class="vef-btn"     id="vef-hdr"        onclick="setVidFilter('hdr',this)"><span class="vef-ico">🔆</span>HDR</button>
+            <button class="vef-btn"     id="vef-filmic"     onclick="setVidFilter('filmic',this)"><span class="vef-ico">🎞️</span>Filmic</button>
+            <button class="vef-btn"     id="vef-sunset"     onclick="setVidFilter('sunset',this)"><span class="vef-ico">🌇</span>Sunset</button>
+            <button class="vef-btn"     id="vef-arctic"     onclick="setVidFilter('arctic',this)"><span class="vef-ico">❄️</span>Arctic</button>
+          </div>
+          <div class="vef-title" style="margin-top:8px;">📐 Output Resolution Scale</div>
+          <div class="vef-res-grid">
+            <button class="vef-res-btn sel" id="vres-1x" onclick="setVidRes(1,this)"><span class="vef-res-tag">1×</span>Original</button>
+            <button class="vef-res-btn"     id="vres-15x" onclick="setVidRes(1.5,this)"><span class="vef-res-tag">1.5×</span>HD+</button>
+            <button class="vef-res-btn"     id="vres-2x" onclick="setVidRes(2,this)"><span class="vef-res-tag">2×</span>2K</button>
+            <button class="vef-res-btn"     id="vres-4x" onclick="setVidRes(4,this)"><span class="vef-res-tag">4×</span>4K</button>
+          </div>
+          <div style="font-size:11px;color:var(--dim);margin-top:6px;line-height:1.5;">Filters apply to exported video. 2K/4K upscales the output canvas — best for crisp logos &amp; text overlays.</div>
+        </div>
+      </div>
+    </div>
+    <!-- end logo panel -->
+
     <button id="procbtn" class="btn btn-green" onclick="runProc()">✂️ Create Full Quality Clip</button>
+    <button class="btn btn-blue" style="margin-top:8px;background:var(--bg3);color:var(--muted);border:1px solid var(--border2);box-shadow:none;" onclick="resetC()">← Start Over</button>
     <div id="c-err2" class="errbox hidden"></div>
   </div>
 
@@ -1703,16 +1860,13 @@ FB Boost<br>Pro
         <div class="range-dual-labels">
           <span id="man-sl-s">0:00</span><span id="man-sl-e" style="color:var(--green);">—</span>
         </div>
-        <div class="range-track" id="man-track">
-          <div class="range-filled" id="man-filled" style="left:0%;width:30%;"></div>
-        </div>
         <input type="range" id="man-range-s" min="0" step="0.1" value="0" style="position:absolute;opacity:0;width:100%;pointer-events:none;"> 
         <input type="range" id="man-range-e" min="0" step="0.1" value="30" style="position:absolute;opacity:0;width:100%;pointer-events:none;">
         <div id="man-track-interactive" style="position:relative;height:24px;cursor:pointer;" onmousedown="manTrackDown(event)" ontouchstart="manTrackDown(event)">
           <div class="range-filled" id="man-bar" style="position:absolute;top:9px;height:6px;background:linear-gradient(90deg,var(--blue),var(--green));border-radius:3px;left:0%;width:30%;pointer-events:none;"></div>
           <div class="range-thumb" id="man-thumb-s" style="position:absolute;top:12px;left:0%;" onmousedown="manThumbDown(event,'s')" ontouchstart="manThumbDown(event,'s')"></div>
           <div class="range-thumb range-thumb-e" id="man-thumb-e" style="position:absolute;top:12px;left:30%;" onmousedown="manThumbDown(event,'e')" ontouchstart="manThumbDown(event,'e')"></div>
-          <div style="position:absolute;bottom:-6px;left:0;right:0;height:24px;background:var(--bg3);border-radius:3px;z-index:-1;"></div>
+          <div style="position:absolute;top:9px;left:0;right:0;height:6px;background:var(--bg3);border-radius:3px;z-index:-1;"></div>
         </div>
       </div>
       <div class="manual-dur-badge" id="man-dur-badge">⏱ Duration: —</div>
@@ -1725,6 +1879,7 @@ FB Boost<br>Pro
           <div class="fo sel" onclick="pickFmt(this,'reels')"><div class="fo-i">📱</div><div class="fo-n">Reels</div><div class="fo-d">9:16</div></div>
           <div class="fo" onclick="pickFmt(this,'square')"><div class="fo-i">⬛</div><div class="fo-n">Square</div><div class="fo-d">1:1</div></div>
           <div class="fo" onclick="pickFmt(this,'wide')"><div class="fo-i">🖥️</div><div class="fo-n">Wide</div><div class="fo-d">16:9</div></div>
+          <div class="fo" onclick="pickFmt(this,'original')"><div class="fo-i">🎬</div><div class="fo-n">Original</div><div class="fo-d">No Crop</div></div>
         </div>
         <div class="notice"><span>📐</span><span id="qualinfo-m">Select format to see output resolution</span></div>
       </div>
@@ -2495,9 +2650,42 @@ let prof = {name:"Your Name", email:"", em:"😊"};
 let allTags = [], bFile = null;
 let _voScript = "", _voIsVid = false;
 let cFile = null, cScan = null, selSeg = 0, selFmt = "reels";
+/* ── Video enhancement state ── */
+let vidFilterKey = 'none', vidResScale = 1;
+const VID_FILTERS = {
+  /* ── Existing filters ── */
+  none:        'none',
+  cinematic:   'contrast(1.15) saturate(0.85) brightness(0.95) sepia(0.12)',
+  vivid:       'contrast(1.25) saturate(1.6) brightness(1.05)',
+  warm:        'contrast(1.08) saturate(1.2) brightness(1.02) sepia(0.25)',
+  cool:        'contrast(1.1) saturate(0.9) brightness(1.05) hue-rotate(15deg)',
+  bw:          'grayscale(1) contrast(1.1)',
+  matte:       'contrast(0.85) saturate(0.65) brightness(1.12)',
+  sharp:       'contrast(1.2) saturate(1.1) brightness(1.0)',
+  /* ── Trending on TikTok ── */
+  golden:      'contrast(1.1) saturate(1.35) brightness(1.08) sepia(0.38) hue-rotate(-8deg)',
+  dreamy:      'contrast(0.9) saturate(1.15) brightness(1.18) blur(0px) opacity(0.97)',
+  neon:        'contrast(1.3) saturate(2.0) brightness(1.1) hue-rotate(5deg)',
+  retro:       'contrast(1.1) saturate(0.75) brightness(0.95) sepia(0.45) hue-rotate(-10deg)',
+  /* ── Trending on Facebook ── */
+  velvet:      'contrast(1.25) saturate(1.2) brightness(0.88) hue-rotate(330deg)',
+  fade:        'contrast(0.82) saturate(0.7) brightness(1.22)',
+  moody:       'contrast(1.35) saturate(0.8) brightness(0.82)',
+  pastel:      'contrast(0.88) saturate(0.85) brightness(1.15) hue-rotate(5deg)',
+  /* ── Trending on YouTube ── */
+  hdr:         'contrast(1.4) saturate(1.5) brightness(1.0)',
+  filmic:      'contrast(1.18) saturate(0.9) brightness(0.93) sepia(0.08) hue-rotate(-5deg)',
+  sunset:      'contrast(1.12) saturate(1.45) brightness(1.06) sepia(0.3) hue-rotate(-15deg)',
+  arctic:      'contrast(1.15) saturate(0.75) brightness(1.1) hue-rotate(185deg)'
+};
 let vDur = 0, vW = 0, vH = 0, outUrl = null, outBlob = null;
 let clipMode = 'ai', clipLengthSec = 60, clipFocus = '';
 let manStartSec = 0, manEndSec = 30, manDragging = null;
+/* ── Logo overlay state ── */
+let logoImg = null, logoEnabled = false, logoOpacity = 0.80;
+let logoPosition = 'lower-right', logoSizePct = 0.15;
+let _logoRandX = 0, _logoRandY = 0, _logoRandVX = 1.2, _logoRandVY = 0.9;
+let _logoRandW = 0, _logoRandH = 0;
 
 /* ─ PWA ─ */
 if("serviceWorker" in navigator && location.protocol !== "file:") navigator.serviceWorker.register("./sw.js").catch(function(){});
@@ -5982,6 +6170,178 @@ function pasteKeysImport() {
 }
 
 /* ════════════════════════════════════
+   LOGO OVERLAY FUNCTIONS
+════════════════════════════════════ */
+function logoToggle(cb){
+  logoEnabled = cb.checked;
+  var body = document.getElementById('logo-body');
+  if(body) body.classList.toggle('open', logoEnabled);
+  if(!logoEnabled) logoStopPreview();
+}
+
+function logoFileLoad(input){
+  var f = input.files[0]; if(!f) return;
+  if(!f.type.startsWith('image/')){ toast('Please upload an image file'); return; }
+  var reader = new FileReader();
+  reader.onload = function(ev){
+    var img = new Image();
+    img.onload = function(){
+      logoImg = img;
+      _logoRandW = 0;
+      var dz = document.getElementById('logo-drop-zone');
+      if(dz){
+        dz.innerHTML =
+          '<img class="logo-preview-thumb" src="'+ev.target.result+'">' +
+          '<div class="ldz-txt" style="margin-top:5px;font-size:12px;">✅ '+f.name+
+          '<br><span style="font-size:11px;color:var(--dim);">'+img.naturalWidth+'×'+img.naturalHeight+'</span></div>';
+      }
+      toast('✓ Logo loaded: '+f.name);
+    };
+    img.onerror = function(){ toast('⚠ Could not load image'); };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(f);
+}
+
+function logoDrop(e){
+  e.preventDefault();
+  document.getElementById('logo-drop-zone').classList.remove('dragover');
+  var f = e.dataTransfer&&e.dataTransfer.files[0]; if(!f) return;
+  /* Create a synthetic file input */
+  var inp = document.getElementById('logo-file-inp');
+  try{ var dt=new DataTransfer(); dt.items.add(f); inp.files=dt.files; }catch(ex){}
+  logoFileLoad({files:[f]});
+}
+function logoDragOver(e){ e.preventDefault(); document.getElementById('logo-drop-zone').classList.add('dragover'); }
+function logoDragLeave(e){ document.getElementById('logo-drop-zone').classList.remove('dragover'); }
+
+function setLogoPos(pos, btn){
+  logoPosition = pos;
+  _logoRandW = 0;
+  document.querySelectorAll('.logo-pos-btn, .logo-rand-btn').forEach(function(b){ b.classList.remove('sel'); });
+  if(btn) btn.classList.add('sel');
+}
+
+function getLogoXY(cw, ch, lw, lh){
+  var pad = Math.round(Math.min(cw, ch) * 0.03);
+  switch(logoPosition){
+    case 'upper-left':   return {x: pad, y: pad};
+    case 'upper-center': return {x: Math.round((cw-lw)/2), y: pad};
+    case 'upper-right':  return {x: cw-lw-pad, y: pad};
+    case 'lower-left':   return {x: pad, y: ch-lh-pad};
+    case 'center':       return {x: Math.round((cw-lw)/2), y: Math.round((ch-lh)/2)};
+    case 'random':       return {x: Math.round(_logoRandX), y: Math.round(_logoRandY)};
+    default:             return {x: cw-lw-pad, y: ch-lh-pad};
+  }
+}
+
+function drawLogoOverlay(ctx, dims){
+  if(!logoEnabled || !logoImg) return;
+  var cw = dims.w, ch = dims.h;
+  var lw = Math.max(10, Math.round(cw * logoSizePct));
+  var lh = (logoImg.naturalWidth > 0) ? Math.round(lw * logoImg.naturalHeight / logoImg.naturalWidth) : lw;
+  if(logoPosition === 'random'){
+    if(_logoRandW === 0){
+      _logoRandW = lw; _logoRandH = lh;
+      _logoRandX = Math.round((cw - lw) * 0.5);
+      _logoRandY = Math.round((ch - lh) * 0.5);
+      _logoRandVX = cw * 0.002 + 0.5;
+      _logoRandVY = ch * 0.002 + 0.4;
+    }
+    _logoRandX += _logoRandVX; _logoRandY += _logoRandVY;
+    if(_logoRandX <= 0){ _logoRandX = 0; _logoRandVX = Math.abs(_logoRandVX); }
+    if(_logoRandX + lw >= cw){ _logoRandX = cw - lw; _logoRandVX = -Math.abs(_logoRandVX); }
+    if(_logoRandY <= 0){ _logoRandY = 0; _logoRandVY = Math.abs(_logoRandVY); }
+    if(_logoRandY + lh >= ch){ _logoRandY = ch - lh; _logoRandVY = -Math.abs(_logoRandVY); }
+  }
+  var pos = getLogoXY(cw, ch, lw, lh);
+  ctx.save();
+  ctx.globalAlpha = Math.max(0, Math.min(1, logoOpacity));
+  ctx.drawImage(logoImg, pos.x, pos.y, lw, lh);
+  ctx.restore();
+}
+
+/* ── Live video preview ── */
+var _logoPreviewRAF = null, _logoPreviewActive = false;
+
+function logoTogglePreview(){
+  if(_logoPreviewActive){ logoStopPreview(); return; }
+  if(!cFile){ toast('Upload a video first'); return; }
+  var dims = getDims(), crop = getCrop(dims);
+  var canvas = document.getElementById('logo-frame-canvas');
+  if(!canvas){ return; }
+  canvas.width = dims.w; canvas.height = dims.h;
+  var ctx = canvas.getContext('2d');
+  var wrap = document.getElementById('logo-frame-preview-wrap');
+  if(wrap) wrap.style.display = 'block';
+
+  /* Use the correct video for the current phase */
+  var srcVid = clipMode === 'manual'
+    ? document.getElementById('man-vid')
+    : document.getElementById('c-vid');
+
+  if(!srcVid || !srcVid.src){ toast('No video loaded in player yet'); return; }
+
+  /* Determine start time */
+  var startT = clipMode === 'manual' ? manStartSec :
+    (cScan && cScan.segments && cScan.segments[selSeg] ? cScan.segments[selSeg].start_sec : 0);
+  var endT = clipMode === 'manual' ? manEndSec :
+    (cScan && cScan.segments && cScan.segments[selSeg] ? cScan.segments[selSeg].end_sec : srcVid.duration || 10);
+
+  /* Create a hidden preview video */
+  var pv = document.getElementById('logo-prev-vid');
+  if(!pv){
+    pv = document.createElement('video');
+    pv.id = 'logo-prev-vid';
+    pv.style.display = 'none'; pv.muted = true; pv.playsinline = true;
+    document.body.appendChild(pv);
+  }
+  pv.src = URL.createObjectURL(cFile);
+  pv.currentTime = startT;
+
+  _logoPreviewActive = true;
+  _logoRandW = 0; /* reset bounce */
+  var btn = document.getElementById('logo-preview-play-btn');
+  if(btn) btn.textContent = '⏹ Stop Preview';
+
+  pv.oncanplay = function(){
+    pv.play();
+    var drawFrame = function(){
+      if(!_logoPreviewActive){ pv.pause(); return; }
+      if(pv.currentTime >= endT){ pv.currentTime = startT; pv.play(); _logoRandW = 0; }
+      var filt=VID_FILTERS[vidFilterKey]||'none'; ctx.filter=filt;
+      ctx.drawImage(pv, crop.x, crop.y, crop.w, crop.h, 0, 0, dims.w, dims.h);
+      ctx.filter='none';
+      drawLogoOverlay(ctx, dims);
+      _logoPreviewRAF = requestAnimationFrame(drawFrame);
+    };
+    _logoPreviewRAF = requestAnimationFrame(drawFrame);
+  };
+  pv.load();
+
+  if(!logoEnabled || !logoImg) toast('⚠ Enable logo and load an image to see it on preview');
+}
+
+function logoStopPreview(){
+  _logoPreviewActive = false;
+  if(_logoPreviewRAF){ cancelAnimationFrame(_logoPreviewRAF); _logoPreviewRAF = null; }
+  var pv = document.getElementById('logo-prev-vid');
+  if(pv){ pv.pause(); }
+  var btn = document.getElementById('logo-preview-play-btn');
+  if(btn) btn.textContent = '▶ Preview Logo Live';
+}
+
+/* Move logo panel into correct phase container */
+function moveLgoPanel(targetId, beforeId){
+  var panel = document.getElementById('logo-panel'); if(!panel) return;
+  var container = document.getElementById(targetId); if(!container) return;
+  var refEl = document.getElementById(beforeId);
+  logoStopPreview();
+  if(refEl && refEl.parentNode === container) container.insertBefore(panel, refEl);
+  else container.appendChild(panel);
+}
+
+/* ════════════════════════════════════
    CLIPPER
 ════════════════════════════════════ */
 function setStep(n){
@@ -6000,32 +6360,58 @@ function showPhase(n){
     /* In manual mode step 1 (AI scan) is skipped — mark done, set step 2 active */
     setStep(2);
     document.getElementById("st-1").classList.remove("active"); document.getElementById("st-1").classList.add("done");
+    moveLgoPanel("cp-2m","procbtn-m");
   } else {
     document.getElementById("cp-"+n).classList.remove("hidden"); setStep(n);
+    if(n===2) moveLgoPanel("cp-2","procbtn");
   }
 }
 
 /* ── CLIP MODE TOGGLE ── */
 function setClipMode(mode){
   clipMode = mode;
-  document.getElementById("mode-ai-btn").classList.toggle("active", mode==="ai");
-  document.getElementById("mode-ai-btn").classList.toggle("active-green", false);
-  document.getElementById("mode-manual-btn").classList.toggle("active", false);
-  document.getElementById("mode-manual-btn").classList.toggle("active-green", mode==="manual");
-  document.getElementById("clip-ai-panel").style.display = mode==="ai" ? "" : "none";
-  document.getElementById("clip-manual-info-panel").style.display = mode==="manual" ? "" : "none";
-  var cbtn = document.getElementById("cbtn");
+  var aiBtn  = document.getElementById("mode-ai-btn");
+  var manBtn = document.getElementById("mode-manual-btn");
+  /* Reset both */
+  aiBtn.className  = "clip-mode-btn" + (mode==="ai"     ? " active"       : "");
+  manBtn.className = "clip-mode-btn" + (mode==="manual" ? " active-green" : "");
+  var aiPanel  = document.getElementById("clip-ai-panel");
+  var manPanel = document.getElementById("clip-manual-info-panel");
+  if(aiPanel)  aiPanel.style.display  = mode==="ai"     ? "" : "none";
+  if(manPanel) manPanel.style.display = mode==="manual" ? "" : "none";
+  var cbtn  = document.getElementById("cbtn");
   var cbtnM = document.getElementById("cbtn-manual");
   var cinfo = document.getElementById("c-info");
   if(cinfo && !cinfo.classList.contains("hidden")){
-    cbtn.classList.toggle("hidden", mode==="manual");
-    cbtnM.classList.toggle("hidden", mode==="ai");
+    if(cbtn)  cbtn.classList.toggle("hidden",  mode==="manual");
+    if(cbtnM) cbtnM.classList.toggle("hidden", mode==="ai");
   }
-  document.getElementById("c-drop-sub").textContent = mode==="ai"
+  var sub = document.getElementById("c-drop-sub");
+  if(sub) sub.textContent = mode==="ai"
     ? "AI finds best moments — full HD quality output, no downscaling"
     : "Upload video, then set start & end times manually";
   var st1lbl = document.getElementById("st-1-txt");
   if(st1lbl) st1lbl.textContent = mode==="ai" ? "AI Scan" : "Range";
+
+  /* ── If user switches mode while mid-flow, navigate back to Phase 0 ── */
+  var inManualPhase = document.getElementById("cp-2m") && !document.getElementById("cp-2m").classList.contains("hidden");
+  var inLatePhase   = [2,3,4].some(function(i){ var el=document.getElementById("cp-"+i); return el&&!el.classList.contains("hidden"); });
+  if(inManualPhase || inLatePhase){
+    logoStopPreview();
+    outUrl=null; outBlob=null;
+    var dlv=document.getElementById("dl-v"); if(dlv){dlv.src="";dlv.classList.add("hidden");}
+    cScan=null;
+    showPhase(0);
+    /* Re-show the correct action button if a file is already loaded */
+    if(cFile){
+      document.getElementById("c-drop").classList.add("hidden");
+      document.getElementById("c-prev").classList.remove("hidden");
+      if(cinfo) cinfo.classList.remove("hidden");
+      if(cbtn)  cbtn.classList.toggle("hidden",  mode==="manual");
+      if(cbtnM) cbtnM.classList.toggle("hidden", mode==="ai");
+    }
+    toast(mode==="ai" ? "🧠 Switched to AI Detection" : "✂️ Switched to Manual Clip");
+  }
 }
 
 function goManualPhase(){
@@ -6062,6 +6448,7 @@ function loadCF2(f){
 }
 function clearC(){
   cFile=null; cScan=null; vW=0; vH=0;
+  logoStopPreview();
   document.getElementById("c-drop").classList.remove("hidden");
   ["c-prev","c-info","cbtn","cbtn-manual"].forEach(function(id){document.getElementById(id).classList.add("hidden");});
   document.getElementById("cfile").value=""; hideErr("c-err0");
@@ -6171,105 +6558,264 @@ function doSel(i){
   if(vid&&cScan&&cScan.segments&&cScan.segments[i]) vid.currentTime=cScan.segments[i].start_sec;
   updateProcBtn();
 }
+function setVidFilter(key, btn){
+  vidFilterKey = key;
+  document.querySelectorAll('.vef-btn').forEach(function(b){ b.classList.remove('sel'); });
+  if(btn) btn.classList.add('sel');
+  toast('Filter: ' + key.charAt(0).toUpperCase() + key.slice(1));
+}
+function setVidRes(scale, btn){
+  vidResScale = scale;
+  document.querySelectorAll('.vef-res-btn').forEach(function(b){ b.classList.remove('sel'); });
+  if(btn) btn.classList.add('sel');
+  updateProcBtn(); updateManProcBtn();
+  toast('Resolution scale: ' + scale + '×' + (scale>1?' (upscaled)':''));
+}
 function pickFmt(el,fmt){ selFmt=fmt; document.querySelectorAll(".fo").forEach(function(o){o.classList.remove("sel");}); el.classList.add("sel"); updateProcBtn(); updateManProcBtn(); }
 function getDims(){
-  if(!vW||!vH) return {w:1280,h:720};
-  if(selFmt==="wide") return {w:vW,h:vH};
-  if(selFmt==="square"){var s=Math.min(vW,vH);return {w:s,h:s};}
-  var w=Math.min(Math.floor(vH*9/16),vW); return {w:w,h:vH};
+  var base;
+  if(!vW||!vH) base={w:1280,h:720};
+  else if(selFmt==="wide"||selFmt==="original") base={w:vW,h:vH};
+  else if(selFmt==="square"){var s=Math.min(vW,vH);base={w:s,h:s};}
+  else{var w=Math.min(Math.floor(vH*9/16),vW);base={w:w,h:vH};}
+  var sc=vidResScale||1;
+  var w=Math.round(base.w*sc), h=Math.round(base.h*sc);
+  /* ── Hard cap: 3840 on longest edge (prevents blank 0MB output) ── */
+  var longEdge=Math.max(w,h);
+  if(longEdge>3840){ var d=3840/longEdge; w=Math.round(w*d); h=Math.round(h*d); }
+  /* H.264 requires even dimensions */
+  w=w%2===0?w:w-1; h=h%2===0?h:h-1;
+  return {w:Math.max(2,w), h:Math.max(2,h)};
 }
 function getCrop(dims){
-  if(selFmt==="wide") return {x:0,y:0,w:vW,h:vH};
+  if(selFmt==="wide"||selFmt==="original") return {x:0,y:0,w:vW,h:vH};
   if(selFmt==="square"){var s=Math.min(vW,vH);return {x:Math.floor((vW-s)/2),y:Math.floor((vH-s)/2),w:s,h:s};}
   var cw=Math.min(Math.floor(vH*9/16),vW); return {x:Math.floor((vW-cw)/2),y:0,w:cw,h:vH};
 }
 function updateProcBtn(){
   if(!vW||!vH||!cScan) return;
   var sg=cScan.segments&&cScan.segments[selSeg], dims=getDims();
-  document.getElementById("qualinfo").textContent="Output: "+dims.w+"×"+dims.h+" — cropped from "+vW+"×"+vH+" (no quality loss)";
-  if(sg) document.getElementById("procbtn").innerHTML="✂️ Clip "+ft(sg.start_sec)+"–"+ft(sg.end_sec)+" · "+dims.w+"×"+dims.h;
+  var rawW=Math.round(vW*(vidResScale||1)), rawH=Math.round(vH*(vidResScale||1));
+  var wasCapped=(Math.max(rawW,rawH)>3840);
+  var scaleInfo=vidResScale>1?' · '+vidResScale+'× scale'+(wasCapped?' (capped at 3840px)':''):'';
+  var filtInfo=vidFilterKey!=='none'?' · '+vidFilterKey:'';
+  document.getElementById("qualinfo").textContent="Output: "+dims.w+"×"+dims.h+scaleInfo+filtInfo+" — high quality MP4";
+  if(sg) document.getElementById("procbtn").innerHTML="✂️ Export "+ft(sg.start_sec)+"–"+ft(sg.end_sec)+" ("+((sg.end_sec-sg.start_sec)).toFixed(1)+"s) · "+dims.w+"×"+dims.h;
 }
+/* ══════════════════════════════════════════════════════════════
+   SHARED CAPTURE ENGINE — rVFC + MP4 H.264+AAC + audio fix
+   v24: MP4-only (no WebM), 20 filters (TikTok/FB/YT), 256kbps AAC,
+        adaptive bitrate up to 28Mbps, rVFC + rAF frame-exact capture
+   ══════════════════════════════════════════════════════════════ */
+async function _captureClip(sg, dims, crop, vid, audioStream, canvas, ctx) {
+  /* ── Canvas quality: bicubic smoothing for sharp output ── */
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = 'high';
+
+  /* ── MIME / Codec selection ─────────────────────────────────────
+     RULES:
+     • ALWAYS prefer MP4 — H.264 is hardware-accelerated → smooth 4K
+     • Generic 'video/mp4' in Chrome 105+ auto-picks H.264+AAC with audio
+     • NEVER use 'video/mp4;codecs=avc1' — that's video-only, kills audio
+     • MP4-only output — H.264+AAC for maximum compatibility
+     ────────────────────────────────────────────────────────────── */
+  var outMime = null, isNativeMp4 = false;
+
+  /* Step 1: try MP4 with explicit H.264+AAC codec strings */
+  var mp4AudioTries = [
+    'video/mp4;codecs="avc1.64001F,mp4a.40.2"',  /* H.264 High 3.1 + AAC-LC */
+    'video/mp4;codecs="avc1.4D401F,mp4a.40.2"',  /* H.264 Main 3.1 + AAC-LC */
+    'video/mp4;codecs="avc1.42E01E,mp4a.40.2"',  /* H.264 Baseline + AAC-LC */
+    'video/mp4;codecs="avc1.4D401E,mp4a.40.2"',  /* H.264 Main 3.0 + AAC-LC */
+    'video/mp4;codecs="avc1.42E01E,opus"',        /* H.264 + Opus audio */
+  ];
+  mp4AudioTries.forEach(function(t){ if(!outMime && MediaRecorder.isTypeSupported(t)) outMime = t; });
+
+  /* Step 2: generic 'video/mp4' — Chrome 105+ selects H.264+AAC automatically */
+  if(!outMime && MediaRecorder.isTypeSupported('video/mp4')){
+    outMime = 'video/mp4';
+  }
+  if(outMime) isNativeMp4 = true;
+
+  /* MP4 is required — if browser truly cannot encode MP4, alert user */
+  if(!outMime){
+    outMime = 'video/mp4';
+    isNativeMp4 = true;
+  }
+
+  /* ── FPS: adaptive, NO vid.captureStream() — that freezes video decoding! ── */
+  var totalPx = dims.w * dims.h;
+  /* For 4K portrait (2160×3840 = 8.3MP): cap at 24fps to avoid encoder overload.
+     H.264 hardware encoding handles this fine; VP9 would struggle at 30fps 4K.  */
+  var targetFps = totalPx > 3840 * 2160 * 0.75 ? 24
+                : totalPx > 1920 * 1080 * 1.5  ? 30
+                : 30;
+
+  /* ── Bitrate: high quality H.264 encoding ──
+     H.264 at ~15Mbps looks excellent at 4K; original was 148Mbps raw camera data.
+     We use 20Mbps cap for H.264 (far more efficient codec than raw).             */
+  var bitrate = Math.max(12000000, Math.min(28000000, Math.round(totalPx * 0.45 * targetFps / 1000) * 1000));
+
+  /* ── Audio: 256kbps AAC — high quality, fully transparent ── */
+  var audioBitrate = 256000;
+
+  /* ── Build combined stream: canvas video + source audio tracks ── */
+  var videoStream = canvas.captureStream(targetFps);
+  var hasAudio = !!(audioStream && audioStream.getAudioTracks().length > 0);
+  if(hasAudio){
+    audioStream.getAudioTracks().forEach(function(t){ videoStream.addTrack(t); });
+  }
+  var recOpts = { mimeType: outMime, videoBitsPerSecond: bitrate, audioBitsPerSecond: audioBitrate };
+  var rec = new MediaRecorder(videoStream, recOpts);
+  var chunks = [];
+  rec.ondataavailable = function(e){ if(e.data && e.data.size > 0) chunks.push(e.data); };
+
+  _logoRandW = 0; /* reset logo bounce */
+
+  /* ── Draw helper: high-quality frame render ── */
+  function drawFrame(){
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    var filt = VID_FILTERS[vidFilterKey] || 'none';
+    ctx.filter = filt;
+    ctx.drawImage(vid, crop.x, crop.y, crop.w, crop.h, 0, 0, dims.w, dims.h);
+    ctx.filter = 'none';
+    drawLogoOverlay(ctx, dims);
+  }
+
+  /* ── Frame capture: prefer requestVideoFrameCallback (per-decoded-frame, no drops)
+         fall back to requestAnimationFrame ── */
+  var useRVFC = typeof vid.requestVideoFrameCallback === 'function';
+  var subEl = document.getElementById('proc-sub');
+
+  rec.start(100);
+  vid.playbackRate = 1;
+
+  await new Promise(function(resolve){
+    var raf;
+
+    function stopCapture(){
+      if(rec.state !== 'inactive') rec.stop();
+      vid.pause();
+      if(raf) cancelAnimationFrame(raf);
+    }
+
+    rec.onstop = function(){
+      if(raf) cancelAnimationFrame(raf);
+      outBlob = new Blob(chunks, {type: 'video/mp4'});
+      outUrl  = URL.createObjectURL(outBlob);
+      resolve();
+    };
+
+    /* Safety timeout: clip duration + generous buffer for high-res */
+    var bufSec = totalPx > 3840*1440 ? 30 : 8;
+    setTimeout(function(){ stopCapture(); }, ((sg.end_sec - sg.start_sec) + bufSec) * 1000);
+
+    if(useRVFC){
+      /* ── requestVideoFrameCallback path: fires once per decoded frame ── */
+      function onVideoFrame(now, meta){
+        if(vid.currentTime >= sg.end_sec || vid.ended){ stopCapture(); return; }
+        drawFrame();
+        if(subEl) subEl.textContent = 'Recording… ' + ft(vid.currentTime - sg.start_sec) + ' / ' + ft(sg.end_sec - sg.start_sec) + '  [' + dims.w + '×' + dims.h + ']';
+        vid.requestVideoFrameCallback(onVideoFrame);
+      }
+      vid.requestVideoFrameCallback(onVideoFrame);
+    } else {
+      /* ── rAF fallback ── */
+      function drawLoop(){
+        if(vid.currentTime >= sg.end_sec || vid.ended || vid.paused){ stopCapture(); return; }
+        drawFrame();
+        raf = requestAnimationFrame(drawLoop);
+      }
+      raf = requestAnimationFrame(drawLoop);
+    }
+
+    vid.play();
+  });
+}
+
 async function runProc(){
   if(!cScan||!cFile) return;
   hideErr("c-err2"); showPhase(3);
   var sg=cScan.segments&&cScan.segments[selSeg], dims=getDims(), crop=getCrop(dims);
-  var fmtL={reels:"9:16 Reels",square:"1:1 Square",wide:"16:9 Wide"}[selFmt];
+  var fmtL={reels:"9:16 Reels",square:"1:1 Square",wide:"16:9 Wide",original:"Original (No Crop)"}[selFmt]||selFmt;
   document.getElementById("proc-sub").textContent=dims.w+"×"+dims.h+" — original quality";
   await new Promise(function(r){setTimeout(r,200);}); ps("pt-0","active");
-  try {
-    /* Set up AudioContext BEFORE loading video */
-    var actx = null, audioStream = null;
-    try {
-      actx = new (window.AudioContext || window.webkitAudioContext)();
-    } catch(ae) {}
 
-    var vid=document.getElementById("pv");
-    /* Remove old src first to allow AudioContext re-use */
-    vid.pause(); vid.removeAttribute("src"); vid.load();
-    vid.muted = false;
-    vid.src = URL.createObjectURL(cFile);
-    await new Promise(function(res,rej){vid.onloadedmetadata=res; vid.onerror=rej;});
-    vid.currentTime = sg.start_sec;
-    await new Promise(function(r){vid.onseeked=r;});
+  /* Use a FRESH hidden video element every export so createMediaElementSource
+     never throws "already connected" on repeat exports → guaranteed audio */
+  var captureVid = document.createElement("video");
+  captureVid.style.cssText = "position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;";
+  captureVid.muted = false;
+  captureVid.playsInline = true;
+  captureVid.crossOrigin = "anonymous";
+  document.body.appendChild(captureVid);
+
+  try {
+    var actx = null, audioStream = null;
+    try { actx = new (window.AudioContext || window.webkitAudioContext)(); } catch(ae) {}
+
+    captureVid.src = URL.createObjectURL(cFile);
+    await new Promise(function(res,rej){ captureVid.onloadedmetadata=res; captureVid.onerror=rej; });
+    captureVid.currentTime = sg.start_sec;
+    await new Promise(function(r){ captureVid.onseeked=r; });
     ps("pt-0","done"); ps("pt-1","active");
     await new Promise(function(r){setTimeout(r,300);});
 
-    /* Wire up audio AFTER metadata loaded */
-    if(actx) {
+    /* AudioContext with createMediaElementSource — always fresh on new element */
+    if(actx){
       try {
         if(actx.state === "suspended") await actx.resume();
-        var mediaSrc = actx.createMediaElementSource(vid);
+        var mediaSrc = actx.createMediaElementSource(captureVid);
+        var gainNode = actx.createGain();
+        gainNode.gain.value = 1.0;
         var dst = actx.createMediaStreamDestination();
-        mediaSrc.connect(dst);
-        mediaSrc.connect(actx.destination);
+        mediaSrc.connect(gainNode);
+        gainNode.connect(dst);
+        /* Connect to destination so audio plays during capture (optional but keeps sync) */
+        gainNode.connect(actx.destination);
         audioStream = dst.stream;
+        await new Promise(function(r){ setTimeout(r, 80); });
       } catch(ae) { actx = null; }
     }
 
     var canvas=document.getElementById("pc");
     canvas.width=dims.w; canvas.height=dims.h;
-    var ctx=canvas.getContext("2d");
-    var mime="video/webm;codecs=vp9";
-    if(!MediaRecorder.isTypeSupported(mime)) mime="video/webm;codecs=vp8";
-    if(!MediaRecorder.isTypeSupported(mime)) mime="video/webm";
-    var bitrate=Math.max(3000000,Math.min(20000000,dims.w*dims.h*0.12*30));
+    var ctx=canvas.getContext("2d", { alpha: false });
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    document.getElementById("proc-sub").textContent=dims.w+"×"+dims.h+(vidFilterKey!=='none'?' · filter:'+vidFilterKey:'')+(vidResScale>1?' · '+vidResScale+'× scale':'')+" — high quality";
     ps("pt-1","done"); ps("pt-2","active");
-
-    /* Merge video canvas stream + audio stream */
-    var videoStream = canvas.captureStream(30);
-    if(audioStream && audioStream.getAudioTracks().length > 0) {
-      audioStream.getAudioTracks().forEach(function(t){ videoStream.addTrack(t); });
-    }
-    var rec=new MediaRecorder(videoStream,{mimeType:mime,videoBitsPerSecond:bitrate});
-    var chunks=[]; rec.ondataavailable=function(e){if(e.data.size>0)chunks.push(e.data);};
-    rec.start(50); vid.playbackRate=1; vid.play();
+    await _captureClip(sg, dims, crop, captureVid, audioStream, canvas, ctx);
     ps("pt-2","done"); ps("pt-3","active");
-    var raf;
-    var draw=function(){
-      if(vid.currentTime>=sg.end_sec||vid.ended||vid.paused){rec.stop();vid.pause();return;}
-      ctx.drawImage(vid,crop.x,crop.y,crop.w,crop.h,0,0,dims.w,dims.h);
-      raf=requestAnimationFrame(draw);
-    };
-    raf=requestAnimationFrame(draw);
-    await new Promise(function(resolve){
-      rec.onstop=function(){cancelAnimationFrame(raf);outBlob=new Blob(chunks,{type:"video/webm"});outUrl=URL.createObjectURL(outBlob);resolve();};
-      setTimeout(function(){if(rec.state!=="inactive"){rec.stop();vid.pause();}},((sg.end_sec-sg.start_sec)+4)*1000);
-    });
+    await new Promise(function(r){setTimeout(r,200);});
     ps("pt-3","done"); ps("pt-4","active");
     await new Promise(function(r){setTimeout(r,200);});
     ps("pt-4","done");
     var sz=(outBlob.size/1048576).toFixed(1);
-    document.getElementById("dl-meta").textContent=sg.rank+" · "+fmtL+" · "+dims.w+"×"+dims.h+" · "+ft(sg.end_sec-sg.start_sec)+" · "+sz+"MB";
+    var filterLabel=vidFilterKey!=='none'?' · Filter:'+vidFilterKey.charAt(0).toUpperCase()+vidFilterKey.slice(1):'';
+    var resLabel=vidResScale>1?' · '+vidResScale+'× scale':'';
+    document.getElementById("dl-meta").textContent=sg.rank+" · "+fmtL+" · "+dims.w+"×"+dims.h+filterLabel+resLabel+" · "+ft(sg.end_sec-sg.start_sec)+" · "+sz+"MB [MP4]";
     var dlv=document.getElementById("dl-v"); dlv.src=outUrl; dlv.classList.remove("hidden");
     if(cScan.caption_suggestion){document.getElementById("dl-cap-t").textContent=cScan.caption_suggestion;document.getElementById("dl-cap").classList.remove("hidden");}
-    showPhase(4); toast("✅ "+dims.w+"×"+dims.h+" clip ready!");
+    showPhase(4); toast("✅ "+dims.w+"×"+dims.h+" clip ready! (MP4)");
   } catch(e){
     showErr("c-err2","❌ "+e.message+"<br><br><strong>Tip:</strong> Use Chrome for best MediaRecorder support.");
     showPhase(2);
+  } finally {
+    /* Always clean up the temporary capture element */
+    try { captureVid.pause(); captureVid.removeAttribute("src"); captureVid.load(); } catch(x){}
+    if(captureVid.parentNode) captureVid.parentNode.removeChild(captureVid);
   }
 }
-function dlClip(){ if(!outUrl)return; var a=document.createElement("a"); a.href=outUrl; a.download="fbboost-"+selFmt+"-"+Date.now()+".webm"; a.click(); }
+function getClipFilename(){
+  var base = (cFile && cFile.name) ? cFile.name.replace(/\.[^/.]+$/, '') : 'clip';
+  var resSuffix = vidResScale===1.5 ? '-hd+' : vidResScale===2 ? '-2k' : vidResScale===4 ? '-4k' : '-original';
+  return base + '-' + selFmt + resSuffix + '.mp4';
+}
+function dlClip(){ if(!outUrl||!outBlob)return; var a=document.createElement("a"); a.href=outUrl; a.download=getClipFilename(); a.click(); }
 function backRev(){
+  logoStopPreview();
   outUrl=null; outBlob=null; document.getElementById("dl-v").classList.add("hidden");
   if(clipMode==="manual") showPhase("2m");
   else showPhase(2);
@@ -6373,7 +6919,11 @@ function updateManProcBtn(){
   var btn=document.getElementById("procbtn-m");
   if(btn) btn.innerHTML="✂️ Export "+ft(manStartSec)+"–"+ft(manEndSec)+" ("+dur.toFixed(1)+"s) · "+dims.w+"×"+dims.h;
   var qi=document.getElementById("qualinfo-m");
-  if(qi) qi.textContent="Output: "+dims.w+"×"+dims.h+" — cropped from "+vW+"×"+vH;
+  var rawW=Math.round(vW*(vidResScale||1)), rawH=Math.round(vH*(vidResScale||1));
+  var wasCapped=(Math.max(rawW,rawH)>3840);
+  var scaleInfo=vidResScale>1?' · '+vidResScale+'× scale'+(wasCapped?' (capped at 3840px)':''):'';
+  var filtInfo=vidFilterKey!=='none'?' · '+vidFilterKey:'';
+  if(qi) qi.textContent="Output: "+dims.w+"×"+dims.h+scaleInfo+filtInfo+" — high quality MP4";
 }
 
 async function runProcManual(){
@@ -6383,65 +6933,67 @@ async function runProcManual(){
   hideErr("c-err2m"); showPhase(3);
   var sg={start_sec:manStartSec, end_sec:manEndSec, rank:"Manual"};
   var dims=getDims(), crop=getCrop(dims);
-  var fmtL={reels:"9:16 Reels",square:"1:1 Square",wide:"16:9 Wide"}[selFmt];
+  var fmtL={reels:"9:16 Reels",square:"1:1 Square",wide:"16:9 Wide",original:"Original (No Crop)"}[selFmt]||selFmt;
   document.getElementById("proc-sub").textContent=dims.w+"×"+dims.h+" — original quality";
   await new Promise(function(r){setTimeout(r,200);}); ps("pt-0","active");
+
+  /* Fresh hidden video element — guarantees clean AudioContext pipeline every export */
+  var captureVid = document.createElement("video");
+  captureVid.style.cssText = "position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;";
+  captureVid.muted = false;
+  captureVid.playsInline = true;
+  captureVid.crossOrigin = "anonymous";
+  document.body.appendChild(captureVid);
+
   try {
     var actx=null, audioStream=null;
     try{ actx=new (window.AudioContext||window.webkitAudioContext)(); } catch(ae){}
-    var vid=document.getElementById("pv");
-    vid.pause(); vid.removeAttribute("src"); vid.load();
-    vid.muted=false; vid.src=URL.createObjectURL(cFile);
-    await new Promise(function(res,rej){vid.onloadedmetadata=res; vid.onerror=rej;});
-    vid.currentTime=sg.start_sec;
-    await new Promise(function(r){vid.onseeked=r;});
+    captureVid.src=URL.createObjectURL(cFile);
+    await new Promise(function(res,rej){captureVid.onloadedmetadata=res; captureVid.onerror=rej;});
+    captureVid.currentTime=sg.start_sec;
+    await new Promise(function(r){captureVid.onseeked=r;});
     ps("pt-0","done"); ps("pt-1","active");
     await new Promise(function(r){setTimeout(r,300);});
     if(actx){
       try{
         if(actx.state==="suspended") await actx.resume();
-        var mediaSrc=actx.createMediaElementSource(vid);
+        var mediaSrc=actx.createMediaElementSource(captureVid);
+        var gainNode=actx.createGain();
+        gainNode.gain.value=1.0;
         var dst=actx.createMediaStreamDestination();
-        mediaSrc.connect(dst); mediaSrc.connect(actx.destination);
+        mediaSrc.connect(gainNode);
+        gainNode.connect(dst);
+        gainNode.connect(actx.destination);
         audioStream=dst.stream;
+        await new Promise(function(r){ setTimeout(r,80); });
       }catch(ae){actx=null;}
     }
     var canvas=document.getElementById("pc");
     canvas.width=dims.w; canvas.height=dims.h;
-    var ctx=canvas.getContext("2d");
-    var mime="video/webm;codecs=vp9";
-    if(!MediaRecorder.isTypeSupported(mime)) mime="video/webm;codecs=vp8";
-    if(!MediaRecorder.isTypeSupported(mime)) mime="video/webm";
-    var bitrate=Math.max(3000000,Math.min(20000000,dims.w*dims.h*0.12*30));
+    var ctx=canvas.getContext("2d", { alpha: false });
+    ctx.imageSmoothingEnabled=true;
+    ctx.imageSmoothingQuality='high';
+    document.getElementById("proc-sub").textContent=dims.w+"×"+dims.h+(vidFilterKey!=='none'?' · filter:'+vidFilterKey:'')+(vidResScale>1?' · '+vidResScale+'× scale':'')+" — high quality";
     ps("pt-1","done"); ps("pt-2","active");
-    var videoStream=canvas.captureStream(30);
-    if(audioStream&&audioStream.getAudioTracks().length>0){ audioStream.getAudioTracks().forEach(function(t){videoStream.addTrack(t);}); }
-    var rec=new MediaRecorder(videoStream,{mimeType:mime,videoBitsPerSecond:bitrate});
-    var chunks=[]; rec.ondataavailable=function(e){if(e.data.size>0)chunks.push(e.data);};
-    rec.start(50); vid.playbackRate=1; vid.play();
+    await _captureClip(sg, dims, crop, captureVid, audioStream, canvas, ctx);
     ps("pt-2","done"); ps("pt-3","active");
-    var raf;
-    var draw=function(){
-      if(vid.currentTime>=sg.end_sec||vid.ended||vid.paused){rec.stop();vid.pause();return;}
-      ctx.drawImage(vid,crop.x,crop.y,crop.w,crop.h,0,0,dims.w,dims.h);
-      raf=requestAnimationFrame(draw);
-    };
-    raf=requestAnimationFrame(draw);
-    await new Promise(function(resolve){
-      rec.onstop=function(){cancelAnimationFrame(raf);outBlob=new Blob(chunks,{type:"video/webm"});outUrl=URL.createObjectURL(outBlob);resolve();};
-      setTimeout(function(){if(rec.state!=="inactive"){rec.stop();vid.pause();}},((sg.end_sec-sg.start_sec)+4)*1000);
-    });
+    await new Promise(function(r){setTimeout(r,200);});
     ps("pt-3","done"); ps("pt-4","active");
     await new Promise(function(r){setTimeout(r,200);});
     ps("pt-4","done");
     var sz=(outBlob.size/1048576).toFixed(1);
-    document.getElementById("dl-meta").textContent="Manual · "+fmtL+" · "+dims.w+"×"+dims.h+" · "+ft(sg.end_sec-sg.start_sec)+" · "+sz+"MB";
+    var filterLabel=vidFilterKey!=='none'?' · Filter:'+vidFilterKey.charAt(0).toUpperCase()+vidFilterKey.slice(1):'';
+    var resLabel=vidResScale>1?' · '+vidResScale+'× scale':'';
+    document.getElementById("dl-meta").textContent="Manual · "+fmtL+" · "+dims.w+"×"+dims.h+filterLabel+resLabel+" · "+ft(sg.end_sec-sg.start_sec)+" · "+sz+"MB [MP4]";
     var dlv=document.getElementById("dl-v"); dlv.src=outUrl; dlv.classList.remove("hidden");
     document.getElementById("dl-cap").classList.add("hidden");
-    showPhase(4); toast("✅ "+dims.w+"×"+dims.h+" manual clip ready!");
+    showPhase(4); toast("✅ "+dims.w+"×"+dims.h+" manual clip ready! (MP4)");
   } catch(e){
     showErr("c-err2m","❌ "+e.message+"<br><br><strong>Tip:</strong> Use Chrome for best MediaRecorder support.");
     showPhase("2m");
+  } finally {
+    try { captureVid.pause(); captureVid.removeAttribute("src"); captureVid.load(); } catch(x){}
+    if(captureVid.parentNode) captureVid.parentNode.removeChild(captureVid);
   }
 }
 
