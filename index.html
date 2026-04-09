@@ -6,7 +6,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>XHS Pro</title>
-<meta name="version" content="v26-audio-fresh-element">
+<meta name="version" content="v32-generic-title-guard">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -7975,9 +7975,9 @@ function toggleSidebar() {
     <div class="mg-lbl">Results</div>
     <div class="mg-tbl-wrap">
       <table class="mg-tbl">
-        <thead><tr><th>#</th><th>St</th><th>Type</th><th>Title</th><th>Description</th><th style="color:#ef4444;">AI Description</th><th>Hashtags</th><th>URL</th></tr></thead>
+        <thead><tr><th>#</th><th>St</th><th>Title</th><th>Description</th><th style="color:#ef4444;">AI Description</th><th>Hashtags</th><th>URL</th></tr></thead>
         <tbody id="mg-tbody">
-          <tr><td colspan="8"><div class="mg-empty"><div class="mg-empty-ico">🔗</div>No results yet — paste URLs and click Start.</div></td></tr>
+          <tr><td colspan="7"><div class="mg-empty"><div class="mg-empty-ico">🔗</div>No results yet — paste URLs and click Start.</div></td></tr>
         </tbody>
       </table>
     </div>
@@ -8188,12 +8188,16 @@ function toggleSidebar() {
   </div>
 
   <div class="xe-card">
-    <div class="xe-lbl">📥 Import JSON from Console Output</div>
-    <textarea class="xe-inp" id="xe-json-input" style="min-height:90px;" placeholder='Paste the JSON array from the console (the line after "--- JSON ---") here, then click Import...'></textarea>
+    <div class="xe-lbl">📥 Import JSON <em style="font-style:normal;opacity:.6;font-size:10px;text-transform:none;letter-spacing:0;">or Plain URLs</em> from Console Output</div>
+    <textarea class="xe-inp" id="xe-json-input" style="min-height:90px;" placeholder="Paste EITHER:
+• The JSON array from the console (line after &quot;--- JSON ---&quot;)
+• OR plain URLs copied by the blue button (one per line)
+
+Both formats are auto-detected."></textarea>
     <div style="margin-top:10px;">
-      <button class="xe-btn xe-btn-green" onclick="xeImportJSON()">Import JSON → Extractor Tab</button>
+      <button class="xe-btn xe-btn-green" onclick="xeImportJSON()">Import → Extractor Tab</button>
     </div>
-    <div class="xe-hint">➜ Copy the single-line JSON from the console and paste here. All posts will be added to the Extractor tab table.</div>
+    <div class="xe-hint">➜ Accepts both the JSON array <em>and</em> plain URLs copied by the blue 📋 button on the XHS page.</div>
   </div>
 
 </div><!-- /xe-panel-console -->
@@ -8232,6 +8236,46 @@ function toggleSidebar() {
     <button class="xe-btn xe-btn-blue" id="xe-copy-all-btn" onclick="xeCopyAllFinal()" disabled>⧉ Copy All URLs</button>
   </div>
 
+  <!-- ── TRANSLATE TITLES ── -->
+  <div class="xe-card" id="xe-translate-card" style="margin-bottom:16px;display:none;">
+    <div class="xe-lbl" style="margin-bottom:12px;">🌐 Translate Titles</div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:200px;">
+        <label style="font-size:12px;color:var(--muted);white-space:nowrap;">Target language:</label>
+        <select id="xe-target-lang" style="flex:1;background:var(--inp-bg);border:1.5px solid var(--border2);border-radius:8px;color:var(--inp-text);font-size:12px;padding:8px 10px;outline:none;">
+          <option value="English">🇬🇧 English</option>
+          <option value="Urdu">🇵🇰 Urdu</option>
+          <option value="Arabic">🇸🇦 Arabic</option>
+          <option value="Spanish">🇪🇸 Spanish</option>
+          <option value="French">🇫🇷 French</option>
+          <option value="German">🇩🇪 German</option>
+          <option value="Japanese">🇯🇵 Japanese</option>
+          <option value="Korean">🇰🇷 Korean</option>
+          <option value="Portuguese">🇧🇷 Portuguese</option>
+          <option value="Turkish">🇹🇷 Turkish</option>
+          <option value="Hindi">🇮🇳 Hindi</option>
+          <option value="Thai">🇹🇭 Thai</option>
+          <option value="Vietnamese">🇻🇳 Vietnamese</option>
+          <option value="Indonesian">🇮🇩 Indonesian</option>
+          <option value="Russian">🇷🇺 Russian</option>
+          <option value="Chinese (Simplified)">🇨🇳 Chinese (Simplified)</option>
+        </select>
+      </div>
+      <button class="xe-btn xe-btn-blue" id="xe-trans-btn" onclick="xeTranslateTitles()">🌐 Translate All Titles</button>
+      <button class="xe-btn xe-btn-sec" id="xe-stop-trans-btn" onclick="xeStopTranslate()" disabled>⏹ Stop</button>
+    </div>
+    <div id="xe-trans-prog-wrap" style="margin-top:12px;display:none;">
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:5px;">
+        <span id="xe-trans-prog-text">Translating…</span>
+        <span id="xe-trans-prog-pct">0%</span>
+      </div>
+      <div style="height:4px;background:var(--border2);border-radius:2px;overflow:hidden;">
+        <div id="xe-trans-prog-fill" style="height:100%;width:0%;background:linear-gradient(90deg,var(--blue),var(--green));transition:width .3s;"></div>
+      </div>
+    </div>
+    <div class="xe-hint" style="margin-top:8px;">➜ Translates all post titles to the selected language using your saved AI key.</div>
+  </div>
+
   <div class="xe-stats-bar" id="xe-stats-bar">
     <div class="xe-stat"><span class="xe-stat-n" id="xe-stat-total">0</span><span class="xe-stat-l">total posts</span></div>
     <div class="xe-stat"><span class="xe-stat-n" id="xe-stat-tokens">0</span><span class="xe-stat-l">with tokens</span></div>
@@ -8247,7 +8291,7 @@ function toggleSidebar() {
       <table class="xe-tbl">
         <thead><tr><th>#</th><th>Title</th><th>Explore Link</th><th>xsec_token</th><th>Final URL</th></tr></thead>
         <tbody id="xe-tbody">
-          <tr><td colspan="5"><div class="xe-empty"><div class="xe-empty-ico">◈</div>Paste HTML and click Extract — or import JSON from Console Script tab</div></td></tr>
+          <tr><td colspan="5"><div class="xe-empty"><div class="xe-empty-ico">◈</div>Paste HTML and click Extract — or import JSON / URLs from Console Script tab</div></td></tr>
         </tbody>
       </table>
     </div>
@@ -8297,7 +8341,7 @@ function xeExtract(append) {
     if (section) { var t = section.querySelector('.title span, .title'); if(t) title = t.textContent.trim().replace(/\s+/g,' '); }
     var exploreUrl = 'https://www.xiaohongshu.com/explore/' + postId;
     var finalUrl = xsecToken ? exploreUrl + '?xsec_token=' + xsecToken + '&xsec_source=' + xsecSource : exploreUrl;
-    xeData.push({ postId:postId, title:title, exploreUrl:exploreUrl, xsecToken:xsecToken, xsecSource:xsecSource, finalUrl:finalUrl });
+    xeData.push({ postId:postId, title:title, exploreUrl:exploreUrl, xsecToken:xsecToken, xsecSource:xsecSource, finalUrl:finalUrl, desc:'', keywords:[] });
   });
   xeData.forEach(function(r,i){ r.num = i+1; });
   xeUpdateStats(); xeRenderTable();
@@ -8315,10 +8359,32 @@ function xeExtract(append) {
 
 function xeImportJSON() {
   var raw = document.getElementById('xe-json-input').value.trim();
-  if (!raw) { xeShowMsg('err','Paste the JSON from the console first.'); return; }
-  var items;
-  try { items = JSON.parse(raw.replace(/```json|```/g,'').trim()); } catch(e) { xeShowMsg('err','Invalid JSON — copy the single line after "--- JSON ---" in the console.'); return; }
+  if (!raw) { xeShowMsg('err','Paste JSON or plain URLs first.'); return; }
+
+  var items = null;
+
+  /* ── Try JSON array first ── */
+  var cleaned = raw.replace(/```json|```/g,'').trim();
+  if (cleaned.startsWith('[')) {
+    try { items = JSON.parse(cleaned); } catch(e) { /* fall through to URL mode */ }
+  }
+
+  /* ── Fallback: plain URL list (one per line) — from the blue 📋 button ── */
+  if (!items) {
+    var lines = raw.split(/\n/).map(function(s){ return s.trim(); }).filter(function(s){ return /https?:\/\//i.test(s); });
+    if (!lines.length) { xeShowMsg('err','No valid URLs or JSON found. Paste the JSON array or plain URLs.'); return; }
+    items = lines.map(function(url) {
+      var m = url.match(/\/explore\/([a-zA-Z0-9]+)/);
+      var postId = m ? m[1] : ('url_' + Math.random().toString(36).slice(2,8));
+      /* try to extract token from URL */
+      var tokenM = url.match(/xsec_token=([^&]+)/);
+      var token = tokenM ? decodeURIComponent(tokenM[1]) : '';
+      return { postId: postId, title: '', token: token, finalUrl: url };
+    });
+  }
+
   if (!Array.isArray(items)) { xeShowMsg('err','Expected a JSON array.'); return; }
+
   var existingIds = {};
   xeData.forEach(function(r){ existingIds[r.postId] = true; });
   var newCount = 0;
@@ -8326,18 +8392,18 @@ function xeImportJSON() {
     if (!item.postId || existingIds[item.postId]) return;
     existingIds[item.postId] = true; newCount++;
     var exploreUrl = 'https://www.xiaohongshu.com/explore/' + item.postId;
-    xeData.push({ postId:item.postId, title:item.title||'', exploreUrl:exploreUrl, xsecToken:item.token||'', xsecSource:'pc_user', finalUrl:item.finalUrl||exploreUrl });
+    xeData.push({ postId:item.postId, title:item.title||'', exploreUrl:exploreUrl, xsecToken:item.token||'', xsecSource:'pc_user', finalUrl:item.finalUrl||exploreUrl, desc:'', keywords:[] });
   });
   xeData.forEach(function(r,i){ r.num=i+1; });
   xePasteCount++;
   xeUpdateStats(); xeRenderTable();
-  // Switch to extractor tab
+  /* switch to extractor panel */
   document.querySelectorAll('#page-xhsextractor .xe-tab').forEach(function(t){t.classList.remove('active');});
   document.querySelectorAll('#page-xhsextractor .xe-panel').forEach(function(p){p.classList.remove('active');});
   document.getElementById('xe-tab-extractor').classList.add('active');
   document.getElementById('xe-panel-extractor').classList.add('active');
   document.getElementById('xe-json-input').value = '';
-  xeShowMsg('ok','Imported ' + newCount + ' posts from JSON. Total: ' + xeData.length);
+  xeShowMsg('ok','Imported ' + newCount + ' posts. Total: ' + xeData.length);
 }
 
 function xeSendToMetaGrab() {
@@ -8367,6 +8433,8 @@ function xeUpdateStats() {
   document.getElementById('xe-copy-all-btn').disabled = false;
   document.getElementById('xe-send-btn').disabled = false;
   document.getElementById('xe-tbl-title').textContent = 'Results — ' + xeData.length + ' posts';
+  /* show translate card */
+  document.getElementById('xe-translate-card').style.display = '';
 }
 
 function xeRenderTable() {
@@ -8378,9 +8446,10 @@ function xeRenderTable() {
   }
   xeData.forEach(function(row) {
     var tr = document.createElement('tr');
+    var transBadge = row._translated ? '<span style="font-size:9px;background:rgba(66,183,42,.15);color:var(--green);border:1px solid rgba(66,183,42,.3);border-radius:3px;padding:1px 5px;margin-left:4px;">✓ translated</span>' : '';
     tr.innerHTML =
       '<td class="xe-td-num">' + row.num + '</td>' +
-      '<td class="xe-td-title" title="' + xeEscH(row.title) + '">' + (xeEscH(row.title)||'<span style="color:var(--muted)">—</span>') + '</td>' +
+      '<td class="xe-td-title" title="' + xeEscH(row.title) + '">' + (xeEscH(row.title)||'<span style="color:var(--muted)">—</span>') + transBadge + '</td>' +
       '<td class="xe-td-explore"><a href="' + xeEscH(row.exploreUrl) + '" target="_blank" style="color:#f59e0b;text-decoration:none;">' + xeEscH(row.exploreUrl) + '</a><button class="xe-copy-btn" onclick="xeCpTxt(\'' + xeEscA(row.exploreUrl) + '\',this)">copy</button></td>' +
       '<td class="xe-td-token">' + (row.xsecToken ? xeEscH(row.xsecToken) + '<button class="xe-copy-btn" onclick="xeCpTxt(\'' + xeEscA(row.xsecToken) + '\',this)">copy</button>' : '<span style="color:var(--muted)">—</span>') + '</td>' +
       '<td class="xe-td-final"><a href="' + xeEscH(row.finalUrl) + '" target="_blank" style="color:var(--green);text-decoration:none;">' + xeEscH(row.finalUrl) + '</a><button class="xe-copy-btn" onclick="xeCpTxt(\'' + xeEscA(row.finalUrl) + '\',this)">copy</button></td>';
@@ -8396,17 +8465,19 @@ function xeCopyAllFinal() {
 
 function xeExportCSV() {
   if (!xeData.length) return;
-  var h = ['#','Title','Post ID','Explore URL','xsec_token','xsec_source','Final URL'];
-  var rows = xeData.map(function(r){ return [r.num, xeCsvE(r.title), xeCsvE(r.postId), xeCsvE(r.exploreUrl), xeCsvE(r.xsecToken), xeCsvE(r.xsecSource), xeCsvE(r.finalUrl)]; });
+  var h = ['#','Title','Translated','Post ID','Explore URL','xsec_token','xsec_source','Final URL'];
+  var rows = xeData.map(function(r){ return [r.num, xeCsvE(r.title), r._translated?'yes':'no', xeCsvE(r.postId), xeCsvE(r.exploreUrl), xeCsvE(r.xsecToken), xeCsvE(r.xsecSource), xeCsvE(r.finalUrl)]; });
   var csv = [h].concat(rows).map(function(r){return r.join(',');}).join('\n');
-  var blob = new Blob([csv],{type:'text/csv'});
+  var blob = new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
   var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'xhs_links.csv'; a.click();
 }
 
 function xeClearAll() {
-  xeData = []; xePasteCount = 0;
+  xeData = []; xePasteCount = 0; _xeTransStopped = false;
   ['xe-html-input','xe-profile-url'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
   document.getElementById('xe-stats-bar').style.display = 'none';
+  document.getElementById('xe-translate-card').style.display = 'none';
+  document.getElementById('xe-trans-prog-wrap').style.display = 'none';
   document.getElementById('xe-export-btn').disabled = true;
   document.getElementById('xe-copy-all-btn').disabled = true;
   document.getElementById('xe-send-btn').disabled = true;
@@ -8448,7 +8519,80 @@ function xeShowMsg(type, msg) {
 
 function xeEscH(s){ if(!s)return''; return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function xeEscA(s){ if(!s)return''; return s.replace(/\\/g,'\\\\').replace(/'/g,"\\'"); }
-function xeCsvE(v){ if(!v)return''; return '"'+String(v).replace(/"/g,'""')+'"'; }
+function xeCsvE(s){ var v=String(s||'').replace(/"/g,'""'); return /[",\n\r]/.test(v)?'"'+v+'"':v; }
+
+/* ══ TRANSLATE TITLES ══ */
+var _xeTransStopped = false;
+
+function _xeTransProg(text, pct) {
+  document.getElementById('xe-trans-prog-wrap').style.display = '';
+  document.getElementById('xe-trans-prog-text').textContent = text;
+  document.getElementById('xe-trans-prog-pct').textContent = pct != null ? pct + '%' : '';
+  document.getElementById('xe-trans-prog-fill').style.width = (pct != null ? pct : 0) + '%';
+}
+
+window.xeStopTranslate = function() {
+  _xeTransStopped = true;
+  document.getElementById('xe-stop-trans-btn').disabled = true;
+  document.getElementById('xe-trans-btn').disabled = false;
+  _xeTransProg('Stopped.', null);
+};
+
+window.xeTranslateTitles = async function() {
+  if (!xeData.length) { xeShowMsg('err', 'No posts loaded yet.'); return; }
+  if (typeof window._xeDoTranslate !== 'function') {
+    xeShowMsg('err', 'No AI key found — add a key in Settings first.'); return;
+  }
+  _xeTransStopped = false;
+  var btn = document.getElementById('xe-trans-btn');
+  var stopBtn = document.getElementById('xe-stop-trans-btn');
+  btn.disabled = true; stopBtn.disabled = false;
+  _xeTransProg('Starting…', 0);
+
+  var targetLang = (document.getElementById('xe-target-lang') || {}).value || 'English';
+  var total = xeData.length, done = 0;
+
+  /* Batch in groups of 10 titles per AI call for efficiency */
+  var BATCH = 10;
+  for (var i = 0; i < xeData.length; i += BATCH) {
+    if (_xeTransStopped) break;
+    var batch = xeData.slice(i, i + BATCH);
+    _xeTransProg('Translating ' + (i + 1) + '–' + Math.min(i + BATCH, total) + ' of ' + total + '…', Math.round((i / total) * 100));
+
+    try {
+      /* Build a single prompt with all titles as a JSON array */
+      var titles = batch.map(function(r) { return r.title || ''; });
+      var prompt =
+        'Translate each title in the JSON array below into ' + targetLang + '.\n' +
+        'Rules:\n' +
+        '1. Translate ALL text — never leave any word in the original language.\n' +
+        '2. Remove brand names: "Xiaohongshu", "小红书", "RedNote", "Red Note", "xhs".\n' +
+        '3. Return ONLY a raw JSON array of translated strings, same order, same length. No markdown, no explanation.\n\n' +
+        JSON.stringify(titles);
+
+      var result = await gemini(prompt);
+      /* Parse the returned JSON array */
+      var start = result.indexOf('[');
+      var end = result.lastIndexOf(']');
+      if (start !== -1 && end !== -1) {
+        var translated = JSON.parse(result.slice(start, end + 1));
+        batch.forEach(function(row, idx) {
+          if (translated[idx] && translated[idx].trim()) {
+            row.title = translated[idx].trim();
+            row._translated = true;
+          }
+        });
+      }
+    } catch(e) { /* keep originals for this batch */ }
+
+    done = Math.min(i + BATCH, total);
+    xeRenderTable();
+  }
+
+  _xeTransProg('✓ Done — ' + done + ' / ' + total + ' titles translated to ' + targetLang, 100);
+  btn.disabled = false; stopBtn.disabled = true;
+  xeShowMsg('ok', '✅ Translated to ' + targetLang + '!');
+};
 </script>
 
 
@@ -8535,8 +8679,24 @@ function xeCsvE(v){ if(!v)return''; return '"'+String(v).replace(/"/g,'""')+'"';
         if(!resp.ok) continue;
         var html = await resp.text();
         if(html && html.length > 200){
-          /* Check if XHS returned a login wall */
-          if(isXHS && /请登录|login-wall|登录后查看|sign-in|isLoginRequired|loginRequired.*true/i.test(html)){
+          /* Check if XHS returned a login wall or generic community page.
+             NOTE: XHS pages open with a huge CSS block so <title> may be well
+             past 10 000 chars — search the whole HTML for the title tag. */
+          var _tM = html.match(/<title[^>]*>([^<]{0,300})<\/title>/i);
+          var _tl = _tM ? _tM[1] : '';
+          /* Also scan og:title meta tag — more reliable than <title> alone */
+          var _ogM = html.match(/<meta[^>]+(?:name|property)\s*=\s*["']og:title["'][^>]+content\s*=\s*["']([^"']{0,300})["']/i)
+                  || html.match(/<meta[^>]+content\s*=\s*["']([^"']{0,300})["'][^>]+(?:name|property)\s*=\s*["']og:title["']/i);
+          var _ogTl = _ogM ? _ogM[1] : '';
+          var _genericPattern = /your life interest community/i;
+          if(isXHS && (
+            /请登录|login-wall|登录后查看|sign-in|isLoginRequired|loginRequired.*true/i.test(html) ||
+            _genericPattern.test(_tl) || _genericPattern.test(_ogTl) ||
+            _genericPattern.test(html) || /* full scan */
+            _tl.trim() === '小红书' || _tl.trim() === 'RedNote' ||
+            _ogTl.trim() === '小红书' || _ogTl.trim() === 'RedNote'
+          )){
+            if(i < PROXIES.length - 1) continue; /* try next proxy */
             return { loginRequired: true, html: html };
           }
           return html;
@@ -8581,80 +8741,254 @@ function xeCsvE(v){ if(!v)return''; return '"'+String(v).replace(/"/g,'""')+'"';
     );
   }
 
+  /* ── Bracket-counting JSON extractor — handles arbitrarily large nested objects ── */
+  function _extractJSONAt(text, varName){
+    var idx = text.indexOf(varName);
+    if(idx === -1) return null;
+    var start = text.indexOf('{', idx);
+    if(start === -1) return null;
+    var depth = 0, inStr = false, esc = false;
+    for(var i = start; i < text.length; i++){
+      var c = text[i];
+      if(esc){ esc = false; continue; }
+      if(c === '\\' && inStr){ esc = true; continue; }
+      if(c === '"'){ inStr = !inStr; continue; }
+      if(inStr) continue;
+      if(c === '{'){ depth++; }
+      else if(c === '}'){
+        depth--;
+        if(depth === 0){
+          try{
+            /* XHS uses JS `undefined` (invalid JSON) — sanitize before parsing */
+            var _s = text.slice(start, i+1)
+              .replace(/:[ \t]*undefined([,}\]])/g, ':null$1')
+              .replace(/,[ \t]*undefined([,}\]])/g, ',null$1');
+            return JSON.parse(_s);
+          }catch(e){ return null; }
+        }
+      }
+    }
+    return null;
+  }
+
+  /* ── Walk any object recursively looking for XHS note data ── */
+  function _walkForNote(obj, depth){
+    if(!obj || typeof obj !== 'object' || depth > 12) return null;
+    /* Direct noteDetailMap check */
+    if(obj.noteDetailMap){
+      var vals = Object.values(obj.noteDetailMap);
+      if(vals.length){
+        var n = vals[0];
+        if(n && n.note) return n.note;
+        if(n && (n.title || n.desc)) return n;
+      }
+    }
+    /* Check if this object looks like a note itself */
+    if((obj.title || obj.desc) && (obj.type || obj.tagList || obj.imageList)){
+      return obj;
+    }
+    var keys = Object.keys(obj);
+    for(var k = 0; k < keys.length; k++){
+      var v = obj[keys[k]];
+      if(v && typeof v === 'object'){
+        var found = _walkForNote(v, depth + 1);
+        if(found) return found;
+      }
+    }
+    return null;
+  }
+
+  /* ── Helper: detect XHS generic/community landing-page titles ── */
+  function _isGenericXhsTitle(t){
+    if(!t) return false;
+    var s = t.trim().toLowerCase();
+    return (
+      /* English variants */
+      /your\s+life\s+(interest|lifestyle)\s+(community|platform)/i.test(s) ||
+      s === 'your life interest community' ||
+      /* Bare brand names */
+      s === '小红书' || s === 'rednote' || s === 'red note' || s === 'xiaohongshu' ||
+      /* Chinese community taglines */
+      /你的生活兴趣社区|标记我的生活|小红书[，,\s–-]*(你的生活兴趣社区|标记我的生活)/i.test(s) ||
+      /* Empty after brand-strip */
+      s === ''
+    );
+  }
+
+  /* ── Helper: detect XHS generic/community landing-page titles ── */
+
   function parseMeta(html){
     if(typeof html !== 'string') html = '';
-    /* Early-exit: XHS returned a 404 / login wall page.
-       Only match on actual page <title> or explicit login signals — NOT on JS code
-       that happens to contain "404" or "page not found" as error handler strings. */
-    var _headSnip = html.slice(0,2000);
-    var _titleM = _headSnip.match(/<title[^>]*>([^<]{0,200})<\/title>/i);
-    var _pageTitle = _titleM ? _titleM[1].toLowerCase() : '';
+
+    /* XHS pages open with a huge CSS/script block — <title> can be thousands of
+       chars in.  Search the FULL HTML for both <title> and og:title. */
+    var _titleM = html.match(/<title[^>]*>([^<]{0,300})<\/title>/i);
+    var _pageTitle = _titleM ? _titleM[1] : '';
+    var _pageTitleLc = _pageTitle.toLowerCase();
+
+    /* og:title from raw HTML (before DOMParser) */
+    var _ogRawM = html.match(/<meta[^>]+(?:name|property)\s*=\s*["']og:title["'][^>]+content\s*=\s*["']([^"']{0,300})["']/i)
+               || html.match(/<meta[^>]+content\s*=\s*["']([^"']{0,300})["'][^>]+(?:name|property)\s*=\s*["']og:title["']/i);
+    var _ogRawTitle = _ogRawM ? _ogRawM[1].toLowerCase() : '';
+
+    var _genericRx = /your life interest community/i;
+    var _headSnip = html.slice(0, 5000);
+
+    /* Detect all forms of blocked / generic pages */
     var _isBlockedPage =
-      /page\s*(you visited\s*)?was not found|page not found/i.test(_pageTitle) ||
+      /page\s*(you visited\s*)?was not found|page not found/i.test(_pageTitleLc) ||
+      _genericRx.test(_pageTitleLc) || _genericRx.test(_ogRawTitle) ||
+      _genericRx.test(html) || /* full scan — catches it anywhere */
+      _isGenericXhsTitle(_pageTitle) || _isGenericXhsTitle(_ogRawTitle) ||
       /请登录|登录后查看/i.test(_headSnip) ||
-      /isLoginRequired['"]\s*:\s*true/i.test(html.slice(0,8000)) ||
+      /isLoginRequired['"]\s*:\s*true/i.test(html.slice(0, 8000)) ||
       /<div[^>]+login.?wall/i.test(_headSnip);
+
     if(_isBlockedPage){
       return { title:'', description:'', hashtags:[], _blocked:true };
     }
+
     var doc = new DOMParser().parseFromString(html, 'text/html');
 
-    /* Try XHS JSON embedded in __INITIAL_STATE__ or window.__INITIAL_DATA__ */
-    var scripts = doc.querySelectorAll('script');
-    var jsonData = null;
-    scripts.forEach(function(s){
-      if(jsonData) return;
-      var t = s.textContent || '';
-      /* Try named window assignments first */
-      var patterns = [
-        /window\.__INITIAL_STATE__\s*=\s*(\{[\s\S]+?\})\s*(?:;|$|<\/)/,
-        /window\.__INITIAL_DATA__\s*=\s*(\{[\s\S]+?\})\s*(?:;|$|<\/)/,
-        /window\.__SSR_DATA__\s*=\s*(\{[\s\S]+?\})\s*(?:;|$|<\/)/,
-        /window\.__pageData\s*=\s*(\{[\s\S]+?\})\s*(?:;|$|<\/)/
-      ];
-      patterns.forEach(function(re){
-        if(jsonData) return;
-        var m=t.match(re);
-        if(m){ try{ jsonData=JSON.parse(m[1]); }catch(e){} }
-      });
-      /* Fallback: any script that is pure JSON with noteDetailMap */
-      if(!jsonData && t.includes('"noteDetailMap"')){
-        var m=t.match(/^\s*(\{[\s\S]+\})\s*$/);
-        if(m){ try{ jsonData=JSON.parse(m[1]); }catch(e){} }
-      }
-    });
+    /* ── helper: get meta content by name OR property ── */
+    function getMeta(key){
+      var el = doc.querySelector('meta[name="'+key+'"]') ||
+               doc.querySelector('meta[property="'+key+'"]');
+      return el ? (el.getAttribute('content') || '').trim() : '';
+    }
 
-    if(jsonData){
-      /* Try to extract from XHS state */
-      var note = null;
-      try{
-        var map = jsonData.note && jsonData.note.noteDetailMap;
-        if(map){ note = Object.values(map)[0]; if(note && note.note) note = note.note; }
-      }catch(e){}
-      if(note){
-        var t = (note.title || note.desc || '').trim();
-        var d = (note.desc || '').trim();
-        var tags = (note.tagList||[]).map(function(tg){ return tg.name||tg; });
-        return { title: t, description: d, hashtags: tags, type: note.type||'normal' };
+    /* ── Always extract meta tags first (cheap, reliable) ── */
+    var metaTitle = (
+      getMeta('og:title') ||
+      getMeta('twitter:title') ||
+      (doc.querySelector('title') ? doc.querySelector('title').textContent.trim() : '')
+    ).replace(/\s*[-–|]\s*小红书\s*$/, '').trim();
+
+    /* Post-parse safety: if the resolved title is still the generic community
+       page title (happens when a proxy returns it with a non-standard encoding
+       or the text appeared past our earlier scan window) treat the whole page
+       as blocked and return nothing. */
+    if(_genericRx.test(metaTitle) || _isGenericXhsTitle(metaTitle)){
+      return { title:'', description:'', hashtags:[], _blocked:true };
+    }
+
+    var metaDesc = (getMeta('og:description') || getMeta('description')).trim();
+
+    var rawKw = getMeta('keywords');
+    var metaTags = rawKw
+      ? rawKw.split(/[,，、]+/).map(function(s){ return s.trim(); }).filter(Boolean).slice(0, 15)
+      : [];
+
+    /* If description is just hashtags (XHS pattern: "#tag1 #tag2 …"), also pull tags from it */
+    if(!metaTags.length && metaDesc.indexOf('#') === 0){
+      metaTags = metaDesc.split(/\s+/).map(function(s){ return s.replace(/^#/, ''); }).filter(Boolean);
+    }
+
+    /* ── Try __INITIAL_STATE__ with bracket-counting extractor ── */
+    var note = null;
+    var candidates = [
+      'window.__INITIAL_STATE__',
+      'window.__INITIAL_DATA__',
+      'window.__SSR_DATA__',
+      'window.__pageData'
+    ];
+    var fullHtml = html; /* use raw html for script scanning — DOMParser may truncate large scripts */
+    for(var ci = 0; ci < candidates.length && !note; ci++){
+      var jsonData = _extractJSONAt(fullHtml, candidates[ci]);
+      if(jsonData) note = _walkForNote(jsonData, 0);
+    }
+
+    if(note){
+      var jTitle = ((note.title || note.desc || '')).trim().replace(/\s*[-–|]\s*小红书\s*$/, '');
+      var jDesc  = (note.desc || '').trim();
+      var jTags  = (note.tagList || []).map(function(tg){ return tg.name || String(tg); }).filter(Boolean);
+      var jType  = note.type || 'normal';
+      var jImg   = '';
+      /* image from imageList or coverUrl */
+      if(note.imageList && note.imageList.length) jImg = note.imageList[0].urlDefault || note.imageList[0].url || '';
+      else if(note.video && note.video.media && note.video.media.stream) jImg = getMeta('og:image');
+      /* ── Guard: if the JSON-extracted title is still the generic community
+         phrase, treat page as blocked ── */
+      var _finalTitle = jTitle || metaTitle;
+      if(_genericRx.test(_finalTitle) || _isGenericXhsTitle(_finalTitle)){
+        return { title:'', description:'', hashtags:[], _blocked:true };
+      }
+      return {
+        title:       _finalTitle,
+        description: jDesc   || metaDesc,
+        hashtags:    jTags.length ? jTags : metaTags,
+        type:        jType,
+        _image:      jImg || getMeta('og:image')
+      };
+    }
+
+    /* ── Fallback: direct regex scan on raw HTML ── */
+    /* When __INITIAL_STATE__ JSON fails entirely, try extracting note fields by regex
+       directly from the raw HTML script blobs — handles cases where JSON sanitization
+       still fails or the state object is deeply nested beyond _walkForNote's reach.   */
+    if(!metaTitle || !metaDesc){
+      /* Look for "title":"..." and "desc":"..." patterns anywhere in the HTML */
+      var _tRx = /"(?:title|displayTitle|display_title)"\s*:\s*"([^"\\]{1,400})"/g, _tBest='', _tM;
+      while((_tM = _tRx.exec(html)) !== null){
+        var _tc = _tM[1].replace(/\\u([0-9a-fA-F]{4})/g, function(_,h){return String.fromCharCode(parseInt(h,16));})
+                        .replace(/\\n/g,' ').replace(/\\/g,'').trim();
+        /* Skip generic titles */
+        if(_tc && !_isGenericXhsTitle(_tc) && _tc.length > _tBest.length) _tBest = _tc;
+      }
+      if(_tBest && !metaTitle) metaTitle = _tBest;
+
+      var _dRx = /"(?:desc|description)"\s*:\s*"([^"\\]{1,2000})"/g, _dBest='', _dM;
+      while((_dM = _dRx.exec(html)) !== null){
+        var _dc = _dM[1].replace(/\\u([0-9a-fA-F]{4})/g, function(_,h){return String.fromCharCode(parseInt(h,16));})
+                        .replace(/\\n/g,' ').replace(/\\/g,'').trim();
+        if(_dc && _dc.length > _dBest.length) _dBest = _dc;
+      }
+      if(_dBest && !metaDesc) metaDesc = _dBest;
+    }
+
+    /* Extract tags from tagList in raw HTML if still empty */
+    if(!metaTags.length){
+      var _tagRx = /"(?:tagList|tag_list)"\s*:\s*\[([^\]]{1,1000})\]/g, _tagM;
+      while((_tagM = _tagRx.exec(html)) !== null){
+        var _tagStr = _tagM[1];
+        var _namRx = /"name"\s*:\s*"([^"]{1,100})"/g, _namM;
+        while((_namM = _namRx.exec(_tagStr)) !== null){
+          var _t = _namM[1].replace(/\\u([0-9a-fA-F]{4})/g, function(_,h){return String.fromCharCode(parseInt(h,16));}).trim();
+          if(_t) metaTags.push(_t);
+        }
+        if(metaTags.length) break;
       }
     }
 
-    var title = (
-      (doc.querySelector('meta[property="og:title"]')||{}).getAttribute && doc.querySelector('meta[property="og:title"]').getAttribute('content') ||
-      (doc.querySelector('meta[name="twitter:title"]')||{}).getAttribute && doc.querySelector('meta[name="twitter:title"]').getAttribute('content') ||
-      (doc.querySelector('title')||{}).textContent || ''
-    ).trim();
-
-    var description = (
-      (doc.querySelector('meta[property="og:description"]')||{}).getAttribute && doc.querySelector('meta[property="og:description"]').getAttribute('content') ||
-      (doc.querySelector('meta[name="description"]')||{}).getAttribute && doc.querySelector('meta[name="description"]').getAttribute('content') ||
-      ''
-    ).trim();
-
-    var rawKw = ((doc.querySelector('meta[name="keywords"]')||{}).getAttribute && doc.querySelector('meta[name="keywords"]').getAttribute('content') || '').trim();
-    var hashtags = rawKw ? rawKw.split(/[,，、\s]+/).filter(Boolean).slice(0,12) : [];
-
-    return { title: title, description: description, hashtags: hashtags };
+    /* ── Fallback: meta tags only ── */
+    /* If og: meta tags are empty (common on XHS), try DOM selectors directly */
+    if(!metaTitle){
+      var domTitleEl = doc.querySelector('#detail-title');
+      if(domTitleEl) metaTitle = (domTitleEl.textContent||'').replace(/\s+/g,' ').trim();
+    }
+    if(!metaDesc){
+      var domDescEl = doc.querySelector('#detail-desc .note-text');
+      if(domDescEl){
+        var _dd='';
+        (function walk(node){
+          if(node.nodeType===3){ _dd+=node.textContent; }
+          else if(node.nodeType===1 && node.tagName!=='A'){ node.childNodes.forEach(walk); }
+        })(domDescEl);
+        metaDesc=_dd.replace(/\s+/g,' ').trim();
+      }
+    }
+    if(!metaTags.length){
+      doc.querySelectorAll('#detail-desc .tag, #detail-desc [id="hash-tag"]').forEach(function(t){
+        var tx=(t.textContent||'').replace(/\s+/g,' ').trim().replace(/^#+/,'');
+        if(tx) metaTags.push(tx);
+      });
+    }
+    return {
+      title:       metaTitle,
+      description: metaDesc,
+      hashtags:    metaTags,
+      _image:      getMeta('og:image')
+    };
   }
 
   /* ─── TRANSLATE ─── */
@@ -8800,21 +9134,16 @@ function xeCsvE(v){ if(!v)return''; return '"'+String(v).replace(/"/g,'""')+'"';
     if(!row){ row=document.createElement('tr'); row.id='mg-row-'+index; tbody.appendChild(row); }
     if(status==='loading'){
       row.innerHTML='<td class="mg-num">'+(index+1)+'</td><td><span class="mg-spin">⟳</span></td>'
-        +'<td colspan="5" style="color:var(--muted);font-family:monospace;font-size:11px;">'+esc(url)+'</td>'
+        +'<td colspan="4" style="color:var(--muted);font-family:monospace;font-size:11px;">'+esc(url)+'</td>'
         +'<td class="mg-link-cell"><a href="'+esc(url)+'" target="_blank">open</a></td>';
       return;
     }
     if(!data||!data.ok){
       row.innerHTML='<td class="mg-num">'+(index+1)+'</td><td><span class="mg-err">✕</span></td>'
-        +'<td colspan="5" style="color:var(--red);font-size:12px;">'+esc((data&&data.error)||'Failed')+'</td>'
+        +'<td colspan="4" style="color:var(--red);font-size:12px;">'+esc((data&&data.error)||'Failed')+'</td>'
         +'<td class="mg-link-cell"><a href="'+esc(url)+'" target="_blank">open</a></td>';
       return;
     }
-
-    /* Type badge */
-    var typeCls = data.type==='video'?'mg-type-video':(data.type==='image'?'mg-type-image':'mg-type-link');
-    var typeLabel = data.type==='video'?'🎬 Video':(data.type==='image'?'🖼 Image':'🔗 Link');
-    var typeBadge = '<span class="mg-type-badge '+typeCls+'">'+typeLabel+'</span>';
 
     /* Title */
     var transBadge = data.translated?' <span style="font-size:10px;background:rgba(239,68,68,.15);color:#ef4444;border:1px solid rgba(239,68,68,.3);border-radius:4px;padding:1px 5px;">'+mgLangBadge()+'</span>':'';
@@ -8833,7 +9162,6 @@ function xeCsvE(v){ if(!v)return''; return '"'+String(v).replace(/"/g,'""')+'"';
 
     row.innerHTML='<td class="mg-num">'+(index+1)+'</td>'
       +'<td><span class="mg-ok">✓</span></td>'
-      +'<td>'+typeBadge+'</td>'
       +'<td class="mg-ttl-cell">'+titleHtml+'</td>'
       +'<td class="mg-desc-cell">'+descHtml+'</td>'
       +'<td class="mg-desc-cell" style="font-size:12px;color:var(--muted);">'+aiDescHtml+'</td>'
@@ -8928,11 +9256,10 @@ function xeCsvE(v){ if(!v)return''; return '"'+String(v).replace(/"/g,'""')+'"';
     if(!mgResults.length){ if(typeof toast==='function') toast('Nothing to export'); return; }
     /* Strip ⟦⟧ markers for CSV export (plain text) */
     function stripMarkers(s){ return (s||'').replace(/⟦([^⟧]*)⟧/g,'$1'); }
-    var rows=[['#','Type','Title','Description','AI Description','Hashtags','URL']];
+    var rows=[['#','Title','Description','AI Description','Hashtags','URL']];
     mgResults.forEach(function(r,i){
       if(r) rows.push([
         i+1,
-        r.type||'link',
         stripMarkers(r.title||''),
         stripMarkers(r.description||''),
         stripMarkers(r.aiDesc||''),
@@ -9729,7 +10056,14 @@ function xeCsvE(v){ if(!v)return''; return '"'+String(v).replace(/"/g,'""')+'"';
       }
       if(end === -1) continue;
       var state;
-      try{ state = JSON.parse(html.slice(start,end)); } catch(e){ continue; }
+      try{
+        /* XHS uses JS `undefined` (invalid JSON) — sanitize before parsing */
+        var _raw = html.slice(start,end)
+          .replace(/:\s*undefined/g,':null')
+          .replace(/,\s*undefined/g,',null')
+          .replace(/\[\s*undefined/g,'[null');
+        state = JSON.parse(_raw);
+      } catch(e){ continue; }
 
       /* ── Structured path ── */
       var items =
@@ -9946,21 +10280,28 @@ function xeCsvE(v){ if(!v)return''; return '"'+String(v).replace(/"/g,'""')+'"';
 
     /* ③ DOM selectors — exact ports from xiaohongshu.ts getNoteDetailData() */
     var title='', desc='', author='', authorDesc='', images=[], likes=0, collects=0, comments=0, tags=[];
+    var doc = new DOMParser().parseFromString(html, 'text/html');
 
-    /* title: #detail-title */
+    /* title: #detail-title — strip nested <font dir="auto"> wrappers XHS injects */
     var titleEl=doc.querySelector('#detail-title');
-    if(titleEl) title=titleEl.textContent.trim();
+    if(titleEl) title=(titleEl.innerText||titleEl.textContent||'').replace(/\s+/g,' ').trim();
 
-    /* content: #detail-desc .note-text  — strip <a> links, keep text nodes */
+    /* content: #detail-desc .note-text — walk all nodes, skip <a> tags (hashtag links), collect plain text.
+       XHS wraps text in nested <font dir="auto"> elements; a recursive walker handles that. */
     var contentEl=doc.querySelector('#detail-desc .note-text');
     if(contentEl){
-      contentEl.childNodes.forEach(function(node){
+      (function walk(node){
         if(node.nodeType===3){ desc+=node.textContent; }
-        else if(node.nodeType===1 && node.tagName!=='A'){ desc+=node.textContent; }
-      });
-      desc=desc.trim();
+        else if(node.nodeType===1 && node.tagName!=='A'){
+          node.childNodes.forEach(walk);
+        }
+      })(contentEl);
+      desc=desc.replace(/\s+/g,' ').trim();
     }
-    if(!desc){ var og=doc.querySelector('meta[property="og:description"]'); if(og) desc=og.getAttribute('content')||''; }
+    if(!desc){
+      var ogDesc = doc.querySelector('meta[name="og:description"]') || doc.querySelector('meta[property="og:description"]') || doc.querySelector('meta[name="description"]');
+      if(ogDesc) desc=(ogDesc.getAttribute('content')||'').trim();
+    }
 
     /* author: .author-wrapper .username */
     var authorEl=doc.querySelector('.author-wrapper .username')||doc.querySelector('.username');
@@ -9972,7 +10313,10 @@ function xeCsvE(v){ if(!v)return''; return '"'+String(v).replace(/"/g,'""')+'"';
 
     /* images: .note-slider-img */
     doc.querySelectorAll('.note-slider-img').forEach(function(img){ var s=img.src||img.getAttribute('data-src')||''; if(s) images.push(s); });
-    if(!images.length){ doc.querySelectorAll('meta[property="og:image"]').forEach(function(m){ var s=m.getAttribute('content')||''; if(s) images.push(s); }); }
+    if(!images.length){
+      var ogImg = doc.querySelector('meta[name="og:image"]') || doc.querySelector('meta[property="og:image"]');
+      if(ogImg){ var s=(ogImg.getAttribute('content')||''); if(s) images.push(s); }
+    }
 
     /* engagement: .engage-bar-style .count  → [likes, collects, comments] */
     var counts=doc.querySelectorAll('.engage-bar-style .count');
@@ -9983,11 +10327,46 @@ function xeCsvE(v){ if(!v)return''; return '"'+String(v).replace(/"/g,'""')+'"';
       comments= mt==='评论'?0:(parseInt(mt)||0);
     }
 
-    /* tags: #detail-desc .tag */
-    doc.querySelectorAll('#detail-desc .tag').forEach(function(t){ var tx=t.textContent.trim().replace(/^#/,''); if(tx) tags.push(tx); });
+    /* tags: #detail-desc a.tag — XHS wraps text in nested <font> elements; textContent handles that */
+    doc.querySelectorAll('#detail-desc .tag, #detail-desc [id="hash-tag"]').forEach(function(t){
+      var tx=(t.textContent||'').replace(/\s+/g,' ').trim().replace(/^#+/,'');
+      if(tx) tags.push(tx);
+    });
     if(!tags.length){ var kw=doc.querySelector('meta[name="keywords"]'); if(kw) tags=(kw.getAttribute('content')||'').split(/[,，、]+/).map(function(s){return s.trim();}).filter(Boolean).slice(0,10); }
 
-    if(!title){ var ogT=doc.querySelector('meta[property="og:title"]'); if(ogT) title=ogT.getAttribute('content')||''; }
+    if(!title){
+      var ogT = doc.querySelector('meta[name="og:title"]') || doc.querySelector('meta[property="og:title"]');
+      if(ogT) title=(ogT.getAttribute('content')||'').replace(/\s*[-|–]\s*小红书\s*$/,'').trim();
+    }
+    if(!title){ var tEl=doc.querySelector('title'); if(tEl) title=tEl.textContent.replace(/\s*[-|–]\s*小红书\s*$/,'').trim(); }
+
+    /* ── Direct regex scan on raw HTML as last resort ── */
+    /* Vue SPA: #detail-title won't be in proxy HTML; scan raw script blobs instead */
+    if(!title){
+      var _tRx2=/"(?:title|displayTitle|display_title)"\s*:\s*"([^"\\\\]{1,400})"/g,_tM2;
+      while((_tM2=_tRx2.exec(html))!==null){
+        var _tc2=_tM2[1].replace(/\\u([0-9a-fA-F]{4})/g,function(_,h){return String.fromCharCode(parseInt(h,16));}).replace(/\\n/g,' ').replace(/\\\\/g,'').trim();
+        if(_tc2&&!_isGenericXhsTitle(_tc2)){title=_tc2;break;}
+      }
+    }
+    if(!desc){
+      var _dRx2=/"(?:desc|description)"\s*:\s*"([^"\\\\]{1,2000})"/g,_dM2;
+      while((_dM2=_dRx2.exec(html))!==null){
+        var _dc2=_dM2[1].replace(/\\u([0-9a-fA-F]{4})/g,function(_,h){return String.fromCharCode(parseInt(h,16));}).replace(/\\n/g,' ').replace(/\\\\/g,'').trim();
+        if(_dc2&&_dc2.length>desc.length)desc=_dc2;
+      }
+    }
+    if(!tags.length){
+      var _tgRx=/"(?:tagList|tag_list)"\s*:\s*\[([^\]]{1,1000})\]/g,_tgM;
+      while((_tgM=_tgRx.exec(html))!==null){
+        var _tnRx=/"name"\s*:\s*"([^"]{1,100})"/g,_tnM;
+        while((_tnM=_tnRx.exec(_tgM[1]))!==null){
+          var _tn=_tnM[1].replace(/\\u([0-9a-fA-F]{4})/g,function(_,h){return String.fromCharCode(parseInt(h,16));}).trim();
+          if(_tn)tags.push(_tn);
+        }
+        if(tags.length)break;
+      }
+    }
     return { title:title, desc:desc, author:author, authorDesc:authorDesc, images:images, likes:likes, collects:collects, comments:comments, tags:tags, _fromJson:false };
   }
 
@@ -10275,6 +10654,10 @@ function xeCsvE(v){ if(!v)return''; return '"'+String(v).replace(/"/g,'""')+'"';
   /* ─── TAB SWITCHER ─── */
   var _origGoPage=window.goPage;
   window.goPage=function(p){ _origGoPage(p); if(p==='metagrab') mgUpdateKeyNotice(); };
+
+  /* ─── Expose translation helpers to extractor ─── */
+  window._xeDoTranslate  = doTranslate;
+  window._xeMgStripBrands = mgStripBrands;
 
   /* ─── INIT ─── */
   if(document.readyState==='loading'){
