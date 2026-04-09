@@ -1235,7 +1235,7 @@ input[type="range"]#desc-timer-bar::-moz-range-thumb {
     <span class="bnav-logo-name" style="font-size:13px;text-align:center;display:block;line-height:1.2;">
 FB Boost<br>Pro
 </span>
-    <span class="bnav-logo-ver">v24</span>
+    <span class="bnav-logo-ver">v37</span>
   </div>
   <div class="bnav-items">
     <button class="nb active" id="nav-booster" onclick="goPage('booster')"><div class="nb-i">🖼️</div><div class="nb-l">Booster</div></button>
@@ -8724,272 +8724,175 @@ window.xeTranslateTitles = async function() {
     } catch(e){ return null; }
   }
 
-  /* ─── PARSE META ─── */
-  /* ── Shared gate: detect XHS 404 / login-wall pages BEFORE any JSON parsing ──
-     Must be called before _srchParseStateJSON so we don't accidentally parse
-     the 404 page's own __INITIAL_STATE__ and treat "page not found" as a note title. */
-  function _isXhsBlockedPage(html){
-    if(typeof html !== 'string' || html.length < 50) return false;
-    var head = html.slice(0, 2000);
-    var titleM = head.match(/<title[^>]*>([^<]{0,200})<\/title>/i);
-    var pageTitle = titleM ? titleM[1].toLowerCase() : '';
-    return (
-      /page\s*(you visited\s*)?was not found|page not found/i.test(pageTitle) ||
-      /请登录|登录后查看/i.test(head) ||
-      /isLoginRequired['"]\s*:\s*true/i.test(html.slice(0, 8000)) ||
-      /<div[^>]+login.?wall/i.test(head)
-    );
+/* ─── PARSE META ─── */
+function _isXhsBlockedPage(html) {
+  if (typeof html !== 'string' || html.length < 50) return false;
+  var head = html.slice(0, 2000);
+  var titleM = head.match(/<title[^>]*>([^<]{0,200})<\/title>/i);
+  var pageTitle = titleM ? titleM[1].toLowerCase() : '';
+  return (
+    /page\s*(you visited\s*)?was not found|page not found/i.test(pageTitle) ||
+    /请登录|登录后查看/i.test(head) ||
+    /isLoginRequired['"]\s*:\s*true/i.test(html.slice(0, 8000)) ||
+    /<div[^>]+login.?wall/i.test(head)
+  );
+}
+
+function _extractJSONAt(text, varName) { /* keep your original */ }
+function _walkForNote(obj, depth) { /* keep your original */ }
+function _isGenericXhsTitle(t) { /* keep your original */ }
+function _isGenericDescription(desc) { /* keep your original */ }
+
+/* Clean and format hashtags properly */
+function _cleanHashtag(tag) {
+  if (!tag) return '';
+  
+  // Remove leading # if present
+  tag = tag.replace(/^#+\s*/, '').trim();
+  
+  // Remove spaces, underscores, dashes and make camelCase style
+  tag = tag.replace(/[\s_-]+/g, '')
+           .replace(/[^a-zA-Z0-9]/g, '');  // remove special chars like commas, apostrophes etc.
+  
+  if (!tag) return '';
+  
+  // Capitalize first letter for better readability
+  return tag.charAt(0).toUpperCase() + tag.slice(1);
+}
+
+/* Generate hashtags from title when missing */
+function _generateHashtagsFromTitle(title) {
+  if (!title || title.length < 5) return ["InterestingStory"];
+
+  var clean = title.toLowerCase()
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  var words = clean.split(' ').filter(w => w.length > 2);
+
+  var hashtags = [];
+
+  // Take main meaningful phrases and clean them
+  if (words.length >= 3) {
+    let phrase1 = words.slice(0, 4).join('');           // e.g. "TheBattleBetween"
+    let phrase2 = words.slice(-3).join('');             // last words
+
+    hashtags.push(_cleanHashtag(phrase1));
+    hashtags.push(_cleanHashtag(phrase2));
+  } else {
+    hashtags.push(_cleanHashtag(clean));
   }
 
-  /* ── Bracket-counting JSON extractor — handles arbitrarily large nested objects ── */
-  function _extractJSONAt(text, varName){
-    var idx = text.indexOf(varName);
-    if(idx === -1) return null;
-    var start = text.indexOf('{', idx);
-    if(start === -1) return null;
-    var depth = 0, inStr = false, esc = false;
-    for(var i = start; i < text.length; i++){
-      var c = text[i];
-      if(esc){ esc = false; continue; }
-      if(c === '\\' && inStr){ esc = true; continue; }
-      if(c === '"'){ inStr = !inStr; continue; }
-      if(inStr) continue;
-      if(c === '{'){ depth++; }
-      else if(c === '}'){
-        depth--;
-        if(depth === 0){
-          try{
-            /* XHS uses JS `undefined` (invalid JSON) — sanitize before parsing */
-            var _s = text.slice(start, i+1)
-              .replace(/:[ \t]*undefined([,}\]])/g, ':null$1')
-              .replace(/,[ \t]*undefined([,}\]])/g, ',null$1');
-            return JSON.parse(_s);
-          }catch(e){ return null; }
-        }
+  // Add context-based tags
+  if (clean.includes("battle") || clean.includes("fight")) hashtags.push("EpicBattle");
+  if (clean.includes("punch")) hashtags.push("KingOfPunch");
+  if (clean.includes("fly") || clean.includes("sky")) hashtags.push("FlyingMoment");
+  if (clean.includes("pant") || clean.includes("color")) hashtags.push("ColorChanging");
+
+  // Remove duplicates and limit to 4
+  return [...new Set(hashtags)].slice(0, 4);
+}
+
+/* Generate AI Description */
+function _generateAIDescription(title, hashtags) {
+  if (!title || title.length < 5) return "Interesting moment shared on Xiaohongshu.";
+
+  var cleanTitle = title.replace(/\s*[-–|]\s*小红书\s*$/, '').trim();
+  var tagStr = hashtags.length ? hashtags.slice(0, 4).map(t => '#' + t).join(' ') : '';
+
+  return tagStr 
+    ? `I'm really excited about "${cleanTitle}"! ${tagStr} — this looks like a thrilling moment. Who's joining me?`
+    : `Exploring "${cleanTitle}". Ready to discover more amazing things!`;
+}
+
+function parseMeta(html) {
+  if (typeof html !== 'string') html = '';
+
+  if (_isXhsBlockedPage(html)) {
+    return { title: '', description: '', aiDescription: '', hashtags: [], _blocked: true };
+  }
+
+  var doc = new DOMParser().parseFromString(html, 'text/html');
+
+  function getMeta(key) {
+    var el = doc.querySelector('meta[name="' + key + '"]') ||
+             doc.querySelector('meta[property="' + key + '"]');
+    return el ? (el.getAttribute('content') || '').trim() : '';
+  }
+
+  var title = '';
+  var description = '';
+  var hashtags = [];
+
+  // TITLE
+  var domTitleEl = doc.querySelector('#detail-title');
+  if (domTitleEl) {
+    title = (domTitleEl.textContent || '').replace(/\s+/g, ' ').trim();
+  }
+  if (!title || _isGenericXhsTitle(title) || /^search$/i.test(title)) {
+    title = (getMeta('og:title') || '').replace(/\s*[-–|]\s*小红书\s*$/, '').trim();
+  }
+
+  // DESCRIPTION
+  var domDescEl = doc.querySelector('#detail-desc .note-text');
+  if (domDescEl) {
+    var _dd = '';
+    (function walk(node) {
+      if (node.nodeType === 3) _dd += node.textContent;
+      else if (node.nodeType === 1) node.childNodes.forEach(walk);
+    })(domDescEl);
+
+    var cleaned = _dd.replace(/\s+/g, ' ').trim();
+    if (cleaned) description = cleaned;
+  }
+
+  // HASHTAGS - Extract real tags first
+  doc.querySelectorAll('#detail-desc .tag, #detail-desc [id="hash-tag"]').forEach(function(t) {
+    var tx = (t.textContent || '').trim();
+    if (tx) {
+      var cleanedTag = _cleanHashtag(tx);
+      if (cleanedTag && !hashtags.includes(cleanedTag)) {
+        hashtags.push(cleanedTag);
       }
     }
-    return null;
+  });
+
+  // If no real hashtags found → Generate from Title
+  if (hashtags.length === 0 && title) {
+    hashtags = _generateHashtagsFromTitle(title);
   }
 
-  /* ── Walk any object recursively looking for XHS note data ── */
-  function _walkForNote(obj, depth){
-    if(!obj || typeof obj !== 'object' || depth > 12) return null;
-    /* Direct noteDetailMap check */
-    if(obj.noteDetailMap){
-      var vals = Object.values(obj.noteDetailMap);
-      if(vals.length){
-        var n = vals[0];
-        if(n && n.note) return n.note;
-        if(n && (n.title || n.desc)) return n;
-      }
-    }
-    /* Check if this object looks like a note itself */
-    if((obj.title || obj.desc) && (obj.type || obj.tagList || obj.imageList)){
-      return obj;
-    }
-    var keys = Object.keys(obj);
-    for(var k = 0; k < keys.length; k++){
-      var v = obj[keys[k]];
-      if(v && typeof v === 'object'){
-        var found = _walkForNote(v, depth + 1);
-        if(found) return found;
-      }
-    }
-    return null;
-  }
-
-  /* ── Helper: detect XHS generic/community landing-page titles ── */
-  function _isGenericXhsTitle(t){
-    if(!t) return false;
-    var s = t.trim().toLowerCase();
-    return (
-      /* English variants */
-      /your\s+life\s+(interest|lifestyle)\s+(community|platform)/i.test(s) ||
-      s === 'your life interest community' ||
-      /* Bare brand names */
-      s === '小红书' || s === 'rednote' || s === 'red note' || s === 'xiaohongshu' ||
-      /* Chinese community taglines */
-      /你的生活兴趣社区|标记我的生活|小红书[，,\s–-]*(你的生活兴趣社区|标记我的生活)/i.test(s) ||
-      /* Empty after brand-strip */
-      s === ''
-    );
-  }
-
-  /* ── Helper: detect XHS generic/community landing-page titles ── */
-
-  function parseMeta(html){
-    if(typeof html !== 'string') html = '';
-
-    /* XHS pages open with a huge CSS/script block — <title> can be thousands of
-       chars in.  Search the FULL HTML for both <title> and og:title. */
-    var _titleM = html.match(/<title[^>]*>([^<]{0,300})<\/title>/i);
-    var _pageTitle = _titleM ? _titleM[1] : '';
-    var _pageTitleLc = _pageTitle.toLowerCase();
-
-    /* og:title from raw HTML (before DOMParser) */
-    var _ogRawM = html.match(/<meta[^>]+(?:name|property)\s*=\s*["']og:title["'][^>]+content\s*=\s*["']([^"']{0,300})["']/i)
-               || html.match(/<meta[^>]+content\s*=\s*["']([^"']{0,300})["'][^>]+(?:name|property)\s*=\s*["']og:title["']/i);
-    var _ogRawTitle = _ogRawM ? _ogRawM[1].toLowerCase() : '';
-
-    var _genericRx = /your life interest community/i;
-    var _headSnip = html.slice(0, 5000);
-
-    /* Detect all forms of blocked / generic pages */
-    var _isBlockedPage =
-      /page\s*(you visited\s*)?was not found|page not found/i.test(_pageTitleLc) ||
-      _genericRx.test(_pageTitleLc) || _genericRx.test(_ogRawTitle) ||
-      _genericRx.test(html) || /* full scan — catches it anywhere */
-      _isGenericXhsTitle(_pageTitle) || _isGenericXhsTitle(_ogRawTitle) ||
-      /请登录|登录后查看/i.test(_headSnip) ||
-      /isLoginRequired['"]\s*:\s*true/i.test(html.slice(0, 8000)) ||
-      /<div[^>]+login.?wall/i.test(_headSnip);
-
-    if(_isBlockedPage){
-      return { title:'', description:'', hashtags:[], _blocked:true };
-    }
-
-    var doc = new DOMParser().parseFromString(html, 'text/html');
-
-    /* ── helper: get meta content by name OR property ── */
-    function getMeta(key){
-      var el = doc.querySelector('meta[name="'+key+'"]') ||
-               doc.querySelector('meta[property="'+key+'"]');
-      return el ? (el.getAttribute('content') || '').trim() : '';
-    }
-
-    /* ── Always extract meta tags first (cheap, reliable) ── */
-    var metaTitle = (
-      getMeta('og:title') ||
-      getMeta('twitter:title') ||
-      (doc.querySelector('title') ? doc.querySelector('title').textContent.trim() : '')
-    ).replace(/\s*[-–|]\s*小红书\s*$/, '').trim();
-
-    /* Post-parse safety: if the resolved title is still the generic community
-       page title (happens when a proxy returns it with a non-standard encoding
-       or the text appeared past our earlier scan window) treat the whole page
-       as blocked and return nothing. */
-    if(_genericRx.test(metaTitle) || _isGenericXhsTitle(metaTitle)){
-      return { title:'', description:'', hashtags:[], _blocked:true };
-    }
-
-    var metaDesc = (getMeta('og:description') || getMeta('description')).trim();
-
-    var rawKw = getMeta('keywords');
-    var metaTags = rawKw
-      ? rawKw.split(/[,，、]+/).map(function(s){ return s.trim(); }).filter(Boolean).slice(0, 15)
-      : [];
-
-    /* If description is just hashtags (XHS pattern: "#tag1 #tag2 …"), also pull tags from it */
-    if(!metaTags.length && metaDesc.indexOf('#') === 0){
-      metaTags = metaDesc.split(/\s+/).map(function(s){ return s.replace(/^#/, ''); }).filter(Boolean);
-    }
-
-    /* ── Try __INITIAL_STATE__ with bracket-counting extractor ── */
+  // JSON fallback
+  if ((!title || hashtags.length === 0) && html.length > 10000) {
     var note = null;
-    var candidates = [
-      'window.__INITIAL_STATE__',
-      'window.__INITIAL_DATA__',
-      'window.__SSR_DATA__',
-      'window.__pageData'
-    ];
-    var fullHtml = html; /* use raw html for script scanning — DOMParser may truncate large scripts */
-    for(var ci = 0; ci < candidates.length && !note; ci++){
-      var jsonData = _extractJSONAt(fullHtml, candidates[ci]);
-      if(jsonData) note = _walkForNote(jsonData, 0);
+    var candidates = ['window.__INITIAL_STATE__', 'window.__INITIAL_DATA__', 'window.__SSR_DATA__', 'window.__pageData'];
+    for (var ci = 0; ci < candidates.length && !note; ci++) {
+      var jsonData = _extractJSONAt(html, candidates[ci]);
+      if (jsonData) note = _walkForNote(jsonData, 0);
     }
+    if (note) {
+      var jTitle = ((note.title || '')).trim().replace(/\s*[-–|]\s*小红书\s*$/, '');
+      var jTags = (note.tagList || []).map(tg => _cleanHashtag(tg.name || String(tg))).filter(Boolean);
 
-    if(note){
-      var jTitle = ((note.title || note.desc || '')).trim().replace(/\s*[-–|]\s*小红书\s*$/, '');
-      var jDesc  = (note.desc || '').trim();
-      var jTags  = (note.tagList || []).map(function(tg){ return tg.name || String(tg); }).filter(Boolean);
-      var jType  = note.type || 'normal';
-      var jImg   = '';
-      /* image from imageList or coverUrl */
-      if(note.imageList && note.imageList.length) jImg = note.imageList[0].urlDefault || note.imageList[0].url || '';
-      else if(note.video && note.video.media && note.video.media.stream) jImg = getMeta('og:image');
-      /* ── Guard: if the JSON-extracted title is still the generic community
-         phrase, treat page as blocked ── */
-      var _finalTitle = jTitle || metaTitle;
-      if(_genericRx.test(_finalTitle) || _isGenericXhsTitle(_finalTitle)){
-        return { title:'', description:'', hashtags:[], _blocked:true };
-      }
-      return {
-        title:       _finalTitle,
-        description: jDesc   || metaDesc,
-        hashtags:    jTags.length ? jTags : metaTags,
-        type:        jType,
-        _image:      jImg || getMeta('og:image')
-      };
+      if (jTitle && !_isGenericXhsTitle(jTitle)) title = jTitle;
+      if (jTags.length > hashtags.length) hashtags = jTags;
     }
-
-    /* ── Fallback: direct regex scan on raw HTML ── */
-    /* When __INITIAL_STATE__ JSON fails entirely, try extracting note fields by regex
-       directly from the raw HTML script blobs — handles cases where JSON sanitization
-       still fails or the state object is deeply nested beyond _walkForNote's reach.   */
-    if(!metaTitle || !metaDesc){
-      /* Look for "title":"..." and "desc":"..." patterns anywhere in the HTML */
-      var _tRx = /"(?:title|displayTitle|display_title)"\s*:\s*"([^"\\]{1,400})"/g, _tBest='', _tM;
-      while((_tM = _tRx.exec(html)) !== null){
-        var _tc = _tM[1].replace(/\\u([0-9a-fA-F]{4})/g, function(_,h){return String.fromCharCode(parseInt(h,16));})
-                        .replace(/\\n/g,' ').replace(/\\/g,'').trim();
-        /* Skip generic titles */
-        if(_tc && !_isGenericXhsTitle(_tc) && _tc.length > _tBest.length) _tBest = _tc;
-      }
-      if(_tBest && !metaTitle) metaTitle = _tBest;
-
-      var _dRx = /"(?:desc|description)"\s*:\s*"([^"\\]{1,2000})"/g, _dBest='', _dM;
-      while((_dM = _dRx.exec(html)) !== null){
-        var _dc = _dM[1].replace(/\\u([0-9a-fA-F]{4})/g, function(_,h){return String.fromCharCode(parseInt(h,16));})
-                        .replace(/\\n/g,' ').replace(/\\/g,'').trim();
-        if(_dc && _dc.length > _dBest.length) _dBest = _dc;
-      }
-      if(_dBest && !metaDesc) metaDesc = _dBest;
-    }
-
-    /* Extract tags from tagList in raw HTML if still empty */
-    if(!metaTags.length){
-      var _tagRx = /"(?:tagList|tag_list)"\s*:\s*\[([^\]]{1,1000})\]/g, _tagM;
-      while((_tagM = _tagRx.exec(html)) !== null){
-        var _tagStr = _tagM[1];
-        var _namRx = /"name"\s*:\s*"([^"]{1,100})"/g, _namM;
-        while((_namM = _namRx.exec(_tagStr)) !== null){
-          var _t = _namM[1].replace(/\\u([0-9a-fA-F]{4})/g, function(_,h){return String.fromCharCode(parseInt(h,16));}).trim();
-          if(_t) metaTags.push(_t);
-        }
-        if(metaTags.length) break;
-      }
-    }
-
-    /* ── Fallback: meta tags only ── */
-    /* If og: meta tags are empty (common on XHS), try DOM selectors directly */
-    if(!metaTitle){
-      var domTitleEl = doc.querySelector('#detail-title');
-      if(domTitleEl) metaTitle = (domTitleEl.textContent||'').replace(/\s+/g,' ').trim();
-    }
-    if(!metaDesc){
-      var domDescEl = doc.querySelector('#detail-desc .note-text');
-      if(domDescEl){
-        var _dd='';
-        (function walk(node){
-          if(node.nodeType===3){ _dd+=node.textContent; }
-          else if(node.nodeType===1 && node.tagName!=='A'){ node.childNodes.forEach(walk); }
-        })(domDescEl);
-        metaDesc=_dd.replace(/\s+/g,' ').trim();
-      }
-    }
-    if(!metaTags.length){
-      doc.querySelectorAll('#detail-desc .tag, #detail-desc [id="hash-tag"]').forEach(function(t){
-        var tx=(t.textContent||'').replace(/\s+/g,' ').trim().replace(/^#+/,'');
-        if(tx) metaTags.push(tx);
-      });
-    }
-    return {
-      title:       metaTitle,
-      description: metaDesc,
-      hashtags:    metaTags,
-      _image:      getMeta('og:image')
-    };
   }
+
+  if (_isGenericXhsTitle(title)) title = '';
+  if (_isGenericDescription(description)) description = '';
+
+  var aiDescription = _generateAIDescription(title, hashtags);
+
+  return {
+    title:          title,
+    description:    description,
+    aiDescription:  aiDescription,
+    hashtags:       hashtags,           // Cleaned, no spaces, proper format
+    _image:         getMeta('og:image')
+  };
+}
 
   /* ─── TRANSLATE ─── */
   /* opts: { langElId, genAiDesc }
